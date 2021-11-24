@@ -5,6 +5,7 @@
  */
 package javafxapplication4sleep;
 
+import Database.DBManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
  * @author marin
  */
 public class Client extends Application {
-    
+    private static Database.DBManagerInterface dbman;
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("GetStarted.fxml"));
@@ -32,6 +33,9 @@ public class Client extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        dbman=new DBManager();
+        
+        dbman.createTables();
     }
     
 }

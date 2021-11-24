@@ -7,6 +7,8 @@ package Database;
 
 import java.sql.*;
 import Client.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class DBManager implements DBManagerInterface {
@@ -51,11 +53,11 @@ public class DBManager implements DBManagerInterface {
 	public void createTables() {
 		try {
 			// Open database connection
-			// Class.forName("org.sqlite.JDBC");
-			// DriverManager.getConnection("jdbc:sqlite:./db/SleepControlDB.db");
-			// c.createStatement().execute("PRAGMA foreign_keys=ON");
-			// System.out.println("Database connection opened.");
-			// connect();
+			Class.forName("org.sqlite.JDBC");
+			DriverManager.getConnection("jdbc:sqlite:./db/SleepControl_DB.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			System.out.println("Database connection opened.");
+			connect();
 
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE Patients " 
@@ -136,7 +138,9 @@ public class DBManager implements DBManagerInterface {
 			}else{
 				e.printStackTrace();
 			}
-		}
+		} catch (ClassNotFoundException ex) {
+                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	
