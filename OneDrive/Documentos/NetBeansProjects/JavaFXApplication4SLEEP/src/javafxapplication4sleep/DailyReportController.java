@@ -31,6 +31,7 @@ import javafx.stage.Stage;
  * @author gabri
  */
 public class DailyReportController implements Initializable {
+    
 
       public void start(Stage primaryStage) throws Exception {
 
