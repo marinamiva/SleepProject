@@ -29,7 +29,7 @@ public class UserManager implements UserManagerInterface {
 	
 	@Override
 	public void connect() {
-		em = Persistence.createEntityManagerFactory("Prosthetic-provider").createEntityManager();
+		em = Persistence.createEntityManagerFactory("SleepControlProjectPU").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
