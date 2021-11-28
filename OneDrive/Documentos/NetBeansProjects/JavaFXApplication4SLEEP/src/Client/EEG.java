@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class EEG {
+public class EEG implements Serializable {
      InputStream inputStream=null;
      PrintWriter printWriter=null;
      BufferedReader bufferedReader=null;

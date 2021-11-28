@@ -28,15 +28,14 @@ public class ConnectionServer implements Runnable {
         BufferedReader buf=null;
         OutputStream outputStream=null;
         java.util.Date dat=new Date("13/02/99");
-        Patient patientToSend=new Patient(1,"marina","miguelez","672","mad",dat,"715","female");
-              
+        Patient patient=new Patient(1,"marina","miguelez","672","mad",dat,"715","female");
+        Object patientToSend= (Object) patient;  
         try{
             socketSender=new Socket("localhost",9010);
             outputStream=socketSender.getOutputStream();
            
         }catch(IOException io){
             System.out.println("No possible to connect.");
-            System.exit(-1);
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE,null,io);
         } try {
             
