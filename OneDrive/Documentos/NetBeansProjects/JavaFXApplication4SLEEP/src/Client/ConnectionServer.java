@@ -17,7 +17,41 @@ import java.util.logging.Logger;
 
 
 public class ConnectionServer implements Runnable {
+      public static void main(String[] args) throws ClassNotFoundException, ParseException {
+        InputStream is = null;
+        ObjectInputStream ois = null;
+        ObjectOutputStream objectOut=null;
+        ServerSocket serversocket = null;
+        Socket socketReceiver = null;
+        Socket socketSender=null;
+        PrintWriter print = null;
+        BufferedReader buf=null;
+        OutputStream outputStream=null;
+        java.util.Date dat=new Date("13/02/99");
+        Patient patientToSend=new Patient(1,"marina","miguelez","672","mad",dat,"715","female");
+              
+        try{
+            socketSender=new Socket("localhost",9010);
+            outputStream=socketSender.getOutputStream();
+           
+        }catch(IOException io){
+            System.out.println("No possible to connect.");
+            System.exit(-1);
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE,null,io);
+        } try {
+            
+            objectOut=new ObjectOutputStream(outputStream);
+            objectOut.writeObject(patientToSend);
+            objectOut.flush(); 
+        }catch(IOException ex){
+            System.out.println("unnable to write the objects on the server.");
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE,null,ex);
+        } finally{
+            releaseResources(objectOut, socketSender);
+        }
+    }
     
+    /*
     private ArrayList<Patient>  patients;
     private ArrayList<Users> users;
     private ArrayList<Report> reports;
@@ -30,13 +64,16 @@ public class ConnectionServer implements Runnable {
     Socket socketSender=null;
     PrintWriter print = null;
     BufferedReader buf=null;
-   
+    OutputStream outputStream=null;
+    
+    
+    
     /**
      * Envía un paciente al server, le pregunta la fecha del report que quiere ver y le envía el report de ese paciente.
      * @throws ClassNotFoundException
      * @throws ParseException
      */
-    public void sendClientandReport() throws ClassNotFoundException, ParseException{
+    /*public void sendClientandReport() throws ClassNotFoundException, ParseException{
     
         try{
             serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
@@ -88,7 +125,7 @@ public class ConnectionServer implements Runnable {
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-    public void sendClientandEEG() throws ClassNotFoundException, ParseException{
+   /* public void sendClientandEEG() throws ClassNotFoundException, ParseException{
 
         try{
             serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
@@ -137,7 +174,7 @@ public class ConnectionServer implements Runnable {
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-    public void sendClientandHistoryEEG() throws ClassNotFoundException, ParseException{
+    /*public void sendClientandHistoryEEG() throws ClassNotFoundException, ParseException{
 
         try{
             serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
@@ -181,7 +218,7 @@ public class ConnectionServer implements Runnable {
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-    public void sendClientandHistoryReport() throws ClassNotFoundException, ParseException{
+    /*public void sendClientandHistoryReport() throws ClassNotFoundException, ParseException{
 
         try{
             serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
@@ -218,7 +255,7 @@ public class ConnectionServer implements Runnable {
             releaseResources(objectOut,socketReceiver);
         }
 }
-    /*public static void main(String[] args) throws ClassNotFoundException, ParseException {
+    public static void main(String[] args) throws ClassNotFoundException, ParseException {
         
         try {
             print=new PrintWriter(socketSender.getOutputStream(),true);
@@ -263,6 +300,7 @@ public class ConnectionServer implements Runnable {
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
    
     
 }
