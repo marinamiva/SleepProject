@@ -24,11 +24,12 @@ public class DBManager implements DBManagerInterface {
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/Prosthetic_DB.db");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/SleepControlDB.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 			// create PatientManager
 			patient = new PatientManager(c);
+                                                
 
 		} catch (Exception e) {
 			e.printStackTrace();

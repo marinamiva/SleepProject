@@ -74,17 +74,7 @@ public class Patient {
         this.gender = gender;
         
     }
-    
-            public Patient(String name, String lastname, String telephone, String address, String dni, String gender ){
-        
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-        this.address = address;
-        this.dni = dni;
-        this.gender = gender;
-        
-    }
+
        
     public Patient(Integer id,String name, String lastname, String telephone){
         super();
