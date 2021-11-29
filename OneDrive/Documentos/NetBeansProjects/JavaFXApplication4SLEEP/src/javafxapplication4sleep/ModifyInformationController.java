@@ -90,6 +90,7 @@ Date date1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Gender.getItems().addAll("Male", "Female", "Other");
         // TODO
     }    
     
