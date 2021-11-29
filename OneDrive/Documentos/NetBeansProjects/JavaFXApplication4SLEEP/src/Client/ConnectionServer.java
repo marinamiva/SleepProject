@@ -17,7 +17,11 @@ import java.util.logging.Logger;
 
 
 public class ConnectionServer implements Runnable {
-      public static void main(String[] args) throws ClassNotFoundException, ParseException {
+    private ArrayList<Patient>  patients;
+    private ArrayList<Users> users;
+    
+    public static void main(String[] args) throws ClassNotFoundException, ParseException {
+        
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut=null;
