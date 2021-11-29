@@ -11,6 +11,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ResourceBundle;
 import static javafx.application.Application.launch;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,6 +34,7 @@ public class WelcomeWindowAppController implements Initializable {
      * Initializes the controller class.
      */
     
+    ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "--");
     
     @FXML private TextField Name;
     @FXML private TextField Lastname;
@@ -75,14 +78,7 @@ public class WelcomeWindowAppController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    
-    
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+ 
 
     @FXML
     private void log(javafx.event.ActionEvent event) throws IOException {
@@ -96,6 +92,14 @@ public class WelcomeWindowAppController implements Initializable {
         window.setScene(Loginscene);
         window.show();
        
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        Gender.getItems().addAll("Male", "Female", "Other");
+        //TODO
+         //To change body of generated methods, choose Tools | Templates.
     }
 
     
