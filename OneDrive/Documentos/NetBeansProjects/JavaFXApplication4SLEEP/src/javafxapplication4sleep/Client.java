@@ -25,11 +25,11 @@ import javafx.stage.Stage;
  */
 public class Client extends Application {
     
-    private static DBManagerInterface dbm;
-    private static Database.DBManagerInterface dbman;
-    private static PatientManagerInterface pmi; 
-    private static UserManagerInterface umi;
-    private static BufferedReader br;
+   // private static DBManagerInterface dbm;
+    //private static Database.DBManagerInterface dbman;
+    //private static PatientManagerInterface pmi; 
+    //private static UserManagerInterface umi;
+    //private static BufferedReader br;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -48,9 +48,9 @@ public class Client extends Application {
 
     public static void main(String[] args) throws Exception {
         launch(args);
-        dbman=new DBManager();
-        dbm.connect();
-        dbm.createTables();
+       // dbman=new DBManager();
+        //dbm.connect();
+        //dbm.createTables();
         
     }
 }

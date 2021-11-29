@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 public class ConnectionServer  {
       public static void main(String[] args) throws ClassNotFoundException, ParseException {
+
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut=null;
