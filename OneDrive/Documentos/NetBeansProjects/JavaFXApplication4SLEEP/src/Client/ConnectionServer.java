@@ -16,12 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ConnectionServer implements Runnable {
-    private ArrayList<Patient>  patients;
-    private ArrayList<Users> users;
-    
-    public static void main(String[] args) throws ClassNotFoundException, ParseException {
-        
+public class ConnectionServer  {
+      public static void main(String[] args) throws ClassNotFoundException, ParseException {
+
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut=null;
@@ -298,12 +295,12 @@ public class ConnectionServer implements Runnable {
              Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+/*
     @Override
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   
+   */
     
 }

@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -42,7 +43,7 @@ public class WelcomeWindowAppController implements Initializable {
     @FXML private TextField Telephone;
     @FXML private TextField Address;
     @FXML private ChoiceBox Gender;
-    @FXML private ChoiceBox<?> date;
+    @FXML private DatePicker date;
     @FXML private TextField Password;
     @FXML private TextField ConfirmPassword;
     @FXML private Button Save;
@@ -56,7 +57,7 @@ public class WelcomeWindowAppController implements Initializable {
       //  Patient.telephone=Telephone.getText();
         //Patient.address=Address.getText();
     //    Patient.gender=Gender.getValue().toString();
-      //  String datestring=Dob.getValue().toString(); //Hay que elegir que lo hagan en un formato concreto (dd/mm/yyy)
+      //  String datestring=date.getValue().toString(); //Hay que elegir que lo hagan en un formato concreto (dd/mm/yyy)
         //SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     //    Patient.dateOfBirth= format.parse(datestring);
      //   User.username=DNI.getText();
@@ -66,7 +67,7 @@ public class WelcomeWindowAppController implements Initializable {
     
         void log(ActionEvent event) {
 
-    }
+        }
     
     public void start(Stage primaryStage) throws Exception {
 
@@ -98,6 +99,7 @@ public class WelcomeWindowAppController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         
         Gender.getItems().addAll("Male", "Female", "Other");
+        //date.getValue().toString();
         //TODO
          //To change body of generated methods, choose Tools | Templates.
     }

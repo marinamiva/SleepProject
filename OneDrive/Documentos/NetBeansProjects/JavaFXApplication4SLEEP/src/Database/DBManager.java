@@ -24,7 +24,9 @@ public class DBManager implements DBManagerInterface {
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/SleepControlDB.db");
+                                                //String url = "jdbc:sqlite:lib/db/SleepControlDB.db";
+			c = DriverManager.getConnection("jdbc:sqlite:lib/db/SleepControlDB.db");
+                        
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 			// create PatientManager
@@ -54,9 +56,9 @@ public class DBManager implements DBManagerInterface {
 	public void createTables() {
 		try {
 			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			DriverManager.getConnection("jdbc:sqlite:./db/SleepControl_DB.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			//Class.forName("org.sqlite.JDBC");
+			//DriverManager.getConnection("jdbc:sqlite:./db/SleepControl_DB.db");
+			//c.createStatement().execute("PRAGMA foreign_keys=ON");
 			System.out.println("Database connection opened.");
 			connect();
 
@@ -67,7 +69,6 @@ public class DBManager implements DBManagerInterface {
 					+ "LASTNAME TEXT,"
 					+ "TELEPHONE TEXT," 
 					+ "ADDRESS TEXT," 
-                                        + "DOB DATE,"
                                         + "DNI TEXT,"
                                         + "GENDER TEXT";
 
@@ -139,9 +140,7 @@ public class DBManager implements DBManagerInterface {
 			}else{
 				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		}
 	}
 
 	
