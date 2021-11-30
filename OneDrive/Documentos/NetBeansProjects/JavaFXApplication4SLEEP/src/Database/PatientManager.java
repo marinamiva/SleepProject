@@ -88,10 +88,11 @@ public class PatientManager implements PatientManagerInterface  {
 
     
 	
-	public void addpatientbyRegister(Patient pat) {
+    @Override
+            public void addpatientbyRegister(Patient pat) {
 		try {
      
-			String sql = "INSERT INTO Patients (name, lastname, telephone, address,dateBirth,dni,gender)"
+			String sql = "INSERT INTO Patients (name, lastname, telephone, address,DOB,dni,gender)"
 					+ " VALUES (?,?,?,?,?,?,?);";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, pat.getName());
@@ -109,25 +110,28 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}
   
-         public static Patient searchSpecificPatientByDNI(String dni){
+    @Override
+         public  Patient searchSpecificPatientByDNI(String dni){
              Patient patientfound=new Patient();
-             Connection c1 = null;
 		try {
 			String sql = "SELECT * FROM Patients WHERE dni LIKE ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
-			prep.setString(1, dni);
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, "%"+dni+"%");
 			ResultSet rs = prep.executeQuery();
 			
 			while(rs.next()) {
-				int id = rs.getInt("patient_id");
+				//int id = rs.getInt("patient_id");
 				String name = rs.getString("name");
 				String lastname = rs.getString("lastname");
-				java.sql.Date dobsql = rs.getDate("dob");
-                                java.util.Date  dob = new java.util.Date(dobsql.getTime());
-				String address = rs.getString("address");
-				String tele = rs.getString("telephone");
+                                                                String tele = rs.getString("telephone");
+                                                                String address = rs.getString("address");
+                                                                java.util.Date  dayofbirth= rs.getDate("dob");
+                                                                  
+                                                                  java.sql.Date dob = new java.sql.Date(dayofbirth.getTime()); //LA FECHA SE METE MAL 
+				//java.sql.Date dobsql = rs.getDate("dob");
+                                //java.util.Date  dob = new java.util.Date(dobsql.getTime());
 				String gender = rs.getString("gender");
-				patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
+				patientfound = new Patient(name,lastname,tele,address,dob,dni,gender);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

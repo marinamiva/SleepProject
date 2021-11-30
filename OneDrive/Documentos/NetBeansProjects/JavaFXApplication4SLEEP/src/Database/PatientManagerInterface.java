@@ -13,9 +13,7 @@ import java.util.Date;
 
 public interface PatientManagerInterface {
     public void addpatientbyRegister(Patient pat);
-    
-    
-    
+   public Patient searchSpecificPatientByDNI(String dni);
     
 
 }

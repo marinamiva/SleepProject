@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 public class DBManager implements DBManagerInterface {
 
+
+    
     public static void main(String[] args) {
         DBManager dbmanager = new DBManager();
         dbmanager.connect();
@@ -19,6 +21,7 @@ public class DBManager implements DBManagerInterface {
     
     private Connection c;
     private PatientManager patient;
+    //private UserManager user;
 
     public DBManager() {
         super();
@@ -37,6 +40,7 @@ public class DBManager implements DBManagerInterface {
 
             // create PatientManager
             patient = new PatientManager(c);
+            //user = new UserManager(c);
 
         } catch (Exception e) {
             e.printStackTrace();
