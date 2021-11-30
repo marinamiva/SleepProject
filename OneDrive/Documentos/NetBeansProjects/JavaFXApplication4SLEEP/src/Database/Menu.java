@@ -29,8 +29,8 @@ public class Menu {
     public static void main(String[] args) throws IOException, ParseException {
        
         dbman=new DBManager();
-        dbman.connect();
-        dbman.createTables();
+        dbm.connect();
+        dbm.createTables();
         
         br = new BufferedReader (new InputStreamReader(System.in));
         

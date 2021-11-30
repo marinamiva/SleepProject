@@ -5,6 +5,7 @@
  */
 package javafxapplication4sleep;
 
+import Database.PatientManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -30,7 +31,6 @@ public class OptionsMenuController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
     
     @FXML private Button Back;
     @FXML private Button ReportHistory;
@@ -67,6 +67,7 @@ public class OptionsMenuController implements Initializable {
         
         window.setScene(reportHistory);
         window.show();
+       
     }
 
     @FXML
