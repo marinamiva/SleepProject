@@ -69,8 +69,9 @@ public class Menu {
         String address = br.readLine();
         System.out.println("Type the Date of Birth of the patient followed by dd/mm/yyyy");
         //String date = br.readLine();
-        
-        java.util.Date dateBirth =  new Date(br.readLine());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+        String data= br.readLine();
+        java.util.Date dateBirth =  formato.parse(data);
         
         java.sql.Date dob = new java.sql.Date(dateBirth.getTime()); //LA FECHA SE METE MAL 
        
