@@ -16,119 +16,93 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ConnectionServer  {
-      public static void main(String[] args) throws ClassNotFoundException, ParseException {
-
+public class ConnectionServer {
+     public static void sendPatient(Patient patient){
         InputStream is = null;
         ObjectInputStream ois = null;
-        ObjectOutputStream objectOut=null;
+        ObjectOutputStream objectOut = null;
         ServerSocket serversocket = null;
         Socket socketReceiver = null;
-        Socket socketSender=null;
+        Socket socketSender = null;
         PrintWriter print = null;
-        BufferedReader buf=null;
-        OutputStream outputStream=null;
-        java.util.Date dat=new Date("13/02/99");
-        Patient patient=new Patient(1,"marina","miguelez","672","mad",dat,"715","female");
-        Object patientToSend= (Object) patient;  
-        try{
-            socketSender=new Socket("localhost",9010);
-            outputStream=socketSender.getOutputStream();
-           
-        }catch(IOException io){
-            System.out.println("No possible to connect.");
-            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE,null,io);
-        } try {
-            
-            objectOut=new ObjectOutputStream(outputStream);
-            objectOut.writeObject(patientToSend);
-            objectOut.flush(); 
-        }catch(IOException ex){
-            System.out.println("unnable to write the objects on the server.");
-            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE,null,ex);
-        } finally{
-            releaseResources(objectOut, socketSender);
-        }
-    }
-    
-    /*
-    private ArrayList<Patient>  patients;
-    private ArrayList<Users> users;
-    private ArrayList<Report> reports;
-    private ArrayList<EEG> eegs;
-    InputStream is = null;
-    ObjectInputStream ois = null;
-    ObjectOutputStream objectOut=null;
-    ServerSocket serversocket = null;
-    Socket socketReceiver = null;
-    Socket socketSender=null;
-    PrintWriter print = null;
-    BufferedReader buf=null;
-    OutputStream outputStream=null;
-    
-    
-    
-    /**
-     * Envía un paciente al server, le pregunta la fecha del report que quiere ver y le envía el report de ese paciente.
-     * @throws ClassNotFoundException
-     * @throws ParseException
-     */
-    /*public void sendClientandReport() throws ClassNotFoundException, ParseException{
-    
-        try{
-            serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
-            socketReceiver = serversocket.accept();
-            is = socketReceiver.getInputStream();
-            
-            System.out.println("The connection established from the address" + socketReceiver.getInetAddress()); 
-            socketSender=new Socket(socketReceiver.getInetAddress(),9009);
-            
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
+        BufferedReader buf = null;
+        OutputStream outputStream = null;
         
-        try{
-            ois = new ObjectInputStream(is);
-            Object newpat=null; //NO SE SI NULL O NEW pATIENT()
-            Patient patientconnected = (Patient) newpat;
-            String dni = patientconnected.getDni();
+        try {
+            socketSender = new Socket("localhost", 9010);
             print=new PrintWriter(socketSender.getOutputStream(),true);
-            //System.out.println("The patient you are going to send is:\n" + patientconnected.toString()); 
-            
-            // crear conexion -> crear manejador de pacientes -> llamar al método del manejador de pacientes
-            Patient pat = PatientManager.searchSpecificPatientByDNI(dni); 
-            objectOut=new ObjectOutputStream(socketSender.getOutputStream());
-
-            objectOut.writeObject(pat);
-            while((newpat= ois.readObject())!= null){
-                print.println("Choose the report's date you want to see: (DD/MM/YY)\n");
-
-                buf=new BufferedReader(new InputStreamReader(socketReceiver.getInputStream()));
-                String dateString=buf.readLine();
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                java.util.Date dateUtil=formato.parse(dateString);
-                java.sql.Date dateSql= new java.sql.Date(dateUtil.getTime());
-                Report rep = PatientManager.viewReport(dni,dateSql);
-                objectOut.writeObject(rep);
-            }
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-        
-        finally{
-            releaseResources(objectOut,socketReceiver);
-        }
+            print.println(patient.getName());
+            print.println(patient.getLastname());
+            print.println(patient.getTelephone());
+            print.println(patient.getAddress());
+            print.println(patient.getDni());
+            print.println(patient.getGender());
+            print.println("Finish");
+            releaseResources(print, socketSender);
+        } catch (IOException io) {
+            System.out.println("No possible to connect.");
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
+        } 
     }
-    
+    public static void sendReport(Report rep){
+        InputStream is = null;
+        ObjectInputStream ois = null;
+        ObjectOutputStream objectOut = null;
+        ServerSocket serversocket = null;
+        Socket socketReceiver = null;
+        Socket socketSender = null;
+        PrintWriter print = null;
+        BufferedReader buf = null;
+        OutputStream outputStream = null;
+        
+        try {
+            socketSender = new Socket("localhost", 9010);
+            print=new PrintWriter(socketSender.getOutputStream(),true);
+            //String date,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
+            Date dat=rep.getTodaysDate();
+            SimpleDateFormat formato=new SimpleDateFormat("dd-MM-yyyy");
+            String date=formato.format(dat);
+            print.println(date);
+            print.println(rep.getsleepQuality());
+            print.println(rep.getExhaustion());
+            print.println(rep.getAverageHours());
+            print.println(rep.getMovement());
+            print.println(rep.gettimeToFallAsleep());
+            print.println(rep.getRest());
+            print.println(rep.getStayAwake());
+            print.println(rep.getTimesAwake());
+            print.println(rep.getDreams());
+            print.println(rep.getWorries());
+            print.println(rep.getTodaysMood());
+            print.println(rep.getdoubtsForDoctor());
+            print.println("Finish");
+            releaseResources(print, socketSender);
+        } catch (IOException io) {
+            System.out.println("No possible to connect.");
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
+        } 
+    }
+     
+
+    public static void main(String[] args) throws ClassNotFoundException, ParseException {
+        //el paciente serÃ­a obtenerlo de la base de datos pero ahora para probar lo creo:
+        Patient patient = new Patient("marina", "miguelez", "672", "mad","715", "female");
+        sendPatient(patient);
+        Date dat=new Date("20-02-2021");
+        Report report = new Report(dat,"jg","jh","jg","jh","jg","jh","jg","jh","jg","jh","jg","jh");
+        sendReport(report);
+        
+    }
+
     /**
-     * Envía al servidor un paciente elegido por su DNI y el EEG de la fecha seleccionada.
+     * EnvÃ­a al servidor un paciente elegido por su DNI y el EEG de la fecha seleccionada.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-   /* public void sendClientandEEG() throws ClassNotFoundException, ParseException{
+ /* public void sendEEG() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -170,14 +144,14 @@ public class ConnectionServer  {
         }
 }
     /**
-     * Envía al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay EEG y sus nombres.
+     * EnvÃ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay EEG y sus nombres.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-    /*public void sendClientandHistoryEEG() throws ClassNotFoundException, ParseException{
+ /*public void sendClientandHistoryEEG() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -202,7 +176,7 @@ public class ConnectionServer  {
             while((newpat= ois.readObject())!= null){
                 
                 
-                ArrayList<EEG> eegs = PatientManager.viewEEGHistory(dni); //El método sí existe no sé por qué da error!
+                ArrayList<EEG> eegs = PatientManager.viewEEGHistory(dni); //El mÃ©todo sÃ­ existe no sÃ© por quÃ© da error!
                 objectOut.writeObject(reports);
             }
         }catch(IOException ex){
@@ -214,14 +188,14 @@ public class ConnectionServer  {
         }
 }
     /**
-     * Envía al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay Report y sus nombres.
+     * EnvÃ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay Report y sus nombres.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
-    /*public void sendClientandHistoryReport() throws ClassNotFoundException, ParseException{
+ /*public void sendClientandHistoryReport() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podría poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -278,29 +252,18 @@ public class ConnectionServer  {
             ex.printStackTrace();
         }
     }*/
-   
+    private static void releaseResources(PrintWriter p, Socket socket) {
 
-     
-    private static void releaseResources(ObjectOutputStream oos, Socket socket){
+            p.close();
         
-        try{
-            oos.close();
-        }catch(IOException ex){
-             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try{
+
+        try {
             socket.close();
-        }catch(IOException ex){
-             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-/*
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-   */
+
     
 }
