@@ -63,12 +63,12 @@ public class PatientManager implements PatientManagerInterface  {
             return rep;
 	}
 	
-	public static ArrayList<Patient> showPatients() {
+	public  ArrayList<Patient> showPatients() {
 		ArrayList<Patient> patList = new ArrayList<Patient>();
-                Connection c1 = null; //ESTO NO ES ASÍ, SÓLO QUE HAY QUE INICIALIZARLA PARA QUE NO DE ERROR
+                //Connection c1 = null; //ESTO NO ES ASÍ, SÓLO QUE HAY QUE INICIALIZARLA PARA QUE NO DE ERROR
 		try {
 			String sql = "SELECT * FROM Patients";
-			PreparedStatement prep = c1.prepareStatement(sql);
+			PreparedStatement prep = c.prepareStatement(sql);
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
 				int patId = rs.getInt("patient_id");
@@ -125,9 +125,10 @@ public class PatientManager implements PatientManagerInterface  {
 				String lastname = rs.getString("lastname");
                                                                 String tele = rs.getString("telephone");
                                                                 String address = rs.getString("address");
+
                                                                 java.util.Date  dayofbirth= rs.getDate("dob");
                                                                   
-                                                                  java.sql.Date dob = new java.sql.Date(dayofbirth.getTime()); //LA FECHA SE METE MAL 
+                                                                  java.sql.Date dob = new java.sql.Date(dayofbirth.getDate()); //LA FECHA SE METE MAL 
 				//java.sql.Date dobsql = rs.getDate("dob");
                                 //java.util.Date  dob = new java.util.Date(dobsql.getTime());
 				String gender = rs.getString("gender");
