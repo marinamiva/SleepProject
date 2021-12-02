@@ -25,17 +25,14 @@ public class BitalinoDemo {
             Vector<RemoteDevice> devices = bitalino.findDevices();
             System.out.println(devices);
 
-            //You need TO CHANGE THE MAC ADDRESS
-            //You should have the MAC ADDRESS in a sticker in the Bitalino
             String macAddress = "20:17:11:20:52:36";
             
-            //Sampling rate, should be 10, 100 or 1000
-            int SamplingRate = 100; //partimos de 100 maybe es mas, maybe no 
+            int SamplingRate = 100; //partimos de 100 
             bitalino.open(macAddress, SamplingRate);
 
             // Start acquisition on analog channels A2 and A6
-            // For example, If you want A1, A3 and A4 you should use {0,2,3}
-            int[] channelsToAcquire = {3,5}; //CAMBIOS AQUI!!! PARA EL EEG
+            // We use channels A4 and A6, eeg and light
+            int[] channelsToAcquire = {3,5}; 
             bitalino.start(channelsToAcquire);
 
             //Read in total 10000000 times

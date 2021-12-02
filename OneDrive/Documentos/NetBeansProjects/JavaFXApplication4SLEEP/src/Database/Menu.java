@@ -18,10 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-/**
- *
- * @author gabri
- */
+
 public class Menu {
 
     private Connection c;
