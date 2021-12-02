@@ -75,10 +75,7 @@ public class Menu {
         
          System.out.println("Type the DNI of the patient");
         String dni = br.readLine();
-        System.out.println("Type the gender of the patient: ");
-        String gender = br.readLine();
-       
-        
+        String gender = ui.takeGender(br, "Type the gender of the patient: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
         System.out.println("The new patient is: " + newpat);
         pmi.addpatientbyRegister(newpat);
