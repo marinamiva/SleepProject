@@ -65,4 +65,83 @@ public class ui {
 		}
 		return day;
 	}
+    public static String takeTelephone(BufferedReader reader, String text) {
+		String num="reader";
+		boolean check = true;
+		char cad[];
+		try {
+			do {
+				System.out.println(text + " (without spaces)");
+				num = reader.readLine();
+				cad = num.toCharArray();
+				check = false;
+				for (int i = 0; i < num.length(); i++) {
+
+					if (Character.isDigit(cad[i]) || cad[i] == '+') {
+
+					} else if (Character.isSpaceChar(cad[i])) {
+						check = true;
+						break;
+					} else {
+						check = true;
+						break;
+					}
+				}
+				if (check == true) {
+					System.out.println("You don't introduce a telephone number.");
+					System.out.println("Please introduce numbers.");
+				}
+			} while (check);
+			if (num.substring(0, 1).contains("+")) {
+				num = num.substring(3, num.length());
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return num;
+
+	}
+    
+    public static String takeDNI(BufferedReader reader, String text) {
+		
+		String num = "error in takeDNI()";
+		boolean check = true;
+		char cad[];
+		try {
+			do {
+				System.out.println(text + " (without spaces)");
+				num = reader.readLine();
+				cad = num.toCharArray();
+				check = false;
+				for (int i = 0; i < num.length(); i++) {
+
+					if (Character.isDigit(cad[i]) || cad[i] == '+') {
+
+					} else if (Character.isSpaceChar(cad[i])) {
+						check = true;
+						break;
+					} else {
+						check = true;
+						break;
+					}
+				}
+				if (check == true) {
+					System.out.println("You don't introduce a valid DNI number.");
+					System.out.println("Please introduce numbers.");
+				}
+			} while (check);
+			if (num.substring(0, 1).contains("+")) {
+				num = num.substring(3, num.length());
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return num;
+
+	}
+
 }

@@ -66,15 +66,12 @@ public class Menu {
         String name = br.readLine();
         System.out.println("Type the lastname of the patient:");
         String lastname = br.readLine();
-        System.out.println("Type the telephone of the patient");
-        String telephone = br.readLine();
+        String telephone = ui.takeTelephone(br,"Type the telephone of the patient");
         System.out.println("Type the address of the patient");
         String address = br.readLine();
         LocalDate data= ui.takeDate(br,"Type the Date of Birth of the patient followed by yyyy-MM-dd");
-        java.sql.Date dob = java.sql.Date.valueOf(data);
-        
-         System.out.println("Type the DNI of the patient");
-        String dni = br.readLine();
+        java.util.Date dob = java.sql.Date.valueOf(data);
+        String dni = ui.takeDNI(br,"Type the DNI of the patient (numeric only)");
         String gender = ui.takeGender(br, "Type the gender of the patient: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
         System.out.println("The new patient is: " + newpat);
