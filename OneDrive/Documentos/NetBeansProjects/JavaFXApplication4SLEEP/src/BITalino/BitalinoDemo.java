@@ -1,8 +1,10 @@
 package BITalino;
 
 
+import Client.Patient;
 import java.util.Vector;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.bluetooth.RemoteDevice;
 import java.util.logging.Level;
@@ -11,19 +13,9 @@ import java.util.logging.Logger;
 public class BitalinoDemo {
 
     public static Frame[] frame;
-    public static ArrayList<Integer> eegValues = new ArrayList();
-    
-    public static void setEEGValues(ArrayList<Integer> ecgValues) {
-        BitalinoDemo.eegValues = ecgValues;
-    }
-    
-    public ArrayList<Integer> getEEGValues() {
-        return eegValues;
-    }
+    public static List<Frame[]> values = new ArrayList();
 
-    public static void startEEGvalues() {
-        
-        eegValues = new ArrayList(); 
+    public static void main(String[] args) {
 
         BITalino bitalino = null;
         try {
@@ -65,11 +57,11 @@ public class BitalinoDemo {
                     //  + frame[i].analog[4] + " "
                     //  + frame[i].analog[5]
                     );
-                    eegValues.add(frame[i].analog[0]);
-                    System.out.println(eegValues.get(j * 10 + i));
-                }
+                
+                }               
             }
-            setEEGValues(eegValues);
+             values.add(frame);
+             Patient.createFile(frame);
             //stop acquisition
             bitalino.stop();
         } catch (BITalinoException ex) {

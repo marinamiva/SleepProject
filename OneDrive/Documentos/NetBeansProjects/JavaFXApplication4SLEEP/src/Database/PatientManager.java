@@ -212,9 +212,28 @@ public class PatientManager implements PatientManagerInterface  {
 		}
             return repList;
 	}
-
-       
-       
+/*
+     public void addBitalinoFrame(Patient pat) {
+		try {
+     
+			String sql = "INSERT INTO Patients (name, lastname, telephone, address,DOB,dni,gender)"
+					+ " VALUES (?,?,?,?,?,?,?);";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, pat.getName());
+			prep.setString(2, pat.getLastname());
+			prep.setString(3, pat.getTelephone());
+                        prep.setString(4, pat.getAddress());
+                        prep.setDate(5, (java.sql.Date) pat.getDateOfBirth());
+                        prep.setString(6, pat.getDni());
+                        prep.setString(7, pat.getGender());
+			prep.executeUpdate();
+			prep.close();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+			}
+	}      
+     */
   
     public static EEG viewEEG(String dni, java.util.Date date) {
          EEG eeg = new EEG();
