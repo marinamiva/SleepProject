@@ -6,6 +6,7 @@
 package Database;
 
 import Client.Patient;
+import Client.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -34,7 +35,7 @@ public class Menu {
     public static void main(String[] args) throws IOException, ParseException, Exception {
         dbman = new DBManager();
         dbman.connect();
-       // dbm.createTables();
+        //dbm.createTables();
       pmi = dbman.getPatientManager();
       
       
@@ -69,19 +70,8 @@ public class Menu {
         String telephone = br.readLine();
         System.out.println("Type the address of the patient");
         String address = br.readLine();
-        System.out.println("Type the Date of Birth of the patient followed by dd/mm/yyyy");
-        //String date = br.readLine();
-        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-        String data= br.readLine();
-        java.util.Date dateBirth = new java.util.Date(data);
-        long birth = dateBirth.getTime();
-        
-        //java.util.Date dateBirth =  formato.parse(data);
-        
-        java.sql.Date dob = new java.sql.Date(birth); //LA FECHA SE METE MAL 
-       
-        //System.out.println("UTIL DATE: " + dateBirth);
-         //System.out.println("SQL DATE: " + dob);
+        LocalDate data= ui.takeDate(br,"Type the Date of Birth of the patient followed by yyyy-MM-dd");
+        java.sql.Date dob = java.sql.Date.valueOf(data);
         
          System.out.println("Type the DNI of the patient");
         String dni = br.readLine();
