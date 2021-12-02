@@ -35,11 +35,11 @@ public class BitalinoDemo {
 
             // Start acquisition on analog channels A2 and A6
             // For example, If you want A1, A3 and A4 you should use {0,2,3}
-            int[] channelsToAcquire = {4,6}; //CAMBIOS AQUI!!! PARA EL EEG
+            int[] channelsToAcquire = {3,5}; //CAMBIOS AQUI!!! PARA EL EEG
             bitalino.start(channelsToAcquire);
 
             //Read in total 10000000 times
-            for (int j = 0; j < 10000000; j++) {
+            for (int j = 0; j < 100; j++) {
 
                 //Each time read a block of 10 samples 
                 int block_size=10;
@@ -57,11 +57,13 @@ public class BitalinoDemo {
                     //  + frame[i].analog[4] + " "
                     //  + frame[i].analog[5]
                     );
-                
-                }               
+                     values.add(frame);
+                    Patient.createFile(frame[i].analog[0]);
+                    
+                }   
             }
              values.add(frame);
-             Patient.createFile(frame);
+             //Patient.createFile(frame);
             //stop acquisition
             bitalino.stop();
         } catch (BITalinoException ex) {

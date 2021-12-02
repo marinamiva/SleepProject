@@ -104,15 +104,15 @@ public class Patient implements Serializable {
         this.telephone = telephone;
     }
 
-    public static void createFile(Frame[] recordedSignals) { //calls for the recorded frame everytime
+    public static void createFile(Integer recordedSignals) { //calls for the recorded frame everytime
 
         FileWriter flwriter = null;
         try {
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
-            int size = recordedSignals.length;
-            for (int i = 0; i < size; i++) {
-                String str = recordedSignals[i].toString();
+            //int size = recordedSignals.length;
+            for (int i = 0; i < 1000; i++) {
+                String str = recordedSignals.toString();
                 bfwriter.write(str + System.lineSeparator());
 
             }
