@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -69,11 +71,14 @@ public class Menu {
         String address = br.readLine();
         System.out.println("Type the Date of Birth of the patient followed by dd/mm/yyyy");
         //String date = br.readLine();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
         String data= br.readLine();
-        java.util.Date dateBirth =  formato.parse(data);
+        java.util.Date dateBirth = new java.util.Date(data);
+        long birth = dateBirth.getTime();
         
-        java.sql.Date dob = new java.sql.Date(dateBirth.getTime()); //LA FECHA SE METE MAL 
+        //java.util.Date dateBirth =  formato.parse(data);
+        
+        java.sql.Date dob = new java.sql.Date(birth); //LA FECHA SE METE MAL 
        
         //System.out.println("UTIL DATE: " + dateBirth);
          //System.out.println("SQL DATE: " + dob);
@@ -99,7 +104,8 @@ public class Menu {
         String dniobtained = br.readLine();
         Patient newpat = pmi.searchSpecificPatientByDNI(dniobtained);
         System.out.println("The patient is:" +newpat.toString());
-        
-        
+       
     }
+    
+    
 }
