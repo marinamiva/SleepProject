@@ -33,7 +33,7 @@ public class DBManager implements DBManagerInterface {
             //System.out.println("donde estoy");
           //Class.forName("org.sqlite.JDBC");
           //Class.forName("org.sqlite.Driver");
-            String url = "jdbc:sqlite:lib/db/SleepControlDB.db";
+            String url = "jdbc:sqlite:lib/db/SleepControlDB2.db";
             c = DriverManager.getConnection(url);
 
             c.createStatement().execute("PRAGMA foreign_keys=ON");
@@ -78,9 +78,9 @@ public class DBManager implements DBManagerInterface {
                     + "LASTNAME TEXT,"
                     + "TELEPHONE TEXT,"
                     + "ADDRESS TEXT,"
-                    + "DOB DATE"
+                    + "DOB DATE,"
                     + "DNI TEXT,"
-                    + "GENDER TEXT";
+                    + "GENDER TEXT)";
 
             stmt1.executeUpdate(sql1);
             stmt1.close();
@@ -111,7 +111,7 @@ public class DBManager implements DBManagerInterface {
             String sql4 = "CREATE TABLE Users "
                     + "(patient_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "PATIENT_DNI TEXT,"
-                    + "Password";
+                    + "Password TEXT)";
 
             stmt4.executeUpdate(sql4);
             stmt4.close();

@@ -126,8 +126,7 @@ public class PatientManager implements PatientManagerInterface  {
 				String lastname = rs.getString("lastname");
                                 String tele = rs.getString("telephone");
                                 String address = rs.getString("address");
-                                String dateString=rs.getString("dob");
-                                java.util.Date dob=(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.sss")).parse(dateString);
+                                java.util.Date dob=rs.getDate("dob");
                                 String gender = rs.getString("gender");
 				patientfound = new Patient(name,lastname,tele,address,dob,dni,gender);
 			}

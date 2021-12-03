@@ -22,7 +22,6 @@ import java.util.Date;
 public class Menu {
 
     private Connection c;
-    private static DBManagerInterface dbm;
     private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private static UserManagerInterface umi;
@@ -32,7 +31,7 @@ public class Menu {
     public static void main(String[] args) throws IOException, ParseException, Exception {
         dbman = new DBManager();
         dbman.connect();
-        //dbm.createTables();
+        //dbman.createTables();
       pmi = dbman.getPatientManager();
       
       
