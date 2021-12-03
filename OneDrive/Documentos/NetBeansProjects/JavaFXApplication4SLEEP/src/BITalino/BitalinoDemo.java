@@ -62,7 +62,7 @@ public class BitalinoDemo {
                     
                 }   
             }
-             values.add(frame);
+            // values.add(frame);
              //Patient.createFile(frame);
             //stop acquisition
             bitalino.stop();
