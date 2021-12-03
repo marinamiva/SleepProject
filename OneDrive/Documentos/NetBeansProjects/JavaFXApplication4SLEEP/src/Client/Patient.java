@@ -33,7 +33,7 @@ public class Patient implements Serializable {
     private Date dateOfBirth;
     private String dni;
     private String gender;
-    private List<Frame[]> recordedSignals;
+    private List<Integer> recordedSignals;
 
     public Patient() {
         super();
@@ -65,7 +65,7 @@ public class Patient implements Serializable {
         this.gender = gender;
     }
 
-    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Frame[]> recordedSignals) {
+    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Integer> recordedSignals) {
 
         this.name = name;
         this.lastname = lastname;
@@ -104,17 +104,16 @@ public class Patient implements Serializable {
         this.telephone = telephone;
     }
 
-    public static void createFile(Frame[] recordedSignals) { //calls for the recorded frame everytime
+    public static void createFile(List recordedSignals) { //calls for the recorded frame everytime
 
         FileWriter flwriter = null;
         try {
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
-            int size = recordedSignals.length;
+            int size = recordedSignals.size();
             for (int i = 0; i < size; i++) {
-                String str = recordedSignals[i].toString();
+                String str = recordedSignals.get(i).toString();
                 bfwriter.write(str + System.lineSeparator());
-
             }
             bfwriter.flush();
             bfwriter.close();
@@ -237,13 +236,14 @@ public class Patient implements Serializable {
         return newreport;
     }
 
-    public List<Frame[]> getRecordedSignals() {
+    public List<Integer> getRecordedSignals() {
         return recordedSignals;
     }
 
-    public void setRecordedSignals(List<Frame[]> recordedSignals) {
+    public void setRecordedSignals(List<Integer> recordedSignals) {
         this.recordedSignals = recordedSignals;
     }
+
 
     public Integer getId() {
         return id;

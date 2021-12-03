@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class BitalinoDemo {
 
     public static Frame[] frame;
-    public static List<Frame[]> values = new ArrayList();
+    public static List<Integer> values = new ArrayList();
 
     public static void main(String[] args) {
 
@@ -57,11 +57,11 @@ public class BitalinoDemo {
                     //  + frame[i].analog[4] + " "
                     //  + frame[i].analog[5]
                     );
-                
+                values.add(frame[i].analog[0]);
                 }               
             }
-             values.add(frame);
-             Patient.createFile(frame);
+            
+            Patient.createFile(values);
             //stop acquisition
             bitalino.stop();
         } catch (BITalinoException ex) {
