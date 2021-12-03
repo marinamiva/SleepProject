@@ -83,6 +83,30 @@ public class ConnectionServer {
         } 
     }
      
+    //NO ESTA HECHO TENGO QUE BUSCAR EL PASAR DE OBJECT A FILE!!
+    public static void sendEEG(EEG eeg){
+        InputStream is = null;
+        ObjectInputStream ois = null;
+        ObjectOutputStream objectOut = null;
+        ServerSocket serversocket = null;
+        Socket socketReceiver = null;
+        Socket socketSender = null;
+        PrintWriter print = null;
+        BufferedReader buf = null;
+        OutputStream outputStream = null;
+        
+        try {
+            socketSender = new Socket("localhost", 9010);
+            print=new PrintWriter(socketSender.getOutputStream(),true);
+            objectOut=new ObjectOutputStream(socketSender.getOutputStream());
+            //FileInputStream fis=(new FileInputStream(eeg.getFile());
+            print.println("Finish");
+            releaseResources(print, socketSender);
+        } catch (IOException io) {
+            System.out.println("No possible to connect.");
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
+        } 
+    }
 
     public static void main(String[] args) throws ClassNotFoundException, ParseException {
         //el paciente serÃ­a obtenerlo de la base de datos pero ahora para probar lo creo:

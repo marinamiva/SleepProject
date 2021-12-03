@@ -33,7 +33,7 @@ public class DBManager implements DBManagerInterface {
             //System.out.println("donde estoy");
           //Class.forName("org.sqlite.JDBC");
           //Class.forName("org.sqlite.Driver");
-            String url = "jdbc:sqlite:lib/db/SleepControlDB.db";
+            String url = "jdbc:sqlite:lib/db/SleepControlDB2.db";
             c = DriverManager.getConnection(url);
 
             c.createStatement().execute("PRAGMA foreign_keys=ON");
@@ -78,9 +78,9 @@ public class DBManager implements DBManagerInterface {
                     + "LASTNAME TEXT,"
                     + "TELEPHONE TEXT,"
                     + "ADDRESS TEXT,"
-                    + "DOB DATE"
+                    + "DOB DATE,"
                     + "DNI TEXT,"
-                    + "GENDER TEXT";
+                    + "GENDER TEXT)";
 
             stmt1.executeUpdate(sql1);
             stmt1.close();
@@ -111,20 +111,14 @@ public class DBManager implements DBManagerInterface {
             String sql4 = "CREATE TABLE Users "
                     + "(patient_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "PATIENT_DNI TEXT,"
-                    + "Password";
+                    + "Password TEXT)";
 
             stmt4.executeUpdate(sql4);
             stmt4.close();
 
             System.out.println("Tables created.");
             // Create table: end
-            //
-            // - Set initial values for the Primary Keys
-            // - Don't try to understand this until JPA is explained
-            // This is usually not needed, since the initial values
-            // are set when the first row is inserted, but since we
-            // are using JPA and JDBC in the same project, and JPA
-            // needs an initial value, we do this.
+            
 
             Statement stmtSeq = c.createStatement();
             String sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES('Patients', 1)";

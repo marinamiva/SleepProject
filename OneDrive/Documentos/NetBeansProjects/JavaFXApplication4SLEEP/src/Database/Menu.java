@@ -6,6 +6,7 @@
 package Database;
 
 import Client.Patient;
+import Client.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -17,14 +18,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-/**
- *
- * @author gabri
- */
+
 public class Menu {
 
     private Connection c;
-    private static DBManagerInterface dbm;
     private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private static UserManagerInterface umi;
@@ -34,7 +31,7 @@ public class Menu {
     public static void main(String[] args) throws IOException, ParseException, Exception {
         dbman = new DBManager();
         dbman.connect();
-       // dbm.createTables();
+        //dbman.createTables();
       pmi = dbman.getPatientManager();
       
       
@@ -65,30 +62,13 @@ public class Menu {
         String name = br.readLine();
         System.out.println("Type the lastname of the patient:");
         String lastname = br.readLine();
-        System.out.println("Type the telephone of the patient");
-        String telephone = br.readLine();
+        String telephone = ui.takeTelephone(br,"Type the telephone of the patient");
         System.out.println("Type the address of the patient");
         String address = br.readLine();
-        System.out.println("Type the Date of Birth of the patient followed by dd/mm/yyyy");
-        //String date = br.readLine();
-        //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-        String data= br.readLine();
-        java.util.Date dateBirth = new java.util.Date(data);
-        long birth = dateBirth.getTime();
-        
-        //java.util.Date dateBirth =  formato.parse(data);
-        
-        java.sql.Date dob = new java.sql.Date(birth); //LA FECHA SE METE MAL 
-       
-        //System.out.println("UTIL DATE: " + dateBirth);
-         //System.out.println("SQL DATE: " + dob);
-        
-         System.out.println("Type the DNI of the patient");
-        String dni = br.readLine();
-        System.out.println("Type the gender of the patient: ");
-        String gender = br.readLine();
-       
-        
+        LocalDate data= ui.takeDate(br,"Type the Date of Birth of the patient followed by yyyy-MM-dd");
+        java.util.Date dob = java.sql.Date.valueOf(data);
+        String dni = ui.takeDNI(br,"Type the DNI of the patient (numeric only)");
+        String gender = ui.takeGender(br, "Type the gender of the patient: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
         System.out.println("The new patient is: " + newpat);
         pmi.addpatientbyRegister(newpat);

@@ -6,6 +6,7 @@
 package Database;
 import Client.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.*;
@@ -123,15 +124,10 @@ public class PatientManager implements PatientManagerInterface  {
 				//int id = rs.getInt("patient_id");
 				String name = rs.getString("name");
 				String lastname = rs.getString("lastname");
-                                                                String tele = rs.getString("telephone");
-                                                                String address = rs.getString("address");
-
-                                                                java.util.Date  dayofbirth= rs.getDate("dob");
-                                                                  
-                                                                  java.sql.Date dob = new java.sql.Date(dayofbirth.getDate()); //LA FECHA SE METE MAL 
-				//java.sql.Date dobsql = rs.getDate("dob");
-                                //java.util.Date  dob = new java.util.Date(dobsql.getTime());
-				String gender = rs.getString("gender");
+                                String tele = rs.getString("telephone");
+                                String address = rs.getString("address");
+                                java.util.Date dob=rs.getDate("dob");
+                                String gender = rs.getString("gender");
 				patientfound = new Patient(name,lastname,tele,address,dob,dni,gender);
 			}
 		}catch(Exception e) {
@@ -145,7 +141,7 @@ public class PatientManager implements PatientManagerInterface  {
                 Connection c1 = null;
                 
 		try {
-			String sql = "SELECT * FROM Patients WHERE patient_id LIKE ?;";
+			String sql = "SELECT * FROM Patients WHERE patient_id LIKE ?";
 			PreparedStatement prep = c1.prepareStatement(sql);
 			prep.setInt(1, pat_id);
 			ResultSet rs = prep.executeQuery();
