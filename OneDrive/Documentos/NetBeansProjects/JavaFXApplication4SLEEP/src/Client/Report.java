@@ -178,7 +178,7 @@ public class Report implements Serializable{
 
     @Override
     public String toString() {
-        return "Report{" + "todaysDate=" + todaysDate + ", Sleep Quality=" + sleepQuality + ", Exhaustion=" + exhaustion + ", Average Hours=" + averageHours + ", Movement=" + movement + ", Time to fall Asleep=" + timeToFallAsleep + ", Rest=" + rest + ", Stay Awake=" + stayAwake + ", Times Awake=" + timesAwake + ", Dreams=" + dreams + ", Worries=" + worries + ", Todays Mood=" + todaysMood + ", Doubts for the Doctor=" + doubtsForDoctor +'}';
+        return "Report{" + "todaysDate=" + todaysDate + ", Sleep Quality=" + sleepQuality + ", Exhaustion=" + exhaustion + ", Average Hours=" + averageHours + ", Movement=" + movement + ", Time to fall Asleep=" + timeToFallAsleep + ", Rest=" + rest + ", Stay Awake=" + stayAwake + ", Times Awake=" + timesAwake + ", Dreams=" + dreams +", Worries=" + worries + ", Todays Mood=" + todaysMood + ", Doubts for the Doctor=" + doubtsForDoctor +'}';
     }
      
    

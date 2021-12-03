@@ -52,6 +52,7 @@ public class Patient implements Serializable {
         this.telephone = telephone;
         this.dateOfBirth = dob;
         this.gender = gender;
+        this.dni = dni;
         this.address = addres;
     }
 
@@ -315,8 +316,10 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedSignals=" + recordedSignals + '}';
     }
+
+   
 
     @Override
     public int hashCode() {

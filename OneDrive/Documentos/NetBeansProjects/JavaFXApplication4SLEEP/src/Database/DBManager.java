@@ -87,13 +87,21 @@ public class DBManager implements DBManagerInterface {
 
             Statement stmt2 = c.createStatement();
             String sql2 = "CREATE TABLE Reports "
-                    + "(patient_id	INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "(report_id	INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "PATIENT_DNI TEXT,"
                     + "REPORT_DATE DATE,"
-                    + "QUALITY TEXT," + "EXHAUSTION TEXT,"
+                    + "QUALITY TEXT," 
+                    + "EXHAUSTION TEXT,"
                     + "HOURS TEXT,"
-                    + "MOVEMENT TEXT," + "TIME TEXT,"
-                    + "REST TEXT," + "AWAKE TEXT," + "TIMES AWAKE" + "DREAMS TEXT," + "WORRIES TEXT," + "MOOD TEXT," + "DOUBTS TEXT)";
+                    + "MOVEMENT TEXT," 
+                    + "TIME TEXT,"
+                    + "REST TEXT," 
+                    + "AWAKE TEXT,"
+                    + "TIMES TEXT" 
+                    + "DREAMS TEXT,"
+                    + "WORRIES TEXT,"
+                    + "MOOD TEXT," 
+                    + "DOUBTS TEXT)";
 
             stmt2.executeUpdate(sql2);
             stmt2.close();
