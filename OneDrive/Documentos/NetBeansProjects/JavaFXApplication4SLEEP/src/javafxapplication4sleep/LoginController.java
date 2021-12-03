@@ -90,13 +90,13 @@ public class LoginController implements Initializable {
     
     @FXML
     public void GoBack (ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("WelcomeWindowApp.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("IpAdding.fxml"));
         
-        Scene loginScene = new Scene(root);
+        Scene IpScene = new Scene(root);
         
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         
-        window.setScene(loginScene);
+        window.setScene(IpScene);
         window.show();
     }
     
