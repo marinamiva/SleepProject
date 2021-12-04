@@ -21,6 +21,7 @@ import Client.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -95,24 +96,30 @@ public class UserManager implements UserManagerInterface {
 		
 	}
 	
-	@Override
-	public User checkPassword(User userps) {
-		User user = null;
-		try {
-			Query q = em.createNativeQuery("SELECT * FROM Users WHERE patient_dni = ? AND password = ?", User.class);
-			q.setParameter(1, userps.getUsername());
-			q.setParameter(2, userps.getPassword());
-			user = (User) q.getSingleResult();
-		} catch (NoResultException nre) {
-			return null;
-		}
-		return user;
-	}
+	
+        
+            public User checkPasswordGood(User user){
+                User user2 = null;
+                try{
+                    String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
+                    PreparedStatement prep = c.prepareStatement(sql);
+                    ResultSet rs = prep.executeQuery();
+                    while(rs.next()){
+                        String patientdni = rs.getString("patient_dni");
+                        //byte[] pass = rs.getString("password");
+                    }
+                }catch(SQLException ex){
+                    ex.printStackTrace();
+                }
+                return user2;
+            }
 
     @Override
     public void createUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+  
 
     
 
@@ -134,4 +141,24 @@ public class UserManager implements UserManagerInterface {
     public void createUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+@Override
+	public User checkPassword(User userps) {
+		User user = null;
+		try {
+			Query q = em.createNativeQuery("SELECT * FROM Users WHERE patient_dni = ? AND password = ?", User.class);
+			q.setParameter(1, userps.getUsername());
+			q.setParameter(2, userps.getPassword());
+			user = (User) q.getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+		return user;
+	}
+  @Override
+    public User checkPassword(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
 */

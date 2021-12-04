@@ -305,7 +305,7 @@ public class Menu {
                     String dni = ui.takeDNI(br, "Introduce your DNI:");
                     byte[] password = ui.takePasswordAndHashIt(br, "Introduce your password:");
                     User user = new User(dni, password);
-                    User userCheck = umi.checkPassword(user);
+                    User userCheck = umi.checkPasswordGood(user);
 
                     if (userCheck == null) {
                             wrongInfo();
