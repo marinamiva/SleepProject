@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -22,7 +24,98 @@ public class PatientManager implements PatientManagerInterface  {
 		this.c=connection;
 	}
 	
-	
+		
+            public void addDailyreport(Report rep) {
+		try {
+     
+			String sql = "INSERT INTO Reports (patient_dni, report_date, quality, exhaustion,hours,movement,time, rest,awake,times,worries, mood, doubts)"
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			PreparedStatement prep = c.prepareStatement(sql);
+                                                prep.setDate(2, (java.sql.Date) rep.getTodaysDate());
+			prep.setString(3, rep.getsleepQuality());
+			prep.setString(4, rep.getExhaustion());
+			prep.setString(5, rep.getAverageHours());
+                                                prep.setString(6, rep.getMovement());
+                                                prep.setString(7, rep.gettimeToFallAsleep());
+                                                prep.setString(8, rep.getRest());
+                                                prep.setString(9, rep.getStayAwake());
+                                                prep.setString(10, rep.getTimesAwake());
+                                                prep.setString(11, rep.getWorries());
+                                                prep.setString(12, rep.getTodaysMood());
+                                                prep.setString(13, rep.getdoubtsForDoctor());
+			prep.executeUpdate();
+			prep.close();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+			}
+	}
+            
+            public ArrayList<Report> reportHistory(){
+                ArrayList<Report> repList = new ArrayList<Report>();
+                
+		try {
+			String sql = "SELECT * FROM Reports";
+			PreparedStatement prep = c.prepareStatement(sql);
+			ResultSet rs = prep.executeQuery();
+			while (rs.next()) {
+				 java.util.Date repdate=rs.getDate("report_date");
+                                                                String quality=rs.getString("quality");
+                                                                String exhaust=rs.getString("exhaustion");
+                                                                String averageHours=rs.getString("hours");
+                                                                String movem=rs.getString("movement");
+                                                                String timeToFall=rs.getString("time");
+                                                                String res=rs.getString("rest");
+                                                                String awake=rs.getString("awake");
+                                                                String timAwake=rs.getString("times");
+                                                                String dreams=rs.getString("dreams");
+                                                                String worr=rs.getString("worries");
+                                                                String mood=rs.getString("mood");
+                                                                String doubts=rs.getString("doubts");
+                                                                Report repnew = new Report (repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake,dreams, worr, mood, doubts);
+                                                                repList.add(repnew);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return repList;
+	}
+
+            
+            
+            
+    @Override
+            public  Report getDailyReport(java.util.Date  dateReport){
+                Report newreport = new Report();
+                String sql = "SELECT * FROM Reports WHERE Report_date LIKE ?";
+        try {
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%"+dateReport+"%");
+            ResultSet rs = prep.executeQuery();
+            while(rs.next()){
+                java.util.Date repdate=rs.getDate("report_date");
+                            String quality=rs.getString("quality");
+                            String exhaust=rs.getString("exhaustion");
+                            String averageHours=rs.getString("hours");
+                            String movem=rs.getString("movement");
+                            String timeToFall=rs.getString("time");
+                            String res=rs.getString("rest");
+                            String awake=rs.getString("awake");
+                            String timAwake=rs.getString("times");
+                            String dreams=rs.getString("dreams");
+                            String worr=rs.getString("worries");
+                            String mood=rs.getString("mood");
+                            String doubts=rs.getString("doubts");
+                            newreport = new Report(repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake, dreams, worr, mood, doubts);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                return newreport;
+            }
+            
+            /*
 	public static Report viewReport(String dni, java.util.Date dateRep) {
             Report rep = new Report();
             Connection c1 = null;
@@ -40,8 +133,7 @@ public class PatientManager implements PatientManagerInterface  {
                         prep.setString(2, "%"+dateRep+"%");
 			ResultSet rs2 = prep.executeQuery();
                         while (rs.next()) {
-                            java.sql.Date datesql= (java.sql.Date) rs.getDate("report_date");
-                            java.util.Date  dat = new java.util.Date(datesql.getTime());
+                            java.util.Date repdate=rs.getDate("report_date");
                             String quality=rs.getString("quality");
                             String exhaust=rs.getString("exhaustion");
                             String averageHours=rs.getString("hours");
@@ -54,7 +146,7 @@ public class PatientManager implements PatientManagerInterface  {
                             String worr=rs.getString("worries");
                             String mood=rs.getString("mood");
                             String doubts=rs.getString("doubts");
-                            rep=new Report(dat,quality,exhaust,averageHours,movem,timeToFall,res,awake,timAwake,dreams,worr,mood,doubts);
+                            rep=new Report(repdate,quality,exhaust,averageHours,movem,timeToFall,res,awake,timAwake,dreams,worr,mood,doubts);
                         }
 				
 			
@@ -63,7 +155,8 @@ public class PatientManager implements PatientManagerInterface  {
 		}
             return rep;
 	}
-	
+	*/
+            
 	public  ArrayList<Patient> showPatients() {
 		ArrayList<Patient> patList = new ArrayList<Patient>();
                 //Connection c1 = null; //ESTO NO ES ASÍ, SÓLO QUE HAY QUE INICIALIZARLA PARA QUE NO DE ERROR
@@ -74,10 +167,13 @@ public class PatientManager implements PatientManagerInterface  {
 			while (rs.next()) {
 				int patId = rs.getInt("patient_id");
 				String patName = rs.getString("name");
-				String patAddress = rs.getString("lastname");
+				String patLastName = rs.getString("lastname");
 				String patTele = rs.getString("telephone");
-				
-				Patient newPatient = new Patient(patId, patName, patAddress, patTele);
+                                                                String patAddress = rs.getString("Address");
+                                                                java.util.Date patdob=rs.getDate("dob");
+                                                                String patdni = rs.getString("dni");
+				String patgender = rs.getString("gender");
+				Patient newPatient = new Patient(patId, patName, patLastName, patTele, patAddress, patdob,patdni, patgender);
 				patList.add(newPatient);
 			}
 
@@ -121,14 +217,14 @@ public class PatientManager implements PatientManagerInterface  {
 			ResultSet rs = prep.executeQuery();
 			
 			while(rs.next()) {
-				//int id = rs.getInt("patient_id");
+				int id = rs.getInt("patient_id");
 				String name = rs.getString("name");
 				String lastname = rs.getString("lastname");
                                 String tele = rs.getString("telephone");
                                 String address = rs.getString("address");
                                 java.util.Date dob=rs.getDate("dob");
                                 String gender = rs.getString("gender");
-				patientfound = new Patient(name,lastname,tele,address,dob,dni,gender);
+				patientfound = new Patient(id,name,lastname,tele,address,dob,dni,gender);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -136,23 +232,33 @@ public class PatientManager implements PatientManagerInterface  {
 		return patientfound;
          }
 
-	public static Patient getPatient(int pat_id) {
+	public  Patient getPatient(int pat_id) {
                 Patient pat = new Patient();
                 Connection c1 = null;
                 
 		try {
 			String sql = "SELECT * FROM Patients WHERE patient_id LIKE ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
+			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, pat_id);
 			ResultSet rs = prep.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("patient_id");
 				String name = rs.getString("name");
 				String lastname = rs.getString("lastname");
-                                String telephone = rs.getString("lastname");
+                                                                String telephone = rs.getString("telephone");
+                                                                String address = rs.getString("address");
+                                                                java.util.Date patdob=rs.getDate("dob");
+                                                                String dni = rs.getString("dni");
+                                                                String gender = rs.getString("gender");
+                                                                
+                                pat.setId(id);
                                 pat.setName(name);
                                 pat.setLastname(lastname);
                                 pat.setTelephone(telephone);
+                                pat.setAddress(address);
+                                pat.setDateOfBirth(patdob);
+                                pat.setDni(dni);
+                                pat.setGender(gender);
                                 
 			
 		}
@@ -162,7 +268,7 @@ public class PatientManager implements PatientManagerInterface  {
 		return pat;
 		
 	}
-
+/*
    public static ArrayList<Report> viewReportHistory(String dni) {
             
            ArrayList<Report> repList = new ArrayList<Report>(); 
