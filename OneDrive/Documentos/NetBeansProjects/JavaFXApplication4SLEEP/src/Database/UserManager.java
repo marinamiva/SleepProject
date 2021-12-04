@@ -31,6 +31,8 @@ public class UserManager implements UserManagerInterface {
         public UserManager(Connection con){
             this.c=con;
         }
+        
+        //ESTA FORMA DE HACERLO ES CON JPA Y NOSOTRAS ESTAMOS USANDO JDBCD, HAY QUE BUSCAR FORMA DE HACERLO EN JDBC
 	@Override
 	public void connect() {
 		em = Persistence.createEntityManagerFactory("SleepControlProjectPU").createEntityManager();

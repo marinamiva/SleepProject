@@ -4,10 +4,10 @@
     <provider>SleepControlProjectPU</provider>
     <class>Database.Persistence</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
-      <property name="javax.persistence.jdbc.user" value="app"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\marin\OneDrive\Documentos\.DG TELECO-BIOMED\5 CURSO\TELEMEDICINA\Project\SleepControlProject\SleepProject\OneDrive\Documentos\NetBeansProjects\JavaFXApplication4SLEEP\lib\db\SleepControlDB2.db"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>

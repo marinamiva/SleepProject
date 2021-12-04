@@ -42,6 +42,7 @@ public class Menu {
         //dbman.deleteTables();
         pmi = dbman.getPatientManager();
         umi=dbman.getUserManager();
+        //umi=new UserManager();
         umi.connect();
       
         br = new BufferedReader(new InputStreamReader(System.in));

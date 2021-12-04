@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Report implements Serializable{
     
-    
+    private String patdni;
     private Date todaysDate;
     private String sleepQuality; //Have you slept well during the night? yes or no
     private String exhaustion; //Do you feel exhausted like you didn’t sleep through the night? yes or no
@@ -44,7 +44,23 @@ public class Report implements Serializable{
         this.worries= worries;
         this.todaysMood= todaysMood;
         this.doubtsForDoctor=doubtsForDoctor;
-    }   
+    } 
+    public Report(String dni,Date todaysDate,String sleepQuality, String exhaustion,String averageHours,String movement,String timeToFallAsleep,String rest,String stayAwake, String timesAwake, String dreams, String worries, String todaysMood, String doubtsForDoctor){
+        this.patdni=dni;
+        this.todaysDate = todaysDate;
+        this.sleepQuality= sleepQuality;
+        this.exhaustion= exhaustion;
+        this.averageHours= averageHours;
+        this.movement= movement;
+        this.timeToFallAsleep= timeToFallAsleep;
+        this.rest= rest;
+        this.stayAwake= stayAwake;
+        this.timesAwake= timesAwake;
+        this.dreams= dreams;
+        this.worries= worries;
+        this.todaysMood= todaysMood;
+        this.doubtsForDoctor=doubtsForDoctor;
+    } 
         
         
     public Date getTodaysDate() {
