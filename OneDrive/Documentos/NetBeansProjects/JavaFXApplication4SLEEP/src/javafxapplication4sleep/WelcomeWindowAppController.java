@@ -5,10 +5,13 @@
  */
 package javafxapplication4sleep;
 
+import Client.Patient;
+import Database.PatientManager;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import static javafx.application.Application.launch;
 import javafx.collections.FXCollections;
@@ -35,7 +38,7 @@ public class WelcomeWindowAppController implements Initializable {
      * Initializes the controller class.
      */
     
-    ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "--");
+    //ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "--");
     
     @FXML private TextField Name;
     @FXML private TextField Lastname;
@@ -50,20 +53,26 @@ public class WelcomeWindowAppController implements Initializable {
     @FXML private Button LogIn;
     
     
+    String name, lastname, dni, telephone, adress, gender, datestring;
+    /*
     void actionSave (ActionEvent evento) throws ParseException {
-        //Patient.name=Name.getText();
-        //Patient.lastname=Lastname.getText();
-        //Patient.dni=DNI.getText();
-      //  Patient.telephone=Telephone.getText();
-        //Patient.address=Address.getText();
-    //    Patient.gender=Gender.getValue().toString();
-      //  String datestring=date.getValue().toString(); //Hay que elegir que lo hagan en un formato concreto (dd/mm/yyy)
-        //SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-    //    Patient.dateOfBirth= format.parse(datestring);
-     //   User.username=DNI.getText();
+        
+        Patient patient= new Patient(name, lastname, dni, telephone, adress, gender, dateOfBirth);
+        
+        
+        name=Name.getText();
+        lastname=Lastname.getText();
+        dni=DNI.getText();
+        telephone=Telephone.getText();
+        adress=Address.getText();
+        gender=Gender.getValue().toString();
+        datestring=date.getValue().toString(); //Hay que elegir que lo hagan en un formato concreto (dd/mm/yyy)
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        dateOfBirth= format.parse(datestring);
+        username=DNI.getText();
         //La contraseña no se
        
-    }
+    }*/
     
         void log(ActionEvent event) {
 
@@ -94,6 +103,7 @@ public class WelcomeWindowAppController implements Initializable {
         window.show();
        
     }
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

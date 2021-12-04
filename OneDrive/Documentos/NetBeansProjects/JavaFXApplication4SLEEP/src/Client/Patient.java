@@ -104,6 +104,7 @@ public class Patient implements Serializable {
         this.telephone = telephone;
     }
 
+
     public static void createFile(List recordedSignals) { //calls for the recorded frame everytime
 
         FileWriter flwriter = null;

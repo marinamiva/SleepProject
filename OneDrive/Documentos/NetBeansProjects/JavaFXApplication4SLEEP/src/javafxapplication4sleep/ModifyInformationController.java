@@ -6,6 +6,11 @@
 package javafxapplication4sleep;
 
 
+import Client.Patient;
+import Database.DBManager;
+import Database.DBManagerInterface;
+import Database.PatientManager;
+import Database.PatientManagerInterface;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -45,13 +50,17 @@ public class ModifyInformationController implements Initializable {
     @FXML private DatePicker DOB;
     @FXML private Button saveModifiedinfo;
     @FXML private Button Back; 
+    @FXML private Label saved;
     
 
     
 String name1,lastname1,dni1,telephone1,address1,gender1,username1;
 Date date1;
+
+private static Database.DBManagerInterface dbman;
+private static PatientManagerInterface pmi;
     
-    @FXML void actionSave (ActionEvent evento) throws ParseException {
+    public void actionSave (ActionEvent evento) throws ParseException {
         name1=Name.getText();
         lastname1=Lastname.getText();
         dni1=DNI.getText();
@@ -62,8 +71,21 @@ Date date1;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         date1= format.parse(datestring);
         username1=DNI.getText();
-        //La contraseña no se
-       //Patient patient1 = new Patient(name1,lastname1,telephone1,address1,date1,dni1,gender1);
+        
+       dbman = new DBManager();
+        dbman.connect();
+       // dbm.createTables();
+        pmi = dbman.getPatientManager();
+        
+       Patient patient1 = new Patient(name1,lastname1,telephone1,address1,date1,dni1,gender1);
+       //saved.setText("Saved Correctly");
+       /*
+            REVISAR TODO ESTO PORQUE NO HAY UN WHILE CREADO EN LA FUNCION Y NO SE SI PUEDO TOCARLA PARA QUE
+            DEVUELVA TRUE SI SE HA GUARDADO O FALSE Y SEGUN ESO VER QUE MENSAJE DEVOLVER.
+       */
+       
+       pmi.addpatientbyRegister(patient1);
+       
     }
     public void start(Stage primaryStage) throws Exception {
 

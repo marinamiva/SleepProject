@@ -32,8 +32,9 @@
             <TextField layoutX="131.0" layoutY="213.0" promptText="Address" />
             <ChoiceBox fx:id="Gender" layoutX="131.0" layoutY="247.0" prefWidth="150.0" />
             <DatePicker layoutX="131.0" layoutY="285.0" promptText="dd/mm/yyyy" />
-            <Button layoutX="356.0" layoutY="285.0" mnemonicParsing="false" text="Save modified information" />
+            <Button fx:id="saveModifiedinfo" layoutX="356.0" layoutY="285.0" mnemonicParsing="false" onAction="#actionSave" text="Save modified information" />
             <Button layoutX="37.0" layoutY="331.0" mnemonicParsing="false" onAction="#goBackClientMenu" text="Back" />
+            <Label layoutX="356.0" layoutY="323.0" prefHeight="16.0" prefWidth="149.0" />
          </children>
       </AnchorPane>
    </children>

@@ -48,15 +48,15 @@ public class GetStartedController implements Initializable {
         
     }
        @FXML
-    private void gotoWelcome(ActionEvent event) throws IOException {
+    private void gotoIP(javafx.event.ActionEvent event) throws IOException {
         
-        Parent root = FXMLLoader.load(getClass().getResource("WelcomeWindowApp.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("IpAdding.fxml"));
         
-        Scene Loginscene = new Scene(root);
+        Scene IPscene = new Scene(root);
         
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         
-        window.setScene(Loginscene);
+        window.setScene(IPscene);
         window.show();
        
     }
