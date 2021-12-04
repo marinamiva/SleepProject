@@ -6,6 +6,8 @@
 package Client;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -143,5 +145,84 @@ public class ui {
 		return num;
 
 	}
+    
+    public static int takeInteger(BufferedReader reader, String text) {
+		boolean check = false;
+		int data = 0;
+
+		System.out.println(text);
+
+		while (!check || data < 0) {
+			try {
+				data = Integer.parseInt(reader.readLine());
+				check = true;
+			} catch (IOException ex) {
+				System.out.println("Error reading");
+			} catch (NumberFormatException nfex) {
+				System.out.println("You have not introduced a Integer, you must do it.");
+				System.out.println(text);
+			}
+
+		}
+		return data;
+	}
+
+    public static boolean CheckOption(int num, int max) {
+		if (num > max || num < 0) {
+			System.out.println("This number is not an option");
+			System.out.println("The number must be between 1 and " + max);
+			System.out.println("Try again!");
+			return true;
+		} else {
+			return false;
+		}
+	}
+    public static byte[] takePasswordAndHashIt(BufferedReader reader, String text) {
+		System.out.println(text);
+		byte[] returnValue = null;
+		try {
+			String password = reader.readLine();
+			// Create the password's hash
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			returnValue = md.digest();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnValue;
+
+	}
+    public static boolean areYouSure(BufferedReader reader, String text) {
+		boolean resp = false;
+		boolean loop = false;
+		String answer = "";
+		try {
+			do {
+				System.out.println(text + " (yes/no):");
+				answer = reader.readLine();
+				if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("no")) {
+					loop = false;
+					if (answer.contains("yes")||answer.contains("Yes")||answer.contains("YES")) {
+						resp = true;
+					} else {
+						resp = false;
+					}
+				} else {
+					System.out.println("The answer is not correct. Try again.");
+					loop = true;
+				}
+
+			} while (loop);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return resp;
+	}
+    
 
 }

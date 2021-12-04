@@ -14,13 +14,9 @@ public class DBManager implements DBManagerInterface {
 
 
     
-    public static void main(String[] args) {
-        DBManager dbmanager = new DBManager();
-        dbmanager.connect();
-    }       
-    
-    private Connection c;
+   private Connection c;
     private PatientManager patient;
+    private UserManager user;
     //private UserManager user;
 
     public DBManager() {
@@ -29,18 +25,13 @@ public class DBManager implements DBManagerInterface {
 
     public void connect() {
         try {
-            // Open database connection
-            //System.out.println("donde estoy");
-          //Class.forName("org.sqlite.JDBC");
-          //Class.forName("org.sqlite.Driver");
             String url = "jdbc:sqlite:lib/db/SleepControlDB2.db";
             c = DriverManager.getConnection(url);
 
             c.createStatement().execute("PRAGMA foreign_keys=ON");
 
-            // create PatientManager
             patient = new PatientManager(c);
-            //user = new UserManager(c);
+            user = new UserManager(c);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,6 +143,10 @@ public class DBManager implements DBManagerInterface {
     public PatientManager getPatientManager() {
         return patient;
     }
+    @Override
+    public UserManager getUserManager() {
+        return user;
+    }
 
     @Override
     public int getLastId() {
@@ -191,5 +186,6 @@ public class DBManager implements DBManagerInterface {
             e.printStackTrace();
         }
     }
+
 
 }

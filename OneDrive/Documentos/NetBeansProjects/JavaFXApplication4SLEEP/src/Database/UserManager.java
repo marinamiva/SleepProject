@@ -27,6 +27,10 @@ public class UserManager implements UserManagerInterface {
 	private EntityManager em;
         private Connection c;
 	
+        
+        public UserManager(Connection con){
+            this.c=con;
+        }
 	@Override
 	public void connect() {
 		em = Persistence.createEntityManagerFactory("SleepControlProjectPU").createEntityManager();
@@ -48,7 +52,7 @@ public class UserManager implements UserManagerInterface {
 	}
         @Override
 	public User getUserByDNI(String dni) {
-		Query q = em.createNativeQuery("SELECT username, password, from patients WHERE username =?", User.class);
+		Query q = em.createNativeQuery("SELECT patient_dni, password, from Users WHERE patient_dni =?", User.class);
 		q.setParameter(1,dni);   
 		User user = (User) q.getSingleResult();
 		return user;	
@@ -68,32 +72,16 @@ public class UserManager implements UserManagerInterface {
 	public User checkPassword(User userps) {
 		User user = null;
 		try {
-			Query q = em.createNativeQuery("SELECT * FROM Users WHERE username = ? AND password = ?", User.class);
+			Query q = em.createNativeQuery("SELECT * FROM Users WHERE patient_dni = ? AND password = ?", User.class);
 			q.setParameter(1, userps.getUsername());
 			q.setParameter(2, userps.getPassword());
 			user = (User) q.getSingleResult();
 		} catch (NoResultException nre) {
-			// This is what happens when no result is retrieved
 			return null;
 		}
 		return user;
 	}
-        
-            @Override
-        public void updateUser(String username, byte[] password, int num){
-            
-                Query q = em.createNativeQuery("SELECT * FROM User WHERE id = ?", User.class);
-                q.setParameter(1, username);
-                q.setParameter(2, password);
-                q.setParameter(3, num);
-		User u = (User) q.getSingleResult();
-		em.getTransaction().begin(); // Begin transaction
-		// Make changes
-		u.setUsername(username);
-                u.setPassword(password);
-		em.getTransaction().commit();
-		em.close(); // Close the entity manager
-        }
+
 
 
 }

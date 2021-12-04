@@ -4,81 +4,146 @@
  * and open the template in the editor.
  */
 package Database;
-
-import Client.Patient;
-import Client.Report;
-import Client.ui;
-import java.io.BufferedReader;
-import java.io.IOException;
+import Client.*;
+import static Client.ConnectionServer.*;
+import static Client.ui.areYouSure;
+import java.io.*;
 import java.util.Scanner;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
-
+/**
+ *
+ * @author marin
+ */
 public class Menu {
-
     private Connection c;
     private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private static UserManagerInterface umi;
     private static BufferedReader br;
     private  PatientManager pm;
+    private static Patient patientUsing = new Patient();
+    private static int num,numUsing;
+    private static boolean inUse;
+    private static boolean logged;
+    private static String ipString;
+    private static InetAddress ip;
 
     public static void main(String[] args) throws IOException, ParseException, Exception {
         dbman = new DBManager();
         dbman.connect();
         dbman.createTables();
         //dbman.deleteTables();
-      pmi = dbman.getPatientManager();
+        pmi = dbman.getPatientManager();
+        umi=dbman.getUserManager();
+        umi.connect();
       
-      
-
         br = new BufferedReader(new InputStreamReader(System.in));
-
         Scanner sc = new Scanner(System.in);
-
+        
+        inUse=false;
+        logged=false;
+        int max;
+        System.out.println("WELCOME TO SLEEP CONTROL\n");
+        System.out.println("Please, introduce the IP you are connected with: ");
+        ipString=sc.next();
+        ip=InetAddress.getByName(ipString);
         while(true){
-        System.out.println("Hello, type the option you want: 1. Add patient \n 2. Search patient by DNI: \n 3. Show patients: \n 4.Get patient by its id \n 5. Add Report \n 6.Report History \n 7. Get report\n ");
-        int number = sc.nextInt();
-        
-        
-        switch (number) {
+            System.out.println("Do you want to register or login?\n"+"1.Register.\n"+"2.Login.");
+            max=2;
+            if(logged){
+                System.out.println("3.View your report history.\n"+"4.do your daily report.\n"+"5. Modify your personal information.\n"+"6.View your actual EEG.\n"+"7.View your EEG history.\n"+"8.Send EEG right now.");
+                System.out.println("0. Log out.\n");
+                sendPatient(patientUsing,ip);
+                max=8;
+            }
+            System.out.println("0. Exit.\n");
+            num=requestNumber(max);
+            inUse=true;
+            numUsing=num;
+            while(inUse){
+                switch(numUsing){
+                    case 1:
+                        addPatientByRegister();
+                        break;
+                    case 2:
+                        login(); 
+                        break;
+                    case 3:
+                        reportHistory(); 
+                        break;
+                    case 4:
+                        addDailyReport(); 
+                        break;
+                    case 5: 
+                        modifyInformation(); 
+                        break;
+                    case 6:
+                        //viewEEG(); 
+                        break;
+                    case 7:
+                        //viewEEGHistory();
+                        break;
+                    case 8:
+                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
+                       if(sure){
+                          sendPatient(patientUsing,ip);
+                        //sendEEG(EEG,ip); 
+                       }
+                        break;
+                    case 0: 
+                        dbman.disconnect();
+                        //umi.disconnect();
+                        System.exit(0);
+                        break;
+                     
+                    default:
+                        inUse=false;
+                        logged=false;
+                        break;
+                }
+                break;
+            }
+      
+            pressEnter();
+    }
 
-            case 1:
-                addPatient();
-                break;
-            case 2: 
-                searchbyDNI();
-                break;
-            case 3: 
-                showPatients();
-                break;
-            case 4:
-                getPatientbyId();
-                break;
-            case 5:
-                addDailyReport();
-                break;
-            case 6:
-                reportHistory();
-                break;
-            case 7:
-                getReport();
-                break;
+    }
+    
+  
+    public static void addPatientByRegister() throws IOException, ParseException{
+        try{
+        Patient newpat = null;
+        System.out.println("Type your name: ");
+        String name = br.readLine();
+        System.out.println("Type your lastname:");
+        String lastname = br.readLine();
+        String telephone = ui.takeTelephone(br,"Type your telephone:");
+        System.out.println("Type your address: ");
+        String address = br.readLine();
+        LocalDate data= ui.takeDate(br,"Type your Date of Birth (followed by yyyy-MM-dd)");
+        java.util.Date dob = java.sql.Date.valueOf(data);
+        String dni = ui.takeDNI(br,"Type your DNI (numeric only)");
+        String gender = ui.takeGender(br, "Type your gender: ");
+        newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
+        byte[] password = ui.takePasswordAndHashIt(br, "Introduce a password:");
+        User user = new User(telephone, password);
+	umi.createUser(user);
+        
+        System.out.println("\nYOUR INFORMATION IS: " + newpat+"\n");
+        pmi.addpatientbyRegister(newpat);
+    
+        
+        }catch(NullPointerException e){
+            e.printStackTrace(); 
         }
-
     }
-
-    }
-    
-    
     public static void addPatient() throws IOException, ParseException {
         try{
         Patient newpat = null;
@@ -110,29 +175,7 @@ public class Menu {
         System.out.println("The patient is:" +newpat.toString());
        
     }
-    
-    public static void showPatients(){ 
-        ArrayList<Patient> pats = new ArrayList<Patient>();
-        
-        Patient newpat;
-        pats = pmi.showPatients();
-        Iterator it = pats.iterator();
-        
-        while(it.hasNext()){
-            newpat = (Patient) it.next();
-            System.out.println(newpat.toString());
-            System.out.println("");
-        }
-}
-    
-    public static void getPatientbyId(){
-        System.out.println("Type the id of the patient you want to get");
-        Scanner sc = new Scanner (System.in);
-        int idpat = sc.nextInt();
-        
-        Patient newpatObtained = pmi.getPatient(idpat);
-        System.out.println("The patient is: " +newpatObtained);
-    }
+
     
     public static void addDailyReport() throws IOException{
         
@@ -140,7 +183,7 @@ public class Menu {
         java.util.Date todaysdate = java.sql.Date.valueOf(data);
         System.out.println("Have you slept well during the night?");
         String quality = br.readLine();
-        System.out.println("Do you feel exhausted like you didn’t sleep through the night?");
+        System.out.println("Do you feel exhausted like you didnâ€™t sleep through the night?");
         String exhausted = br.readLine();
         System.out.println("What is the average of hours you sleep daily?");
         String avgHours = br.readLine();
@@ -163,7 +206,8 @@ public class Menu {
         System.out.println("Doubts for the doctor");
         String doubtsDoctor = br.readLine();
         
-        Report newRep = new Report(todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor );
+        Report newRep = new Report(todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor);
+        sendReport(newRep,ip);
         System.out.println("The report introduced is" +newRep);
         pmi.addDailyreport(newRep);
         System.out.println("Report added succesfully");
@@ -191,5 +235,87 @@ public class Menu {
           }
        }
        
+       public static void modifyInformation() throws IOException{
+           System.out.println(patientUsing.toString());
+           System.out.println("\nThis is your personal information, what do you want to change?\n");
+           System.out.println("1.Name.\n"+"2.Lastname.\n"+"3.Telephone.\n"+"4.Address.\n"+"5.Nothing, going back.");
+           int number=requestNumber(5);
+           switch(number){
+               case 1:
+                   System.out.println("Introduce your new name: ");
+                   String nam=br.readLine();
+                   patientUsing.setName(nam);
+                   break;
+               case 2:
+                   System.out.println("Introduce your new lastname: ");
+                   String las=br.readLine();
+                   patientUsing.setLastname(las);
+                   break;
+               case 3:
+                   System.out.println("Introduce your new telephone: ");
+                   String tel=br.readLine();
+                   patientUsing.setTelephone(tel);
+                   break;
+               case 4:
+                   System.out.println("Introduce your new address: ");
+                   String ad=br.readLine();
+                   patientUsing.setAddress(ad);
+                   break;   
+               case 5:
+                   break;
+           } 
+           
+       }
+       public static int requestNumber(int max) {
+		// int max is the maximum option that is acceptable
+		int num;
+		do {
+
+			num = ui.takeInteger(br, "Introduce the number: ");
+
+		} while (ui.CheckOption(num, max));
+
+		return num;
+	}
+       public static void login(){ // hacer option para go back
+            boolean check = true;
+                    String dni = ui.takeDNI(br, "Introduce your DNI:");
+                    byte[] password = ui.takePasswordAndHashIt(br, "Introduce your password:");
+                    User user = new User(dni, password);
+                    User userCheck = umi.checkPassword(user);
+
+                    if (userCheck == null) {
+                            wrongInfo();
+                            int option = requestNumber(2);
+                            switch (option) {
+                            case 1:
+                                    break;
+                            case 0:
+                                    System.out.println("Press 0 to go back");
+                                    check = false;
+                            }
+                    } else {
+
+                        System.out.println("Welcome patient!");
+                        patientUsing = pmi.searchSpecificPatientByDNI(dni);
+                        logged = true;
+                        check = false;
+                    }
+                
+       }
+       public static void pressEnter() {
+		System.out.println("Press enter to go to the main menu and continue.");
+		try {
+			String nothing;
+			nothing = br.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+       public static void wrongInfo() {
+		System.out.println("Wrong credentials, please select an option: ");
+		System.out.println("1. Introduce them again. ");
+		System.out.println("0. Go back to the menu. ");
+	}
        
 }

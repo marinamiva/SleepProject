@@ -20,8 +20,6 @@ public interface UserManagerInterface {
 	public User checkPassword(User user);
         
         public User getUserByDNI(String dni);
-
-	public void updateUser(String username, byte[] password, int num);
         
 	public void deleteUser(User user);
 

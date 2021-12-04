@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class User implements Serializable { 
     
-    private String username;
+   private String username;
     private byte[] password;
     
     private static final long serialVersionUID = -1;
@@ -71,7 +71,7 @@ public class User implements Serializable {
         });
     }
 
-    ESTO DE ARRIBA NO SABEMOS AÚN Y TIENE QUE VER CON LOS SOCKETS PERO SI NO DA EL ERROR LO DE LA CONTRASEÑAA!!
+    ESTO DE ARRIBA NO SABEMOS AÃšN Y TIENE QUE VER CON LOS SOCKETS PERO SI NO DA EL ERROR LO DE LA CONTRASEÃ‘AA!!
     */
     
     public String getUsername() {
@@ -119,6 +119,5 @@ public class User implements Serializable {
         }
         return true;
     }
-    
     
 }

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 
 public class ConnectionServer {
-     public static void sendPatient(Patient patient){
+    public static void sendPatient(Patient patient, InetAddress ip){
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut = null;
@@ -29,7 +29,7 @@ public class ConnectionServer {
         OutputStream outputStream = null;
         
         try {
-            socketSender = new Socket("localhost", 9010);
+            socketSender = new Socket(ip, 9010);
             print=new PrintWriter(socketSender.getOutputStream(),true);
             print.println(patient.getName());
             print.println(patient.getLastname());
@@ -44,7 +44,7 @@ public class ConnectionServer {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
         } 
     }
-    public static void sendReport(Report rep){
+    public static void sendReport(Report rep,InetAddress ip){
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut = null;
@@ -56,11 +56,11 @@ public class ConnectionServer {
         OutputStream outputStream = null;
         
         try {
-            socketSender = new Socket("localhost", 9010);
+            socketSender = new Socket(ip, 9010);
             print=new PrintWriter(socketSender.getOutputStream(),true);
             //String date,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
             Date dat=rep.getTodaysDate();
-            SimpleDateFormat formato=new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
             String date=formato.format(dat);
             print.println(date);
             print.println(rep.getsleepQuality());
@@ -84,7 +84,7 @@ public class ConnectionServer {
     }
      
     //NO ESTA HECHO TENGO QUE BUSCAR EL PASAR DE OBJECT A FILE!!
-    public static void sendEEG(EEG eeg){
+    public static void sendEEG(EEG eeg,InetAddress ip){
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut = null;
@@ -96,7 +96,7 @@ public class ConnectionServer {
         OutputStream outputStream = null;
         
         try {
-            socketSender = new Socket("localhost", 9010);
+            socketSender = new Socket(ip, 9010);
             print=new PrintWriter(socketSender.getOutputStream(),true);
             objectOut=new ObjectOutputStream(socketSender.getOutputStream());
             //FileInputStream fis=(new FileInputStream(eeg.getFile());
@@ -108,25 +108,27 @@ public class ConnectionServer {
         } 
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, ParseException {
-        //el paciente serÃ­a obtenerlo de la base de datos pero ahora para probar lo creo:
+    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException {
+        //el paciente serÃƒÂ­a obtenerlo de la base de datos pero ahora para probar lo creo:
+        String ipString="10.61.84.50";
+        InetAddress ip1=InetAddress.getByName(ipString);
         Patient patient = new Patient("marina", "miguelez", "672", "mad","715", "female");
-        sendPatient(patient);
+        sendPatient(patient,ip1);
         Date dat=new Date("20-02-2021");
         Report report = new Report(dat,"jg","jh","jg","jh","jg","jh","jg","jh","jg","jh","jg","jh");
-        sendReport(report);
+        sendReport(report,ip1);
         
     }
 
     /**
-     * EnvÃ­a al servidor un paciente elegido por su DNI y el EEG de la fecha seleccionada.
+     * EnvÃƒÂ­a al servidor un paciente elegido por su DNI y el EEG de la fecha seleccionada.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
  /* public void sendEEG() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃƒÂ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -168,14 +170,14 @@ public class ConnectionServer {
         }
 }
     /**
-     * EnvÃ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay EEG y sus nombres.
+     * EnvÃƒÂ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay EEG y sus nombres.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
  /*public void sendClientandHistoryEEG() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃƒÂ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -200,7 +202,7 @@ public class ConnectionServer {
             while((newpat= ois.readObject())!= null){
                 
                 
-                ArrayList<EEG> eegs = PatientManager.viewEEGHistory(dni); //El mÃ©todo sÃ­ existe no sÃ© por quÃ© da error!
+                ArrayList<EEG> eegs = PatientManager.viewEEGHistory(dni); //El mÃƒÂ©todo sÃƒÂ­ existe no sÃƒÂ© por quÃƒÂ© da error!
                 objectOut.writeObject(reports);
             }
         }catch(IOException ex){
@@ -212,14 +214,14 @@ public class ConnectionServer {
         }
 }
     /**
-     * EnvÃ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay Report y sus nombres.
+     * EnvÃƒÂ­a al servidor un paciente elegido por su DNI y una tabla de todas las fechas en las que hay Report y sus nombres.
      * @throws java.lang.ClassNotFoundException
      * @throws java.text.ParseException
      */
  /*public void sendClientandHistoryReport() throws ClassNotFoundException, ParseException{
 
         try{
-            serversocket = new ServerSocket(9000); //podrÃ­a poner socketReceiver.getPort();
+            serversocket = new ServerSocket(9000); //podrÃƒÂ­a poner socketReceiver.getPort();
             socketReceiver = serversocket.accept();
             is = socketReceiver.getInputStream();
             
@@ -287,6 +289,8 @@ public class ConnectionServer {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 
 
     
