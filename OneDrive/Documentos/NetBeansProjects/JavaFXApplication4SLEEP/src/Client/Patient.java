@@ -33,7 +33,8 @@ public class Patient implements Serializable {
     private Date dateOfBirth;
     private String dni;
     private String gender;
-    private List<Integer> recordedSignals;
+    private  List<Integer> recordedEEG;
+    private  List<Integer> recordedLUX;
 
     public Patient() {
         super();
@@ -66,7 +67,7 @@ public class Patient implements Serializable {
         this.gender = gender;
     }
 
-    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Integer> recordedSignals) {
+    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Integer> recordedEEG, List<Integer> recordedLUX) {
 
         this.name = name;
         this.lastname = lastname;
@@ -75,7 +76,9 @@ public class Patient implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.dni = dni;
         this.gender = gender;
-        this.recordedSignals = new ArrayList();
+        this.recordedEEG = new ArrayList();
+        this.recordedLUX = new ArrayList();
+        
     }
 
     public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender) {
@@ -106,17 +109,23 @@ public class Patient implements Serializable {
     }
 
 
-    public static void createFile(List recordedSignals) { //calls for the recorded frame everytime
+    public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
 
         FileWriter flwriter = null;
         try {
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
-            int size = recordedSignals.size();
+            int size = EEG.size();
             for (int i = 0; i < size; i++) {
-                String str = recordedSignals.get(i).toString();
-                bfwriter.write(str + System.lineSeparator());
+                String str = EEG.get(i).toString();
+                String str2 = LUX.get(i).toString();
+                //recordedEEG.add(EEG.get(i));
+                //recordedLUX.add(LUX.get(i));
+                bfwriter.write(str + "\t" + str2 + System.lineSeparator());
+                //System.out.println(recordedEEG);
+                //System.out.println(recordedLUX);
             }
+            
             bfwriter.flush();
             bfwriter.close();
             System.out.println("File was successfully created..");
@@ -238,12 +247,20 @@ public class Patient implements Serializable {
         return newreport;
     }
 
-    public List<Integer> getRecordedSignals() {
-        return recordedSignals;
+    public List<Integer> getRecordedEEG() {
+        return recordedEEG;
     }
 
-    public void setRecordedSignals(List<Integer> recordedSignals) {
-        this.recordedSignals = recordedSignals;
+    public void setRecordedEEG(List<Integer> recordedEEG) {
+        this.recordedEEG = recordedEEG;
+    }
+
+    public List<Integer> getRecordedLUX() {
+        return recordedLUX;
+    }
+
+    public void setRecordedLUX(List<Integer> recordedLUX) {
+        this.recordedLUX = recordedLUX;
     }
 
 
@@ -317,7 +334,7 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedSignals=" + recordedSignals + '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedEEG=" + recordedEEG +", recordedLUX=" +recordedLUX+ '}';
     }
 
    

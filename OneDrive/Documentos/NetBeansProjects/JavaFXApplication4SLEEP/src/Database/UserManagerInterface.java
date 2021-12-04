@@ -4,23 +4,24 @@
  * and open the template in the editor.
  */
 package Database;
+
 import java.util.List;
 import Client.User;
 
-
-
 public interface UserManagerInterface {
-    
-	public void connect();
 
-	public void disconnect();
+    public void connect();
 
-	public void createUser(User user);
+    public void disconnect();
 
-	public User checkPassword(User user);
-        
-        public User getUserByDNI(String dni);
-        
-	public void deleteUser(User user);
+    public void createUser(User user);
+
+    public User checkPassword(User user);
+
+    public User getUserByDNI(String dni);
+
+    public void deleteUser(User user);
+
+    public void createUserRegister(User newuser);
 
 }

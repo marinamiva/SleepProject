@@ -19,12 +19,18 @@ import javax.persistence.Query;
 
 import Client.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
 
 public class UserManager implements UserManagerInterface {
 	private EntityManager em;
+        private static final String URL = "jdbc:sqlite:lib/db/SleepControlDB2.db";
         private Connection c;
 	
         
@@ -35,23 +41,42 @@ public class UserManager implements UserManagerInterface {
         //ESTA FORMA DE HACERLO ES CON JPA Y NOSOTRAS ESTAMOS USANDO JDBCD, HAY QUE BUSCAR FORMA DE HACERLO EN JDBC
 	@Override
 	public void connect() {
-		em = Persistence.createEntityManagerFactory("SleepControlProjectPU").createEntityManager();
-		em.getTransaction().begin();
-		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-		em.getTransaction().commit();
+            
+            try {
+                c = DriverManager.getConnection(URL);
+                c.createStatement().execute("PRAGMA foreign_keys=ON");
+
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
-	@Override
-	public void disconnect() {
-		em.close();
-	}
+            public void disconnect() {
+                try {
+                    // Close database connection
+                    c.close();
+                    // System.out.println("Database connection closed.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-	@Override
-	public void createUser(User user) {
-		em.getTransaction().begin();
-		em.persist(user);
-		em.getTransaction().commit();
-	}
+            }
+                
+            
+        @Override
+            public void createUserRegister(User newuser){
+                try{
+                    String sql = "INSERT INTO Users (patient_dni, password) VALUES (?,?)";
+                    PreparedStatement prep = c.prepareStatement(sql);
+                    prep.setString(1, newuser.getUsername());
+	    prep.setString(2, new String(newuser.getPassword()));
+                    prep.executeUpdate();
+                    prep.close();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+
         @Override
 	public User getUserByDNI(String dni) {
 		Query q = em.createNativeQuery("SELECT patient_dni, password, from Users WHERE patient_dni =?", User.class);
@@ -84,6 +109,29 @@ public class UserManager implements UserManagerInterface {
 		return user;
 	}
 
+    @Override
+    public void createUser(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
 
 
 }
+
+
+
+/*
+@Override
+	public void createUser(User user) {
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+	}
+
+@Override
+    public void createUser(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+*/

@@ -92,6 +92,9 @@ public class Menu {
                         //viewEEGHistory();
                         break;
                     case 8:
+                        addUser();
+                        break;
+                    case 9:
                         boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
                           sendPatient(patientUsing,ip);
@@ -134,8 +137,8 @@ public class Menu {
         String gender = ui.takeGender(br, "Type your gender: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
         byte[] password = ui.takePasswordAndHashIt(br, "Introduce a password:");
-        User user = new User(telephone, password);
-	umi.createUser(user);
+        User user = new User(dni, password);
+	umi.createUserRegister(user);
         
         System.out.println("\nYOUR INFORMATION IS: " + newpat+"\n");
         pmi.addpatientbyRegister(newpat);
@@ -168,6 +171,25 @@ public class Menu {
         e.printStackTrace(); 
     }
     }
+    
+    public static void addUser(){
+       
+        try{
+            User newuser=null;
+            System.out.println("Introduce the DNI of the patient, as username (without letters)");
+            String dniuser = br.readLine();
+            System.out.println("Introduce the password of the patient");
+            String pass = br.readLine();
+            byte[] password = ui.takePasswordAndHashIt(br, "Add the password you want:");
+            newuser = new User(dniuser, password);
+            System.out.println("The user added is:" +newuser);
+            umi.createUserRegister(newuser);
+            //Byte[] pass = (String ) br.readLine();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+    
     
     public static void searchbyDNI() throws IOException{
         System.out.println("Type the dni of the patient you want to search" );

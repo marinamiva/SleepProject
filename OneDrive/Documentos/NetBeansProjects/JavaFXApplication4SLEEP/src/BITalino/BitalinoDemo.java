@@ -14,7 +14,8 @@ public class BitalinoDemo {
 
     public static Frame[] frame;
     public static List<Integer> values = new ArrayList();
-
+    public static List<Integer> values2 = new ArrayList();
+    
     public static void main(String[] args) {
 
         BITalino bitalino = null;
@@ -55,10 +56,12 @@ public class BitalinoDemo {
                     //  + frame[i].analog[5]
                     );
                 values.add(frame[i].analog[0]);
+                values2.add(frame[i].analog[1]);
                 }               
             }
             
-            Patient.createFile(values);
+            Patient.createFile(values, values2);
+            
 
             // values.add(frame);
              //Patient.createFile(frame);
