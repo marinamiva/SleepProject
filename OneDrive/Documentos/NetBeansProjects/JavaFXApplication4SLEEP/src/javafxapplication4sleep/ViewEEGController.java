@@ -5,6 +5,7 @@
  */
 package javafxapplication4sleep;
 
+import Database.PatientManagerInterface;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.scene.control.*;
 import java.util.Date;
 import static javafx.application.Application.launch;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 /**
@@ -34,7 +36,7 @@ public class ViewEEGController implements Initializable {
     @FXML private LineChart eegtablevalues;
     @FXML private Button goBack;
     
-    
+   private static PatientManagerInterface pmi;
     
        public void start(Stage primaryStage) throws Exception {
 
@@ -63,7 +65,9 @@ public class ViewEEGController implements Initializable {
             
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+       XYChart.Series series = new  XYChart.Series<>();
+      //series.getData().add(pmi.viewEEG(dni, date)); // o sería agregandole aqui cada valor del bitalino que va recording 
     }    
     
 }

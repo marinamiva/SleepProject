@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 
@@ -74,6 +76,38 @@ public class PatientManager implements PatientManagerInterface  {
                     Report repnew = new Report (dni1,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake,dreams, worr, mood, doubts);
                     repList.add(repnew);
                 }
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return repList;
+    }
+    
+     //This method is exclusively for the graphical interface part, it is just used there 
+    public  ObservableList<Report> showReports() {
+        ObservableList<Report> repList = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT * FROM Reports";
+            PreparedStatement prep = c.prepareStatement(sql);
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()) {
+                String dnipat = rs.getString("patient_dni");
+                java.util.Date repdate=rs.getDate("report_date");
+                 String quality=rs.getString("quality");
+                    String exhaust=rs.getString("exhaustion");
+                    String averageHours=rs.getString("hours");
+                    String movem=rs.getString("movement");
+                    String timeToFall=rs.getString("time");
+                    String res=rs.getString("rest");
+                    String awake=rs.getString("awake");
+                    String timAwake=rs.getString("times");
+                    String dreams=rs.getString("dreams");
+                    String worr=rs.getString("worries");
+                    String mood=rs.getString("mood");
+                    String doubts=rs.getString("doubts");
+                    Report repnew = new Report (dnipat,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake,dreams, worr, mood, doubts);
+                    repList.add(repnew);
+            }
 
         } catch (Exception e) {
                 e.printStackTrace();

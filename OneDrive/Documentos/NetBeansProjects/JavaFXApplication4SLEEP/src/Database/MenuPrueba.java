@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 
@@ -122,8 +124,7 @@ public class MenuPrueba {
             System.out.println("");
         }
 }
-    
-    
+   
     
     public static void addDailyReport(String dni) throws IOException{
         
@@ -184,3 +185,17 @@ public class MenuPrueba {
        
        
 }
+
+
+/*    public static void showReports(){
+        ObservableList reps = FXCollections.observableArrayList();
+        Report newrep;
+        reps = pmi.showReports();
+        Iterator it = reps.iterator();
+        
+        while(it.hasNext()){
+            newrep = (Report) it.next();
+            System.out.println(newrep.toString());
+            System.out.println("");
+    }
+    }*/

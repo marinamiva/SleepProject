@@ -7,17 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="javafxapplication4sleep.ReportHistoryController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication4sleep.ReportHistoryController">
    <children>
-      <TableView layoutX="120.0" layoutY="118.0" prefHeight="200.0" prefWidth="339.0">
+      <TableView layoutX="21.0" layoutY="101.0" prefHeight="217.0" prefWidth="562.0">
         <columns>
           <TableColumn prefWidth="75.0" text="DATE" />
-          <TableColumn prefWidth="231.0" text="REPORT " />
+            <TableColumn prefWidth="75.0" text="QUALITY" />
+            <TableColumn prefWidth="75.0" text="EXHAUSTION" />
+            <TableColumn prefWidth="75.0" text="HOURS" />
+            <TableColumn prefWidth="75.0" text="MOVEMENT" />
         </columns>
       </TableView>
       <Button layoutX="48.0" layoutY="340.0" mnemonicParsing="false" onAction="#goBackClientMenu" text="Back" />
-      <Label layoutX="146.0" layoutY="47.0" text="REPORT HISTORY">
+      <Label layoutX="144.0" layoutY="14.0" text="REPORT HISTORY">
          <font>
             <Font size="37.0" />
          </font>

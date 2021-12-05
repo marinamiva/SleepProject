@@ -8,6 +8,7 @@ package Database;
 import Client.*;
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.collections.ObservableList;
 
 
 
@@ -21,6 +22,6 @@ public interface PatientManagerInterface {
    public Signals viewEEG(String dni, java.util.Date date);
    public ArrayList<Signals> viewEEGHistory(String dni);
    public Signals viewEEGLUX(String dni, java.util.Date date);
-    
+   public ObservableList<Report> showReports();
 
 }
