@@ -6,8 +6,6 @@
 package Database;
 import Client.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.logging.Level;
@@ -218,7 +216,6 @@ public class PatientManager implements PatientManagerInterface  {
                                 pat.setDateOfBirth(patdob);
                                 pat.setDni(dni);
                                 pat.setGender(gender);
-                                
 			
 		}
 	}catch(Exception e) {
@@ -250,8 +247,10 @@ public class PatientManager implements PatientManagerInterface  {
 	}      
      
   
-    public static EEG viewEEG(String dni, java.util.Date date) {
+    public EEG viewEEG(String dni, java.util.Date date) {
          EEG eeg = new EEG();
+         ArrayList<Integer> values=new ArrayList<>();
+         String[] valuesString;
          Connection c1 = null; 
             try {
 			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
@@ -267,27 +266,23 @@ public class PatientManager implements PatientManagerInterface  {
                         
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) {
-                            java.sql.Date datesql= (java.sql.Date) rs2.getDate("EEG_date");
-                            java.util.Date eeg_date = new java.util.Date(datesql.getTime());
                             String EEG=rs2.getString("EEG");
-                           // eeg =new EEG(eeg_date, EEG); //No se como ya que no hay constructor en la clase EEG
-                      }
-                        
-                      rs2.close();
-                      prep1.close();
-                      rs.close();
-                      prep.close();  
-				
-			
+                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
+                            for (int i=0; i<valuesString.length;i++){
+                               values.add(Integer.parseInt(valuesString[i])); 
+                            }
+                            eeg =new EEG(date,dni,values); 
+                      }	
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
             return eeg;
     }
 
-    public static ArrayList<EEG> viewEEGHistory(String dni) {
+    public ArrayList<EEG> viewEEGHistory(String dni) {
          ArrayList<EEG> eegs = new ArrayList<EEG>();
          ArrayList<Integer> values=new ArrayList<>();
+         String[] valuesString;
          Connection c1 = null;
             try {
 			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
@@ -296,29 +291,21 @@ public class PatientManager implements PatientManagerInterface  {
                         ResultSet rs = prep.executeQuery();
                         int id = rs.getInt("patient_id");
                         
-                        String sql1= "SELECT EEG FROM EEGs WHERE patient_id =?";
+                        String sql1= "SELECT * FROM EEGs WHERE patient_id =?";
                         PreparedStatement prep1 = c1.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
-                        
+			prep1.setString(1, "%"+id+"%");
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) {
-                            //String valuesString=rs2.getInt("Values");
-                            //Debería ser un text en el que estén separados los valores por comas o algo y luego ccrear un arrayList<Integer> con ese STring
-                            //values= la creación del array list
-                            EEG eeg= new EEG(values);
-                            
+                            String dni1=rs2.getString("patient_dni");
+                            java.util.Date date = rs2.getDate("EEG_date");
+                            String EEG=rs2.getString("EEG");
+                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
+                            for (int i=0; i<valuesString.length;i++){
+                               values.add(Integer.parseInt(valuesString[i]));
+                            }
+                            EEG eeg= new EEG(date,dni,values);
                             eegs.add(eeg);
-                           // eeg =new EEG(eeg_date, EEG); //No se como ya que no hay constructor en la clase EEG
-                      }
-                        
-                       
-                        
-                      rs2.close();
-                      prep1.close();
-                      rs.close();
-                      prep.close();  
-				
-			
+                        }
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
