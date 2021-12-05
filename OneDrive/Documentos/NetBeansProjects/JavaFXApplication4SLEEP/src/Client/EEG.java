@@ -15,29 +15,36 @@ public class EEG implements Serializable {
      BufferedReader bufferedReader=null;
      Socket socket=null;
      ArrayList<Integer> eegValues = new ArrayList<Integer>();
-     
      private String dni;
      private Date eegDate;
-     private Object file; //NO ES PARA QUE SE QUEDE ASÍ TIENE QUE SER UN FILE!?
 
-    public Object getFile() {
-        return file;
-    }
-     //he creado esto porque creo que es lo que tendrá pero no sabemos
-     public EEG(ArrayList<Integer> eegVals){
-         this.eegValues=eegVals;
-     }
      
-     public EEG(){
-         super();
-     }
-     public EEG(Date eegdate,String dni,Object file){
-         super();
-         this.dni=dni;
-         this.eegDate=eegdate;
-         
-         
-     }
+    public EEG(){
+        super();
+    }
+
+    public EEG(Date eegdate,String dni,ArrayList<Integer> eegVals){
+        super();
+        this.dni=dni;
+        this.eegDate=eegdate;  
+    }
+
+    public void setEegValues(ArrayList<Integer> eegValues) {
+        this.eegValues = eegValues;
+    }
+
+    public void setEegDate(Date eegDate) {
+        this.eegDate = eegDate;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public Date getEegDate() {
+        return eegDate;
+    }
+     
       public InputStream getInputStream() {
         return inputStream;
     }
@@ -72,6 +79,11 @@ public class EEG implements Serializable {
 
     public ArrayList<Integer> getEegValues() {
         return eegValues;
+    }
+    
+    @Override
+    public String toString() {
+        return "EEG{" + "eegValues=" + eegValues + ", dni=" + dni + ", eegDate=" + eegDate + '}';
     }
      
      

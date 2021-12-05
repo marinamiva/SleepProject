@@ -38,11 +38,10 @@ public class Menu {
     public static void main(String[] args) throws IOException, ParseException, Exception {
         dbman = new DBManager();
         dbman.connect();
-        dbman.createTables();
+        //dbman.createTables();
         //dbman.deleteTables();
         pmi = dbman.getPatientManager();
         umi=dbman.getUserManager();
-        //umi=new UserManager();
         umi.connect();
       
         br = new BufferedReader(new InputStreamReader(System.in));
@@ -86,10 +85,10 @@ public class Menu {
                         modifyInformation(); 
                         break;
                     case 6:
-                        //viewEEG(); 
+                        viewEEG(patientUsing.getDni()); 
                         break;
                     case 7:
-                        //viewEEGHistory();
+                        viewEEGHistory(patientUsing.getDni());
                         break;
                     case 8:
                         addUser();
@@ -237,11 +236,17 @@ public class Menu {
     }
     
        public static void getReport() throws IOException{
-         LocalDate data= ui.takeDate(br,"Type the day of the report you want to get like this yyyy-MM-dd");
+        LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the report you want to see: ");
         java.util.Date repsday = java.sql.Date.valueOf(data);
         
         Report newrepobtained = pmi.getDailyReport(repsday);
         System.out.println("The report is: " +newrepobtained);
+    }
+    public static void viewEEG(String dni) {
+        LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
+        java.util.Date eegDate = java.sql.Date.valueOf(data);
+        EEG eeg = pmi.viewEEG(dni,eegDate);
+        System.out.println("The EEG is: "+eeg.toString());
     }
        
        public static void reportHistory(){
@@ -254,6 +259,19 @@ public class Menu {
           while(it.hasNext()){
               newrepo = (Report) it.next();
               System.out.println(newrepo.toString());
+              System.out.println("");
+          }
+       }
+       public static void viewEEGHistory(String dni){
+            ArrayList<EEG> eegs = new ArrayList<EEG>();
+
+          EEG neweeg;
+          eegs = pmi.viewEEGHistory(dni);
+          Iterator it = eegs.iterator();
+
+          while(it.hasNext()){
+              neweeg = (EEG) it.next();
+              System.out.println(neweeg.toString());
               System.out.println("");
           }
        }
