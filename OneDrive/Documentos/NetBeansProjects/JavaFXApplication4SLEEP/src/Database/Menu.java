@@ -329,7 +329,9 @@ public class Menu {
             User user = new User(dni, password);
             User userCheck = umi.checkPasswordGood(user);
             if (userCheck == null) {
-                wrongInfo();
+                System.out.println("Wrong credentials, please select an option: ");
+		System.out.println("1. Introduce them again. ");
+		System.out.println("0. Go back to the menu. ");
                 int option = requestNumber(2);
                 switch (option) {
                 case 1:
@@ -355,10 +357,6 @@ public class Menu {
 			ex.printStackTrace();
 		}
 	}
-       public static void wrongInfo() {
-		System.out.println("Wrong credentials, please select an option: ");
-		System.out.println("1. Introduce them again. ");
-		System.out.println("0. Go back to the menu. ");
-	}
+       
        
 }
