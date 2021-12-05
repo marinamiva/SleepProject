@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.NoResultException;
 
 
 
@@ -37,8 +38,7 @@ public class UserManager implements UserManagerInterface {
             this.c=con;
         }
         
-        //ESTA FORMA DE HACERLO ES CON JPA Y NOSOTRAS ESTAMOS USANDO JDBCD, HAY QUE BUSCAR FORMA DE HACERLO EN JDBC
-	@Override
+        @Override
 	public void connect() {
             
             try {
@@ -68,7 +68,7 @@ public class UserManager implements UserManagerInterface {
                     String sql = "INSERT INTO Users (patient_dni, password) VALUES (?,?)";
                     PreparedStatement prep = c.prepareStatement(sql);
                     prep.setString(1, newuser.getUsername());
-	    prep.setString(2, new String(newuser.getPassword()));
+                    prep.setString(2, new String(newuser.getPassword()));
                     prep.executeUpdate();
                     prep.close();
                 }catch(SQLException e){
@@ -96,33 +96,31 @@ public class UserManager implements UserManagerInterface {
 	
 	
         @Override
-  public User checkPasswordGood(User user){
-      User user2 = null;
-      try{
-            String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
-             PreparedStatement prep = c.prepareStatement(sql);
-             prep.setString(1, "%"+user.getUsername()+"%");
-             prep.setString(2,  "%"+user.getPassword()+"%");
-             ResultSet rs = prep.executeQuery();
-             while(rs.next()){
-                    String username = rs.getString("patient_dni");
+        public User checkPasswordGood(User user){
+            User user2 = null;
+            String username;
+            try{
+                String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+user.getUsername()+"%");
+                prep.setString(2,  "%"+user.getPassword()+"%");
+                ResultSet rs = prep.executeQuery();
+                while(rs.next()){
+                    username=user.getUsername();
                     byte[] password = rs.getBytes("password");
+                   if(password !=user.getPassword()){
+                       System.out.println("Password didnt match");
+                   } else{
+                       System.out.println("logged in!!!");
+                   }
+                   user2 = new User(username, password);
 
-                    if(username == user.getUsername()){
-                        if(password == user.getPassword()){
-                            System.out.println("logged in!!!");
-                        }else{
-                            System.out.println("Password didnt match");
-                        }
-                        user2 = new User(username, password);
-              }
-             
-      }
-      }catch(SQLException ex){
-               ex.printStackTrace();
-               }
-      return user2;
-  }
+             }
+             }catch(SQLException ex){
+                      ex.printStackTrace();
+                      }
+             return user2;
+         }
 
     @Override
     public void createUser(User user) {

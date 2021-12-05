@@ -316,38 +316,35 @@ public class Menu {
 		// int max is the maximum option that is acceptable
 		int num;
 		do {
-
-			num = ui.takeInteger(br, "Introduce the number: ");
-
+                    num = ui.takeInteger(br, "Introduce the number: ");
 		} while (ui.CheckOption(num, max));
 
 		return num;
 	}
        public static void login(){ // hacer option para go back
             boolean check = true;
-                    String dni = ui.takeDNI(br, "Introduce your DNI:");
-                    byte[] password = ui.takePasswordAndHashIt(br, "Introduce your password:");
-                    User user = new User(dni, password);
-                    User userCheck = umi.checkPasswordGood(user);
-
-                    if (userCheck == null) {
-                            wrongInfo();
-                            int option = requestNumber(2);
-                            switch (option) {
-                            case 1:
-                                    break;
-                            case 0:
-                                    System.out.println("Press 0 to go back");
-                                    check = false;
-                            }
-                    } else {
-
-                        System.out.println("Welcome patient!");
-                        patientUsing = pmi.searchSpecificPatientByDNI(dni);
-                        logged = true;
+        do{    
+            String dni = ui.takeDNI(br, "Introduce your DNI:");
+            byte[] password = ui.takePasswordAndHashIt(br, "Introduce your password:");
+            User user = new User(dni, password);
+            User userCheck = umi.checkPasswordGood(user);
+            if (userCheck == null) {
+                wrongInfo();
+                int option = requestNumber(2);
+                switch (option) {
+                case 1:
+                        break;
+                case 0:
                         check = false;
-                    }
-                
+                }
+            } else {
+                System.out.println("Welcome patient!");
+                patientUsing.setDni(dni);
+                patientUsing = pmi.searchSpecificPatientByDNI(dni);
+                logged = true;
+                check = false;
+            }
+        } while(check);       
        }
        public static void pressEnter() {
 		System.out.println("Press enter to go to the main menu and continue.");

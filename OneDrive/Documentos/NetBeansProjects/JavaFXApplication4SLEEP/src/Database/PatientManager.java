@@ -30,7 +30,8 @@ public class PatientManager implements PatientManagerInterface  {
                 String sql = "INSERT INTO Reports (patient_dni, report_date, quality, exhaustion,hours,movement,time, rest,awake,times,worries, mood, doubts)"
                                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 PreparedStatement prep = c.prepareStatement(sql);
-                                        prep.setDate(2, (java.sql.Date) rep.getTodaysDate());
+                prep.setString(1, rep.getPatdni());
+                prep.setDate(2, (java.sql.Date) rep.getTodaysDate());
                 prep.setString(3, rep.getsleepQuality());
                 prep.setString(4, rep.getExhaustion());
                 prep.setString(5, rep.getAverageHours());
