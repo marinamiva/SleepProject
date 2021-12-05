@@ -99,7 +99,7 @@ public class UserManager implements UserManagerInterface {
   public User checkPasswordGood(User user){
       User user2 = null;
       try{
-            String sql = "SELECT password FROM Users WHERE patient_dni = ? AND password = ?";
+            String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
              PreparedStatement prep = c.prepareStatement(sql);
              prep.setString(1, "%"+user.getUsername()+"%");
              prep.setString(2,  "%"+user.getPassword()+"%");
