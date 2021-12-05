@@ -95,22 +95,34 @@ public class UserManager implements UserManagerInterface {
 	}
 	
 	
-        
-            public User checkPasswordGood(User user){
-                User user2 = null;
-                try{
-                    String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
-                    PreparedStatement prep = c.prepareStatement(sql);
-                    ResultSet rs = prep.executeQuery();
-                    while(rs.next()){
-                        String patientdni = rs.getString("patient_dni");
-                        //byte[] pass = rs.getString("password");
-                    }
-                }catch(SQLException ex){
-                    ex.printStackTrace();
-                }
-                return user2;
-            }
+        @Override
+  public User checkPasswordGood(User user){
+      User user2 = null;
+      try{
+            String sql = "SELECT password FROM Users WHERE patient_dni = ? AND password = ?";
+             PreparedStatement prep = c.prepareStatement(sql);
+             prep.setString(1, "%"+user.getUsername()+"%");
+             prep.setString(2,  "%"+user.getPassword()+"%");
+             ResultSet rs = prep.executeQuery();
+             while(rs.next()){
+                    String username = rs.getString("patient_dni");
+                    byte[] password = rs.getBytes("password");
+
+                    if(username == user.getUsername()){
+                        if(password == user.getPassword()){
+                            System.out.println("logged in!!!");
+                        }else{
+                            System.out.println("Password didnt match");
+                        }
+                        user2 = new User(username, password);
+              }
+             
+      }
+      }catch(SQLException ex){
+               ex.printStackTrace();
+               }
+      return user2;
+  }
 
     @Override
     public void createUser(User user) {

@@ -71,7 +71,7 @@ public class PatientManager implements PatientManagerInterface  {
                     String worr=rs.getString("worries");
                     String mood=rs.getString("mood");
                     String doubts=rs.getString("doubts");
-                    Report repnew = new Report (dni,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake,dreams, worr, mood, doubts);
+                    Report repnew = new Report (dni1,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake,dreams, worr, mood, doubts);
                     repList.add(repnew);
                 }
 
