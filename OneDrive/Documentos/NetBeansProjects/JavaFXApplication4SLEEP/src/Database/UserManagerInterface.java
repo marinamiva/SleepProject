@@ -16,7 +16,7 @@ public interface UserManagerInterface {
 
     public void createUser(User user);
 
-    public User checkPassword(User user);
+    public User checkPasswordGood(User user);
 
     public User getUserByDNI(String dni);
 
