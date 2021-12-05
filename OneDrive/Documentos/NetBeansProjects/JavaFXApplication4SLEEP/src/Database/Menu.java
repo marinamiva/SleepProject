@@ -252,7 +252,6 @@ public class Menu {
         String doubtsDoctor = br.readLine();
         
         Report newRep = new Report(dni,todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor);
-        sendReport(newRep,ip);
         System.out.println("The report introduced is" +newRep);
         pmi.addDailyreport(newRep);
         System.out.println("Report added succesfully");
@@ -354,7 +353,9 @@ public class Menu {
             User user = new User(dni, password);
             User userCheck = umi.checkPasswordGood(user);
             if (userCheck == null) {
-                wrongInfo();
+                System.out.println("Wrong credentials, please select an option: ");
+		System.out.println("1. Introduce them again. ");
+		System.out.println("0. Go back to the menu. ");
                 int option = requestNumber(2);
                 switch (option) {
                 case 1:
@@ -380,10 +381,6 @@ public class Menu {
 			ex.printStackTrace();
 		}
 	}
-       public static void wrongInfo() {
-		System.out.println("Wrong credentials, please select an option: ");
-		System.out.println("1. Introduce them again. ");
-		System.out.println("0. Go back to the menu. ");
-	}
+       
        
 }
