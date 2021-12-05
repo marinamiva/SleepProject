@@ -108,7 +108,7 @@ public class WelcomeWindowAppController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        Gender.getItems().addAll("Male", "Female", "Other");
+        Gender.getItems().addAll("Male", "Female");
         //date.getValue().toString();
         //TODO
          //To change body of generated methods, choose Tools | Templates.

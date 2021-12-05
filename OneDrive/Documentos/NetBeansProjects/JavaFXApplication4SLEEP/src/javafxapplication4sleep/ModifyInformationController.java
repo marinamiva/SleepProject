@@ -60,7 +60,7 @@ Date date1;
 private static Database.DBManagerInterface dbman;
 private static PatientManagerInterface pmi;
     
-    public void actionSave (ActionEvent evento) throws ParseException {
+        @FXML void actionSave (javafx.event.ActionEvent evento) throws ParseException {
         name1=Name.getText();
         lastname1=Lastname.getText();
         dni1=DNI.getText();
@@ -87,9 +87,10 @@ private static PatientManagerInterface pmi;
        pmi.addpatientbyRegister(patient1);
        
     }
+    
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("modifyInfo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("ModifyInformation.fxml"));
         
         Scene scene = new Scene(root);
         
@@ -112,7 +113,7 @@ private static PatientManagerInterface pmi;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Gender.getItems().addAll("Male", "Female", "Other");
+        Gender.getItems().addAll("Male", "Female");
         // TODO
     }    
     
