@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.time.LocalDate;
+import static java.time.LocalDate.now;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -58,9 +59,9 @@ public class Menu {
             System.out.println("Do you want to register or login?\n"+"1.Register.\n"+"2.Login.");
             max=2;
             if(logged){
-                System.out.println("3.View your report history.\n"+"4.do your daily report.\n"+"5. Modify your personal information.\n"+"6.View your actual EEG.\n"+"7.View your EEG history.\n"+"8.Send EEG right now.");
+                System.out.println("3.View your report history.\n"+"4.Do your daily report.\n"+"5. Modify your personal information.\n"+"6.View your actual EEG.\n"+"7.View your EEG with LUX.\n"+"8.View your EEG history.\n"+"9.Send EEG right now.");
                 System.out.println("0. Log out.\n");
-                sendPatient(patientUsing,ip);
+                //sendPatient(patientUsing,ip);
                 max=8;
             }
             System.out.println("0. Exit.\n");
@@ -76,10 +77,10 @@ public class Menu {
                         login(); 
                         break;
                     case 3:
-                        reportHistory(); 
+                        reportHistory(patientUsing.getDni()); 
                         break;
                     case 4:
-                        addDailyReport(); 
+                        addDailyReport(patientUsing.getDni()); 
                         break;
                     case 5: 
                         modifyInformation(); 
@@ -88,16 +89,16 @@ public class Menu {
                         viewEEG(patientUsing.getDni()); 
                         break;
                     case 7:
-                        viewEEGHistory(patientUsing.getDni());
+                        viewEEGLUX(patientUsing.getDni()); 
                         break;
                     case 8:
-                        addUser();
+                        viewEEGHistory(patientUsing.getDni());
                         break;
                     case 9:
-                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
+                       boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
                           sendPatient(patientUsing,ip);
-                        //sendEEG(EEG,ip); 
+                          //sendEEG(Signals,ip); 
                        }
                         break;
                     case 0: 
@@ -199,9 +200,9 @@ public class Menu {
     }
 
     
-    public static void addDailyReport() throws IOException{
+    public static void addDailyReport(String dni) throws IOException{
         
-        LocalDate data= ui.takeDate(br,"Enter today's date like this yyyy-MM-dd");
+        LocalDate data=now();
         java.util.Date todaysdate = java.sql.Date.valueOf(data);
         System.out.println("Have you slept well during the night?");
         String quality = br.readLine();
@@ -228,7 +229,7 @@ public class Menu {
         System.out.println("Doubts for the doctor");
         String doubtsDoctor = br.readLine();
         
-        Report newRep = new Report(todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor);
+        Report newRep = new Report(dni,todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor);
         sendReport(newRep,ip);
         System.out.println("The report introduced is" +newRep);
         pmi.addDailyreport(newRep);
@@ -245,17 +246,21 @@ public class Menu {
     public static void viewEEG(String dni) {
         LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
         java.util.Date eegDate = java.sql.Date.valueOf(data);
-        EEG eeg = pmi.viewEEG(dni,eegDate);
+        Signals eeg = pmi.viewEEG(dni,eegDate);
+        System.out.println("The EEG is: "+eeg.toString());
+    }
+    public static void viewEEGLUX(String dni) {
+        LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
+        java.util.Date eegDate = java.sql.Date.valueOf(data);
+        Signals eeg = pmi.viewEEGLUX(dni,eegDate);
         System.out.println("The EEG is: "+eeg.toString());
     }
        
-       public static void reportHistory(){
-            ArrayList<Report> reps = new ArrayList<Report>();
-
+       public static void reportHistory(String dni){
+          ArrayList<Report> reps = new ArrayList<Report>();
           Report newrepo;
-          reps = pmi.reportHistory();
+          reps = pmi.reportHistory(dni);
           Iterator it = reps.iterator();
-
           while(it.hasNext()){
               newrepo = (Report) it.next();
               System.out.println(newrepo.toString());
@@ -263,14 +268,14 @@ public class Menu {
           }
        }
        public static void viewEEGHistory(String dni){
-            ArrayList<EEG> eegs = new ArrayList<EEG>();
+            ArrayList<Signals> eegs = new ArrayList<Signals>();
 
-          EEG neweeg;
+          Signals neweeg;
           eegs = pmi.viewEEGHistory(dni);
           Iterator it = eegs.iterator();
 
           while(it.hasNext()){
-              neweeg = (EEG) it.next();
+              neweeg = (Signals) it.next();
               System.out.println(neweeg.toString());
               System.out.println("");
           }

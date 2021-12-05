@@ -40,40 +40,7 @@ public class User implements Serializable {
         return false;
     }
     */
-    
-    
-    
-    /* ESTO NO AUNNNN
-    public void initData(Socket socket, Stage stage, ObjectInputStream oi, ObjectOutputStream oo) throws IOException {
-        this.socket = socket;
-        this.window = stage;
-        this.fromServer = oi;
-        this.toServer = oo;
-        try {
-            users = (ArrayList<Users>) fromServer.readObject();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        window.setOnCloseRequest((event) -> {
-            releaseResources();
-        });
-    }
-    
-    public void initDataBack(Socket socket, Stage stage, ObjectInputStream oi, ObjectOutputStream oo, ArrayList<Users> users) throws IOException {
-        this.socket = socket;
-        this.window = stage;
-        this.fromServer = oi;
-        this.toServer = oo;
-        this.users=users;
-        
-        window.setOnCloseRequest((event) -> {
-            releaseResources();
-        });
-    }
 
-    ESTO DE ARRIBA NO SABEMOS AÃšN Y TIENE QUE VER CON LOS SOCKETS PERO SI NO DA EL ERROR LO DE LA CONTRASEÃ‘AA!!
-    */
-    
     public String getUsername() {
         return username;
     }

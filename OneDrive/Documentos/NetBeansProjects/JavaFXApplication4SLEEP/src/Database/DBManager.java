@@ -14,7 +14,7 @@ public class DBManager implements DBManagerInterface {
 
 
     
-   private Connection c;
+    private Connection c;
     private PatientManager patient;
     private UserManager user;
     //private UserManager user;
@@ -102,7 +102,8 @@ public class DBManager implements DBManagerInterface {
                     + "(patient_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "PATIENT_DNI TEXT,"
                     + "EEG_DATE DATE,"
-                    + "EEG TEXT)";
+                    + "EEG TEXT,"
+                    + "EEG_LUX)";
 
             stmt3.executeUpdate(sql3);
             stmt3.close();

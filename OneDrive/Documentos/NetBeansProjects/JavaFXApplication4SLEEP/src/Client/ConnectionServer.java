@@ -62,6 +62,7 @@ public class ConnectionServer {
             Date dat=rep.getTodaysDate();
             SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
             String date=formato.format(dat);
+            print.println(rep.getPatdni());
             print.println(date);
             print.println(rep.getsleepQuality());
             print.println(rep.getExhaustion());
@@ -84,7 +85,7 @@ public class ConnectionServer {
     }
      
     //NO ESTA HECHO TENGO QUE BUSCAR EL PASAR DE OBJECT A FILE!!
-    public static void sendEEG(EEG eeg,InetAddress ip){
+    public static void sendEEG(Signals eeg,InetAddress ip){
         InputStream is = null;
         ObjectInputStream ois = null;
         ObjectOutputStream objectOut = null;
@@ -289,6 +290,7 @@ public class ConnectionServer {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
 
 

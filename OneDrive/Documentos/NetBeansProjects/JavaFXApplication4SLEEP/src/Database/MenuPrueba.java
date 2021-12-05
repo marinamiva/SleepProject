@@ -57,13 +57,13 @@ public class MenuPrueba {
                 showPatients();
                 break;
             case 4:
-                getPatientbyId();
+                //getPatientbyId();
                 break;
             case 5:
-                addDailyReport();
+                //addDailyReport();
                 break;
             case 6:
-                reportHistory();
+                //reportHistory();
                 break;
             case 7:
                 getReport();
@@ -123,16 +123,9 @@ public class MenuPrueba {
         }
 }
     
-    public static void getPatientbyId(){
-        System.out.println("Type the id of the patient you want to get");
-        Scanner sc = new Scanner (System.in);
-        int idpat = sc.nextInt();
-        
-        Patient newpatObtained = pmi.getPatient(idpat);
-        System.out.println("The patient is: " +newpatObtained);
-    }
     
-    public static void addDailyReport() throws IOException{
+    
+    public static void addDailyReport(String dni) throws IOException{
         
         LocalDate data= ui.takeDate(br,"Enter today's date like this yyyy-MM-dd");
         java.util.Date todaysdate = java.sql.Date.valueOf(data);
@@ -161,7 +154,7 @@ public class MenuPrueba {
         System.out.println("Doubts for the doctor");
         String doubtsDoctor = br.readLine();
         
-        Report newRep = new Report(todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor );
+        Report newRep = new Report(dni,todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor );
         System.out.println("The report introduced is" +newRep);
         pmi.addDailyreport(newRep);
         System.out.println("Report added succesfully");
@@ -175,7 +168,7 @@ public class MenuPrueba {
         System.out.println("The report is: " +newrepobtained);
     }
        
-       public static void reportHistory(){
+      /* public static void reportHistory(){
             ArrayList<Report> reps = new ArrayList<Report>();
 
           Report newrepo;
@@ -187,7 +180,7 @@ public class MenuPrueba {
               System.out.println(newrepo.toString());
               System.out.println("");
           }
-       }
+       }*/
        
        
 }

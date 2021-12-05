@@ -15,12 +15,12 @@ public interface PatientManagerInterface {
    public void addpatientbyRegister(Patient pat);
    public Patient searchSpecificPatientByDNI(String dni);
    public  ArrayList<Patient> showPatients();
-   public  Patient getPatient(int pat_id);
    public void addDailyreport(Report rep);
-   public ArrayList<Report> reportHistory();
+   public ArrayList<Report> reportHistory(String dni);
    public  Report getDailyReport(java.util.Date  dateReport);
-   public EEG viewEEG(String dni, java.util.Date date);
-   public ArrayList<EEG> viewEEGHistory(String dni);
+   public Signals viewEEG(String dni, java.util.Date date);
+   public ArrayList<Signals> viewEEGHistory(String dni);
+   public Signals viewEEGLUX(String dni, java.util.Date date);
     
 
 }

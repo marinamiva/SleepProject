@@ -30,21 +30,7 @@ public class Report implements Serializable{
     public Report(){
         super();
     }
-    public Report(Date todaysDate,String sleepQuality, String exhaustion,String averageHours,String movement,String timeToFallAsleep,String rest,String stayAwake, String timesAwake, String dreams, String worries, String todaysMood, String doubtsForDoctor){
-       this.todaysDate = todaysDate;
-        this.sleepQuality= sleepQuality;
-        this.exhaustion= exhaustion;
-        this.averageHours= averageHours;
-        this.movement= movement;
-        this.timeToFallAsleep= timeToFallAsleep;
-        this.rest= rest;
-        this.stayAwake= stayAwake;
-        this.timesAwake= timesAwake;
-        this.dreams= dreams;
-        this.worries= worries;
-        this.todaysMood= todaysMood;
-        this.doubtsForDoctor=doubtsForDoctor;
-    } 
+    
     public Report(String dni,Date todaysDate,String sleepQuality, String exhaustion,String averageHours,String movement,String timeToFallAsleep,String rest,String stayAwake, String timesAwake, String dreams, String worries, String todaysMood, String doubtsForDoctor){
         this.patdni=dni;
         this.todaysDate = todaysDate;
@@ -60,7 +46,39 @@ public class Report implements Serializable{
         this.worries= worries;
         this.todaysMood= todaysMood;
         this.doubtsForDoctor=doubtsForDoctor;
+    }
+    
+    public Report(Date todaysDate,String sleepQuality, String exhaustion,String averageHours,String movement,String timeToFallAsleep,String rest,String stayAwake, String timesAwake, String dreams, String worries, String todaysMood, String doubtsForDoctor){
+        this.todaysDate = todaysDate;
+        this.sleepQuality= sleepQuality;
+        this.exhaustion= exhaustion;
+        this.averageHours= averageHours;
+        this.movement= movement;
+        this.timeToFallAsleep= timeToFallAsleep;
+        this.rest= rest;
+        this.stayAwake= stayAwake;
+        this.timesAwake= timesAwake;
+        this.dreams= dreams;
+        this.worries= worries;
+        this.todaysMood= todaysMood;
+        this.doubtsForDoctor=doubtsForDoctor;
     } 
+
+    public String getPatdni() {
+        return patdni;
+    }
+
+    public String getSleepQuality() {
+        return sleepQuality;
+    }
+
+    public String getTimeToFallAsleep() {
+        return timeToFallAsleep;
+    }
+
+    public String getDoubtsForDoctor() {
+        return doubtsForDoctor;
+    }
         
         
     public Date getTodaysDate() {
@@ -93,6 +111,22 @@ public class Report implements Serializable{
 
     public void setAverageHours(String averageHours) {
         this.averageHours = averageHours;
+    }
+
+    public void setPatdni(String patdni) {
+        this.patdni = patdni;
+    }
+
+    public void setSleepQuality(String sleepQuality) {
+        this.sleepQuality = sleepQuality;
+    }
+
+    public void setTimeToFallAsleep(String timeToFallAsleep) {
+        this.timeToFallAsleep = timeToFallAsleep;
+    }
+
+    public void setDoubtsForDoctor(String doubtsForDoctor) {
+        this.doubtsForDoctor = doubtsForDoctor;
     }
 
     public String getMovement() {
@@ -194,9 +228,7 @@ public class Report implements Serializable{
 
     @Override
     public String toString() {
-        return "Report{" + "todaysDate=" + todaysDate + ", Sleep Quality=" + sleepQuality + ", Exhaustion=" + exhaustion + ", Average Hours=" + averageHours + ", Movement=" + movement + ", Time to fall Asleep=" + timeToFallAsleep + ", Rest=" + rest + ", Stay Awake=" + stayAwake + ", Times Awake=" + timesAwake + ", Dreams=" + dreams +", Worries=" + worries + ", Todays Mood=" + todaysMood + ", Doubts for the Doctor=" + doubtsForDoctor +'}';
+        return "Report{" + "patdni=" + patdni + ", todaysDate=" + todaysDate + ", sleepQuality=" + sleepQuality + ", exhaustion=" + exhaustion + ", averageHours=" + averageHours + ", movement=" + movement + ", timeToFallAsleep=" + timeToFallAsleep + ", rest=" + rest + ", stayAwake=" + stayAwake + ", timesAwake=" + timesAwake + ", dreams=" + dreams + ", worries=" + worries + ", todaysMood=" + todaysMood + ", doubtsForDoctor=" + doubtsForDoctor + '}';
     }
-     
-   
-    
+
 }
