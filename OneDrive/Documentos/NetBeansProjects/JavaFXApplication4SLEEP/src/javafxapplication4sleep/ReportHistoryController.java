@@ -64,6 +64,8 @@ public class ReportHistoryController implements Initializable {
          
         private static Database.DBManagerInterface dbman;
         private static PatientManagerInterface pmi;
+        
+    
     
      public void start(Stage primaryStage) throws Exception {
 
@@ -91,7 +93,7 @@ public class ReportHistoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        dbman.connect();
+        //dbman.connect();
         columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("report_date"));
         quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
         exhaustion.setCellValueFactory(new PropertyValueFactory<Report,String>("exhausted"));

@@ -17,6 +17,8 @@ import java.time.LocalDate;
 import static java.time.LocalDate.now;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -58,7 +60,7 @@ public class Menu {
         while(true){
             System.out.println("Do you want to register or login?\n"+"1.Register.\n"+"2.Login.");
             max=2;
-            if(logged){
+            if(logged =true){
                 System.out.println("3.View your report history.\n"+"4.Do your daily report.\n"+"5. Modify your personal information.\n"+"6.View your actual EEG.\n"+"7.View your EEG with LUX.\n"+"8.View your EEG history.\n"+"9.Send EEG right now.");
                 System.out.println("0. Log out.\n");
                 //sendPatient(patientUsing,ip);
@@ -86,7 +88,8 @@ public class Menu {
                         modifyInformation(); 
                         break;
                     case 6:
-                        viewEEG(patientUsing.getDni()); 
+                        //viewEEG(patientUsing.getDni()); 
+                        showReportsDB();
                         break;
                     case 7:
                         viewEEGLUX(patientUsing.getDni()); 
@@ -148,6 +151,25 @@ public class Menu {
             e.printStackTrace(); 
         }
     }
+    
+    public static void showReportsDB(){
+        ObservableList<Report> repList = FXCollections.observableArrayList();
+        
+        Report rep;
+        repList = pmi.showReports();
+        
+        Iterator it = repList.iterator();
+        while(it.hasNext()){
+            rep = (Report) it.next();
+            System.out.println(rep.toString());
+            
+        }
+        
+        
+    }
+    
+    
+    
     public static void addPatient() throws IOException, ParseException {
         try{
         Patient newpat = null;
@@ -243,6 +265,9 @@ public class Menu {
         Report newrepobtained = pmi.getDailyReport(repsday);
         System.out.println("The report is: " +newrepobtained);
     }
+       
+       
+       
     public static void viewEEG(String dni) {
         LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
         java.util.Date eegDate = java.sql.Date.valueOf(data);
