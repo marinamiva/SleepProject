@@ -230,7 +230,6 @@ public class Menu {
         String doubtsDoctor = br.readLine();
         
         Report newRep = new Report(dni,todaysdate, quality, exhausted, avgHours, movement, timeToFallAsleep, rest, awake, timesAwake, dream, worries, mood, doubtsDoctor);
-        sendReport(newRep,ip);
         System.out.println("The report introduced is" +newRep);
         pmi.addDailyreport(newRep);
         System.out.println("Report added succesfully");
