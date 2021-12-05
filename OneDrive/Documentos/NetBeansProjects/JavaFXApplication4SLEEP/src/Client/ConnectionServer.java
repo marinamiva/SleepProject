@@ -74,7 +74,6 @@ public class ConnectionServer {
      
    
     public static void sendFile(File file,InetAddress ip){
-        
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
