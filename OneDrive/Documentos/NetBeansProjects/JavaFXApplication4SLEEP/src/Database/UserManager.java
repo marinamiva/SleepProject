@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import Client.*;
 import java.sql.Connection;
@@ -21,15 +16,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.NoResultException;
 
 
 
 
 public class UserManager implements UserManagerInterface {
-	private EntityManager em;
+	
         private static final String URL = "jdbc:sqlite:lib/db/SleepControlDB2.db";
         private Connection c;
 	
@@ -78,21 +73,40 @@ public class UserManager implements UserManagerInterface {
 
         @Override
 	public User getUserByDNI(String dni) {
-		Query q = em.createNativeQuery("SELECT patient_dni, password, from Users WHERE patient_dni =?", User.class);
-		q.setParameter(1,dni);   
-		User user = (User) q.getSingleResult();
-		return user;	
+            User user=new User();
+            try {
+                String sql ="SELECT * from Users WHERE patient_dni =?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+dni+"%");
+                ResultSet rs = prep.executeQuery();
+                while (rs.next()){
+                   String dni1=rs.getString("PATIENT_DNI");
+                   byte[] pas=rs.getBytes("Password");
+                   user=new User(dni1,pas);
+                   //user.setUsername(dni1);
+                   //user.setPassword(pas);
+                }
+                	
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            } return user;
 	}
 	
-	
-
-	public void deleteUser(User user) {
-		em.getTransaction().begin();
-		em.remove(user);
-		em.getTransaction().commit();
-		em.close();
-		
-	}
+        public byte[] getPassword(Integer id){
+            byte[] pas=null;
+            try {
+                String sql ="SELECT * from Users WHERE patient_id =?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+id+"%");
+                ResultSet rs = prep.executeQuery();
+                while (rs.next()){
+                   String dni1=rs.getString("PATIENT_DNI");
+                   pas=rs.getBytes("Password");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            } return pas;
+        }
 	
 	
         @Override
@@ -122,17 +136,29 @@ public class UserManager implements UserManagerInterface {
              return user2;
          }
 
-    @Override
-    public void createUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /*
-    @Override
-    public User checkPassword(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    */
+    
+    private static Database.DBManagerInterface dbman;
+    private static PatientManagerInterface pmi;
+    private static UserManagerInterface umi;
+    private static BufferedReader br;
+	public static void main(String[] args) throws IOException, ParseException, Exception {
+            dbman = new DBManager();
+            dbman.connect();
+            pmi = dbman.getPatientManager();
+            umi=dbman.getUserManager();
+            //umi.connect();  
+            br = new BufferedReader(new InputStreamReader(System.in));
+            String dni="8267372";
+            byte[] pas =umi.getPassword(1);
+            System.out.println(pas);
+            //byte[] pas=ui.takePasswordAndHashIt(br, "insert password");
+            //User user=new User(dni,pas);
+            //umi.deleteUser(user);
+            //umi.createUserRegister(user);
+            //User user =umi.getUserByDNI(dni);
+            //System.out.println(user.getPassword());
+            //System.out.println(user.getUsername());
+        }
   
 
     
@@ -143,36 +169,4 @@ public class UserManager implements UserManagerInterface {
 
 
 
-/*
-@Override
-	public void createUser(User user) {
-		em.getTransaction().begin();
-		em.persist(user);
-		em.getTransaction().commit();
-	}
 
-@Override
-    public void createUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-@Override
-	public User checkPassword(User userps) {
-		User user = null;
-		try {
-			Query q = em.createNativeQuery("SELECT * FROM Users WHERE patient_dni = ? AND password = ?", User.class);
-			q.setParameter(1, userps.getUsername());
-			q.setParameter(2, userps.getPassword());
-			user = (User) q.getSingleResult();
-		} catch (NoResultException nre) {
-			return null;
-		}
-		return user;
-	}
-  @Override
-    public User checkPassword(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-*/

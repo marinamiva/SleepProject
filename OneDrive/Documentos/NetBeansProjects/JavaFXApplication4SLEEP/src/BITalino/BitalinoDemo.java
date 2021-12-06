@@ -2,6 +2,15 @@ package BITalino;
 
 
 import Client.Patient;
+import Client.Signals;
+import Database.DBManager;
+import Database.PatientManager;
+import Database.PatientManagerInterface;
+import Database.UserManagerInterface;
+import java.io.BufferedReader;
+import java.net.InetAddress;
+import java.sql.Connection;
+import static java.time.LocalDate.now;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +25,17 @@ public class BitalinoDemo {
     public static List<Integer> values = new ArrayList();
     public static List<Integer> values2 = new ArrayList();
     
+    private Connection c;
+    private static Database.DBManagerInterface dbman;
+    private static PatientManagerInterface pmi;
+    private  PatientManager pm;
+    
     public static void main(String[] args) {
-
+        dbman = new DBManager();
+        dbman.connect();
+        pmi = dbman.getPatientManager();
+        
+        
         BITalino bitalino = null;
         try {
             bitalino = new BITalino();
@@ -61,7 +79,10 @@ public class BitalinoDemo {
             }
             
             Patient.createFile(values, values2);
-            
+            ArrayList<Integer> val1=new ArrayList(values);
+            ArrayList<Integer> val2=new ArrayList(values2);
+            Signals signal=new Signals(now(),val1,val2);
+            pmi.addEEG(signal);
 
             // values.add(frame);
              //Patient.createFile(frame);

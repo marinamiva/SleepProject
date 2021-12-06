@@ -199,10 +199,8 @@ public class Menu {
        
         try{
             User newuser=null;
-            System.out.println("Introduce the DNI of the patient, as username (without letters)");
+            System.out.println("Introduce your DNI, as username (without letters)");
             String dniuser = br.readLine();
-            System.out.println("Introduce the password of the patient");
-            String pass = br.readLine();
             byte[] password = ui.takePasswordAndHashIt(br, "Add the password you want:");
             newuser = new User(dniuser, password);
             System.out.println("The user added is:" +newuser);

@@ -14,14 +14,13 @@ public interface UserManagerInterface {
 
     public void disconnect();
 
-    public void createUser(User user);
-
     public User checkPasswordGood(User user);
 
     public User getUserByDNI(String dni);
 
-    public void deleteUser(User user);
 
     public void createUserRegister(User newuser);
+    
+    public byte[] getPassword(Integer id);
 
 }

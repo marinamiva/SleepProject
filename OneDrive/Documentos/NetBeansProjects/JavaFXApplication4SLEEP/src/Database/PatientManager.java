@@ -5,7 +5,13 @@
  */
 package Database;
 import Client.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.logging.Level;
@@ -239,21 +245,23 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}      
      
-     public void addEEG(String dni, java.util.Date date, List<Integer> eegvalues, List<Integer> luxvalues) {
+     public void addEEG(Signals eeg) {
          try{
              String sql = "INSERT INTO EEGs (patient_dni, eeg_date, eeg, eeg_lux) VALUES (?,?,?,?)";
              PreparedStatement prep = c.prepareStatement(sql);
-             prep.setString(1, dni);
-             //prep.setDate(2,date );
-             //prep.setInt(3, eegvalues);
-             //prep.setInt(4, luxvalues);
+             prep.setString(1, eeg.getDni());
+             prep.setDate(2,java.sql.Date.valueOf(eeg.getEegDate()));
+             String values=(eeg.getEegValues()).toString();
+             String luxvalues=(eeg.getEegLUX()).toString();
+             prep.setString(3, values);
+             prep.setString(4, luxvalues);
          }catch(SQLException ex){
              ex.printStackTrace();
          }
          
      }
     
-     //CAMBIAR LO DE LOS VALORES PORQUE SON DOS DIFERENTES
+     
      public Signals viewEEG(String dni, java.util.Date date) {
          Signals eeg = new Signals();
          ArrayList<Integer> values=new ArrayList<>();
@@ -269,7 +277,7 @@ public class PatientManager implements PatientManagerInterface  {
                         String sql1= "SELECT EEG FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
                         PreparedStatement prep1 = c1.prepareStatement(sql1);
 			prep1.setString(1, "%"+id+"%");
-                        prep1.setString(2, "%"+date+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
+                        prep1.setString(2, "%"+date+"%"); 
                         
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) { 
@@ -278,7 +286,8 @@ public class PatientManager implements PatientManagerInterface  {
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i])); 
                             }
-                            eeg=new Signals(date,dni,values); 
+                            LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            eeg=new Signals(date1,dni,values); 
                       }	
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -309,7 +318,8 @@ public class PatientManager implements PatientManagerInterface  {
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i])); 
                             }
-                            eeg=new Signals(date,dni,values); 
+                            LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            eeg=new Signals(date1,dni,values); 
                       }	
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -341,7 +351,8 @@ public class PatientManager implements PatientManagerInterface  {
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i]));
                             }
-                            Signals eeg= new Signals(date,dni,values,values);
+                            LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            Signals eeg= new Signals(date1,dni,values,values);
                             eegs.add(eeg);
                         }
 		}catch(Exception e) {
@@ -351,7 +362,47 @@ public class PatientManager implements PatientManagerInterface  {
     }
 	
 	
-	
-	
+ private static Database.DBManagerInterface dbman;
+    private static PatientManagerInterface pmi;
+    private static UserManagerInterface umi;
+    private static BufferedReader br;
+	public static void main(String[] args) throws IOException, ParseException, Exception {
+            dbman = new DBManager();
+            dbman.connect();
+            pmi = dbman.getPatientManager();
+            br = new BufferedReader(new InputStreamReader(System.in));
+            String dni="1234";
+            byte[] pas=ui.takePasswordAndHashIt(br, "insert password");
+            addPatientByRegister();
+            //User user =umi.getUserByDNI(dni);
+        }
+        public static void addPatientByRegister() throws IOException, ParseException{
+        try{
+        Patient newpat = null;
+        System.out.println("Type your name: ");
+        String name = br.readLine();
+        System.out.println("Type your lastname:");
+        String lastname = br.readLine();
+        String telephone = ui.takeTelephone(br,"Type your telephone:");
+        System.out.println("Type your address: ");
+        String address = br.readLine();
+        LocalDate data= ui.takeDate(br,"Type your Date of Birth (followed by yyyy-MM-dd)");
+        java.util.Date dob = java.sql.Date.valueOf(data);
+        String dni = ui.takeDNI(br,"Type your DNI (numeric only)");
+        String gender = ui.takeGender(br, "Type your gender: ");
+        newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
+        byte[] password = ui.takePasswordAndHashIt(br, "Introduce a password:");
+            System.out.println(password);
+        //User user = new User(dni, password);
+	//umi.createUserRegister(user);
+        
+        System.out.println("\nYOUR INFORMATION IS: " + newpat+"\n");
+        pmi.addpatientbyRegister(newpat);
+    
+        
+        }catch(NullPointerException e){
+            e.printStackTrace(); 
+        }
+    }
 	
 }

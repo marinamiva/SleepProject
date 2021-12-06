@@ -3,6 +3,7 @@ package Client;
 
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,14 +12,14 @@ public class Signals implements Serializable {
      ArrayList<Integer> eegValues = new ArrayList<Integer>();
      ArrayList<Integer> eegLUX = new ArrayList<Integer>();
      private String dni;
-     private Date eegDate;
+     private LocalDate eegDate;
 
      
     public Signals(){
         super();
     }
     
-    public Signals(Date eegdate,String dni,ArrayList<Integer> eegVals, ArrayList<Integer> eegLUX){
+    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals, ArrayList<Integer> eegLUX){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
@@ -26,11 +27,17 @@ public class Signals implements Serializable {
         this.eegLUX=eegLUX;
     }
     
-    public Signals(Date eegdate,String dni,ArrayList<Integer> eegVals){
+    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
         this.eegValues=eegVals;
+    }
+    public Signals(LocalDate eegdate,ArrayList<Integer> eegVals,ArrayList<Integer> eegLUX){
+        super();
+        this.eegDate=eegdate;
+        this.eegValues=eegVals;
+        this.eegLUX=eegLUX;
     }
     
     
@@ -46,7 +53,7 @@ public class Signals implements Serializable {
         this.eegValues = eegValues;
     }
 
-    public void setEegDate(Date eegDate) {
+    public void setEegDate(LocalDate eegDate) {
         this.eegDate = eegDate;
     }
 
@@ -54,10 +61,10 @@ public class Signals implements Serializable {
         return dni;
     }
 
-    public Date getEegDate() {
+    public LocalDate getEegDate() {
         return eegDate;
     }
-     
+
 
     public ArrayList<Integer> getEegValues() {
         return eegValues;
@@ -67,6 +74,8 @@ public class Signals implements Serializable {
     public String toString() {
         return "Signals{" + "eegValues=" + eegValues + ", eegLUX=" + eegLUX + ", dni=" + dni + ", eegDate=" + eegDate + '}';
     }
+
+   
 
   
     
