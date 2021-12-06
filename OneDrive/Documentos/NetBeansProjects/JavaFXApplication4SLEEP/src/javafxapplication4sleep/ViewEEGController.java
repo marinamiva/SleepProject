@@ -5,6 +5,7 @@
  */
 package javafxapplication4sleep;
 
+import Client.Patient;
 import Client.Report;
 import Database.PatientManagerInterface;
 import java.net.URL;
@@ -17,10 +18,14 @@ import javafx.scene.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javafx.scene.control.*;
 import java.util.Date;
+import java.util.List;
 import static javafx.application.Application.launch;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -30,15 +35,20 @@ import javafx.stage.Stage;
  */
 public class ViewEEGController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
-    
-    @FXML private LineChart eegtablevalues;
-    @FXML private Button goBack;
     
    private static PatientManagerInterface pmi;
    private static Report rep;
+    @FXML
+    private NumberAxis yAxis;
+    @FXML
+    private CategoryAxis xAxis;
+    @FXML
+    private LineChart<?, ?> eegGraphic;
+    @FXML private Button goBack;
+    private XYChart.Series series;
+    
+    private List<Integer> eegValues = new ArrayList();
+    private Patient patient;
     
        public void start(Stage primaryStage) throws Exception {
 
@@ -46,7 +56,18 @@ public class ViewEEGController implements Initializable {
         
         Scene scene = new Scene(root);
         
-        primaryStage.setTitle("EEG RECORDING");
+        eegValues = patient.getRecordedEEG();
+        
+        if(!eegValues.isEmpty()){
+            for (int i = 0; i < eegValues.size() ; i++) {
+               series.getData().add(new XYChart.Data(""+i,eegValues.get(i)));  
+            }
+           
+            eegGraphic.setCreateSymbols(false);
+            eegGraphic.getData().addAll(series);
+        }
+        
+        primaryStage.setTitle("EEG RECORDED");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -67,8 +88,10 @@ public class ViewEEGController implements Initializable {
             
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
+        series = new XYChart.Series();   
         
-       XYChart.Series series = new  XYChart.Series<>();
+      //  XYChart.Series series = new  XYChart.Series<>();
        
       //series.getData().add(pmi.viewEEG(dni, date)); // o sería agregandole aqui cada valor del bitalino que va recording 
     }    

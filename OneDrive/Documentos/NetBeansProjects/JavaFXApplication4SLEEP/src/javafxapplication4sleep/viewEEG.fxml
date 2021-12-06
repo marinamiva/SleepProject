@@ -8,18 +8,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="javafxapplication4sleep.ViewEEGController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication4sleep.ViewEEGController">
    <children>
-      <LineChart layoutX="98.0" layoutY="79.0" prefHeight="284.0" prefWidth="392.0">
+      <LineChart fx:id="eegGraphic" layoutX="60.0" layoutY="71.0" prefHeight="284.0" prefWidth="480.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
       </LineChart>
-      <Label layoutX="157.0" layoutY="25.0" text="EEG RECORDING ">
+      <Label layoutX="176.0" layoutY="25.0" text="EEG RECORDED ">
          <font>
             <Font size="37.0" />
          </font>
