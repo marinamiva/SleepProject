@@ -21,7 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
@@ -57,7 +59,7 @@ public class ReportHistoryController implements Initializable {
     @FXML private Button goBack;
     //@FXML private Button viewReport;
     
-        ObservableList<Report> repos;
+        
         Connection conn = null;
         ResultSet rs= null;
          PreparedStatement ps = null;
@@ -93,18 +95,38 @@ public class ReportHistoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        
+        columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("columnDate"));
+        quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
+        exhaustion.setCellValueFactory(new PropertyValueFactory<Report, String>("exhaustion"));
+        hours.setCellValueFactory(new PropertyValueFactory<Report, String>("hours"));
+        movement.setCellValueFactory(new PropertyValueFactory<Report, String>("movement"));
+        
+        
+        Report rep = new Report();
+        ObservableList<Report> repos = pmi.showReports();
+        this.reportTable.setItems(repos);
+        
+
+        
+        
+        
+        
+        
         //DA TODO ERROR, INTENTO DE OTRA MANERA
         //Report newrep = pmi.getDailyReport(dateReport);
         //dbman.connect();
+        
+        
         //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>(newrep.getTodaysDate()));
        // quality.setCellValueFactory(new PropertyValueFactory<Report, String>(newrep.getSleepQuality()));
-        exhaustion.setCellValueFactory(new PropertyValueFactory<Report,String>("exhausted"));
-        hours.setCellValueFactory(new PropertyValueFactory<Report,String>("hours"));
-        movement.setCellValueFactory(new PropertyValueFactory<Report,String>("movement"));
+        //exhaustion.setCellValueFactory(new PropertyValueFactory<Report,String>("exhausted"));
+        //hours.setCellValueFactory(new PropertyValueFactory<Report,String>("hours"));
+        //movement.setCellValueFactory(new PropertyValueFactory<Report,String>("movement"));
         
         
-        repos = pmi.showReports();
-        reportTable.setItems(repos);
+        //repos = pmi.showReports();
+        //reportTable.setItems(repos);
         
     }    
     
