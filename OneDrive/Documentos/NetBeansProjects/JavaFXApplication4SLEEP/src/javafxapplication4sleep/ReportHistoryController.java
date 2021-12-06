@@ -96,37 +96,17 @@ public class ReportHistoryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         
-        columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("columnDate"));
-        quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
-        exhaustion.setCellValueFactory(new PropertyValueFactory<Report, String>("exhaustion"));
-        hours.setCellValueFactory(new PropertyValueFactory<Report, String>("hours"));
-        movement.setCellValueFactory(new PropertyValueFactory<Report, String>("movement"));
+        //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("columnDate"));
+        //quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
+        //exhaustion.setCellValueFactory(new PropertyValueFactory<Report, String>("exhaustion"));
+        //hours.setCellValueFactory(new PropertyValueFactory<Report, String>("hours"));
+        //movement.setCellValueFactory(new PropertyValueFactory<Report, String>("movement"));
         
         
-        Report rep = new Report();
-        ObservableList<Report> repos = pmi.showReports();
-        this.reportTable.setItems(repos);
+        //Report rep = new Report();
+        //ObservableList<Report> repos = pmi.showReports();
+       // this.reportTable.setItems(repos);
         
-
-        
-        
-        
-        
-        
-        //DA TODO ERROR, INTENTO DE OTRA MANERA
-        //Report newrep = pmi.getDailyReport(dateReport);
-        //dbman.connect();
-        
-        
-        //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>(newrep.getTodaysDate()));
-       // quality.setCellValueFactory(new PropertyValueFactory<Report, String>(newrep.getSleepQuality()));
-        //exhaustion.setCellValueFactory(new PropertyValueFactory<Report,String>("exhausted"));
-        //hours.setCellValueFactory(new PropertyValueFactory<Report,String>("hours"));
-        //movement.setCellValueFactory(new PropertyValueFactory<Report,String>("movement"));
-        
-        
-        //repos = pmi.showReports();
-        //reportTable.setItems(repos);
         
     }    
     
