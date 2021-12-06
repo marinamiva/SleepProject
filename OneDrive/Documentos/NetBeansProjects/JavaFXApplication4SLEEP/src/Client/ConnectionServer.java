@@ -29,6 +29,7 @@ public class ConnectionServer {
             print.println(patient.getLastname());
             print.println(patient.getTelephone());
             print.println(patient.getAddress());
+            print.println(patient.getDateOfBirth());
             print.println(patient.getDni());
             print.println(patient.getGender());
             print.println("Finish");
@@ -60,7 +61,7 @@ public class ConnectionServer {
             print.println(rep.getRest());
             print.println(rep.getStayAwake());
             print.println(rep.getTimesAwake());
-           // print.println(rep.getDreams());
+            print.println(rep.getDreams());
             print.println(rep.getWorries());
             print.println(rep.getTodaysMood());
             print.println(rep.getdoubtsForDoctor());
