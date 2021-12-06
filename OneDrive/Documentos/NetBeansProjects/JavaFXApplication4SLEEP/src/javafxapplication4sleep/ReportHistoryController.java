@@ -93,9 +93,11 @@ public class ReportHistoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        //DA TODO ERROR, INTENTO DE OTRA MANERA
+        //Report newrep = pmi.getDailyReport(dateReport);
         //dbman.connect();
-        columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("report_date"));
-        quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
+        //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>(newrep.getTodaysDate()));
+       // quality.setCellValueFactory(new PropertyValueFactory<Report, String>(newrep.getSleepQuality()));
         exhaustion.setCellValueFactory(new PropertyValueFactory<Report,String>("exhausted"));
         hours.setCellValueFactory(new PropertyValueFactory<Report,String>("hours"));
         movement.setCellValueFactory(new PropertyValueFactory<Report,String>("movement"));

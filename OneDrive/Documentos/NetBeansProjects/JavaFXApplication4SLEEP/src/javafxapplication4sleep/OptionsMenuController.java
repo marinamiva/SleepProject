@@ -69,6 +69,8 @@ public class OptionsMenuController implements Initializable {
         window.show();
        
     }
+    
+
 
     @FXML
     private void TodaysReport(javafx.event.ActionEvent event) throws IOException {
