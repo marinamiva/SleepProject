@@ -361,8 +361,10 @@ public class PatientManager implements PatientManagerInterface  {
             return eegs;
     }
 	
-	
- private static Database.DBManagerInterface dbman;
+
+    
+    
+    private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private static UserManagerInterface umi;
     private static BufferedReader br;

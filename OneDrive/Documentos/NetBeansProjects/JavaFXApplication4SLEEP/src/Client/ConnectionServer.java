@@ -6,9 +6,12 @@
 package Client;
 
 
+import Database.DBManager;
+import Database.PatientManagerInterface;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -96,17 +99,24 @@ public class ConnectionServer {
         
         
     
-    
+    private Connection c;
+    private static Database.DBManagerInterface dbman;
+    private static PatientManagerInterface pmi;
+    private static BufferedReader br;
 
     public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException {
-        //el paciente serÃƒÂ­a obtenerlo de la base de datos pero ahora para probar lo creo:
-        String ipString="10.61.84.50";
+        dbman = new DBManager();
+        dbman.connect();
+        pmi = dbman.getPatientManager();
+        br = new BufferedReader(new InputStreamReader(System.in));
+        String ipString="10.61.80.26";
         InetAddress ip1=InetAddress.getByName(ipString);
-        Patient patient = new Patient("marina", "miguelez", "672", "mad","715", "female");
+        String dni=ui.takeDNI(br, "Write dni:");
+        Patient patient=pmi.searchSpecificPatientByDNI(dni);
         sendPatient(patient,ip1);
-        Date dat=new Date("20-02-2021");
-        Report report = new Report(dat,"jg","jh","jg","jh","jg","jh","jg","jh","jg","jh","jg","jh");
-        sendReport(report,ip1);
+        //java.util.Date dat=new java.util.Date("2021-11-11");
+        //Report report = pmi.getDailyReport(dat);
+        //sendReport(report,ip1);
         
     }
 
