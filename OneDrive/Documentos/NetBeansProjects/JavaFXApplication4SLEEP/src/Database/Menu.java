@@ -88,8 +88,9 @@ public class Menu {
                         modifyInformation(); 
                         break;
                     case 6:
-                        //viewEEG(patientUsing.getDni()); 
-                        showReportsDB();
+                        //addEEG();
+                        viewEEG(patientUsing.getDni()); 
+                        //showReportsDB();
                         break;
                     case 7:
                         viewEEGLUX(patientUsing.getDni()); 

@@ -5,6 +5,7 @@
  */
 package javafxapplication4sleep;
 
+import Client.Patient;
 import Client.Report;
 import Database.PatientManagerInterface;
 import java.net.URL;
@@ -22,6 +23,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.collections.ObservableList;
@@ -67,13 +69,30 @@ public class ReportHistoryController implements Initializable {
         private static Database.DBManagerInterface dbman;
         private static PatientManagerInterface pmi;
         
+        private List<Report> rep = new ArrayList<Report>();
+    private Report report;
     
     
      public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("ReportHistory.fxml"));
         
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root);     
+        
+        //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("columnDate"));
+        //quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
+        //exhaustion.setCellValueFactory(new PropertyValueFactory<Report, String>("exhaustion"));
+        //hours.setCellValueFactory(new PropertyValueFactory<Report, String>("hours"));
+       // movement.setCellValueFactory(new PropertyValueFactory<Report, String>("movement"));
+        
+        
+        //Report rep = new Report();
+        //ObservableList<Report> repos = pmi.showReports();
+       //this.reportTable.setItems(repos);
+        
+        
+        
+        
         
         primaryStage.setTitle("REPORT HISTORY");
         primaryStage.setScene(scene);
@@ -95,18 +114,7 @@ public class ReportHistoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        
-        //columnDate.setCellValueFactory(new PropertyValueFactory<Report, Date>("columnDate"));
-        //quality.setCellValueFactory(new PropertyValueFactory<Report, String>("quality"));
-        //exhaustion.setCellValueFactory(new PropertyValueFactory<Report, String>("exhaustion"));
-        //hours.setCellValueFactory(new PropertyValueFactory<Report, String>("hours"));
-        //movement.setCellValueFactory(new PropertyValueFactory<Report, String>("movement"));
-        
-        
-        //Report rep = new Report();
-        //ObservableList<Report> repos = pmi.showReports();
-       // this.reportTable.setItems(repos);
-        
+ 
         
     }    
     

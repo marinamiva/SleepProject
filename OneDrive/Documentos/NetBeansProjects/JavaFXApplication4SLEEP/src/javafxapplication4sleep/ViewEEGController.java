@@ -5,8 +5,10 @@
  */
 package javafxapplication4sleep;
 
+import BITalino.BitalinoDemo;
 import Client.Patient;
 import Client.Report;
+import Client.Signals;
 import Database.PatientManagerInterface;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,6 +51,8 @@ public class ViewEEGController implements Initializable {
     
     private List<Integer> eegValues = new ArrayList();
     private Patient patient;
+    private Signals eeg;
+    private BitalinoDemo bit;
     
        public void start(Stage primaryStage) throws Exception {
 
@@ -56,7 +60,20 @@ public class ViewEEGController implements Initializable {
         
         Scene scene = new Scene(root);
         
-        eegValues = patient.getRecordedEEG();
+        NumberAxis X = new NumberAxis();
+        X.setLabel("");
+        NumberAxis Y = new NumberAxis();
+        Y.setLabel("EEG values");
+        
+        LineChart lc = new LineChart (X,Y);
+        XYChart.Series series = new XYChart.Series<>();
+        
+        for ( int i =0; i<1000; i++){
+            // series.getData().add(new XYChart.Data(i, ));
+        }
+       
+        
+      /*
         
         if(!eegValues.isEmpty()){
             for (int i = 0; i < eegValues.size() ; i++) {
@@ -66,7 +83,7 @@ public class ViewEEGController implements Initializable {
             eegGraphic.setCreateSymbols(false);
             eegGraphic.getData().addAll(series);
         }
-        
+        */
         primaryStage.setTitle("EEG RECORDED");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -89,7 +106,8 @@ public class ViewEEGController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
-        series = new XYChart.Series();   
+        //series = new XYChart.Series()
+        
         
       //  XYChart.Series series = new  XYChart.Series<>();
        

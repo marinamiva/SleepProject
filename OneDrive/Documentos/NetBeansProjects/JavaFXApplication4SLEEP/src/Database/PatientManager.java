@@ -239,7 +239,17 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}      
      
-     public void addEEG(String dni) {
+     public void addEEG(String dni, java.util.Date date, List<Integer> eegvalues, List<Integer> luxvalues) {
+         try{
+             String sql = "INSERT INTO EEGs (patient_dni, eeg_date, eeg, eeg_lux) VALUES (?,?,?,?)";
+             PreparedStatement prep = c.prepareStatement(sql);
+             prep.setString(1, dni);
+             //prep.setDate(2,date );
+             //prep.setInt(3, eegvalues);
+             //prep.setInt(4, luxvalues);
+         }catch(SQLException ex){
+             ex.printStackTrace();
+         }
          
      }
     

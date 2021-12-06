@@ -9,13 +9,13 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication4sleep.ReportHistoryController">
    <children>
-      <TableView layoutX="21.0" layoutY="101.0" prefHeight="217.0" prefWidth="562.0">
+      <TableView fx:id="reportTable" layoutX="21.0" layoutY="101.0" prefHeight="217.0" prefWidth="562.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="DATE" />
-            <TableColumn prefWidth="75.0" text="QUALITY" />
-            <TableColumn prefWidth="75.0" text="EXHAUSTION" />
-            <TableColumn prefWidth="75.0" text="HOURS" />
-            <TableColumn prefWidth="75.0" text="MOVEMENT" />
+          <TableColumn fx:id="columnDate" prefWidth="75.0" text="DATE" />
+            <TableColumn fx:id="quality" prefWidth="75.0" text="QUALITY" />
+            <TableColumn fx:id="exhaustion" prefWidth="75.0" text="EXHAUSTION" />
+            <TableColumn fx:id="hours" prefWidth="75.0" text="HOURS" />
+            <TableColumn fx:id="movement" prefWidth="75.0" text="MOVEMENT" />
         </columns>
       </TableView>
       <Button layoutX="48.0" layoutY="340.0" mnemonicParsing="false" onAction="#goBackClientMenu" text="Back" />
