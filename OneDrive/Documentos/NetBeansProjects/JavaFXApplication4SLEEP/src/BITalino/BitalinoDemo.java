@@ -22,8 +22,9 @@ import java.util.logging.Logger;
 public class BitalinoDemo {
 
     public static Frame[] frame;
-    public static List<Integer> values = new ArrayList();
+    public static List<Integer> values1 = new ArrayList();
     public static List<Integer> values2 = new ArrayList();
+    private static String[] res;
     
     private Connection c;
     private static Database.DBManagerInterface dbman;
@@ -55,7 +56,7 @@ public class BitalinoDemo {
             bitalino.start(channelsToAcquire);
 
             //Read in total 10000000 times
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < 5; j++) {
 
                 //Each time read a block of 10 samples 
                 int block_size=10;
@@ -73,15 +74,32 @@ public class BitalinoDemo {
                     //  + frame[i].analog[4] + " "
                     //  + frame[i].analog[5]
                     );
-                values.add(frame[i].analog[0]);
+                values1.add(frame[i].analog[0]);
                 values2.add(frame[i].analog[1]);
                 }               
             }
             
-            Patient.createFile(values, values2);
-            ArrayList<Integer> val1=new ArrayList(values);
+            Patient.createFile(values1, values2);
+            ArrayList<Integer> val1=new ArrayList(values1);
             ArrayList<Integer> val2=new ArrayList(values2);
-            Signals signal=new Signals(now(),val1,val2);
+            String values=(val1).toString();
+             String luxvalues=(val2).toString();
+            //System.out.println(val1);
+            //System.out.println(val2);
+            
+            System.out.println(values);
+            values.replace("[", "");
+            values.replace("]", "");
+            System.out.println(values);
+            res = values.split(", ");
+            System.out.println(res);
+          //  for (int i=0; i<res.length;i++){
+              //                 val1.add(Integer.parseInt(res[i])); 
+                  //          }
+            System.out.println(values);
+            System.out.println(luxvalues);
+            Signals signal=new Signals(now(),"111",val1,val2);
+            System.out.println(signal.toString());
             pmi.addEEG(signal);
 
             // values.add(frame);

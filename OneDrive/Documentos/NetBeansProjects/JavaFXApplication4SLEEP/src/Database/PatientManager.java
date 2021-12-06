@@ -255,6 +255,8 @@ public class PatientManager implements PatientManagerInterface  {
              String luxvalues=(eeg.getEegLUX()).toString();
              prep.setString(3, values);
              prep.setString(4, luxvalues);
+             prep.executeUpdate();
+             prep.close();
          }catch(SQLException ex){
              ex.printStackTrace();
          }
@@ -262,32 +264,29 @@ public class PatientManager implements PatientManagerInterface  {
      }
     
      
-     public Signals viewEEG(String dni, java.util.Date date) {
+     public Signals viewEEG(String dni) {
          Signals eeg = new Signals();
          ArrayList<Integer> values=new ArrayList<>();
          String[] valuesString;
          Connection c1 = null; 
             try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
+		
+  
+                        String sql1= "SELECT EEG FROM EEGs WHERE patient_dni =?";
+                        PreparedStatement prep1 = c.prepareStatement(sql1);
+			prep1.setString(1, "%"+dni+"%");
+                      
                         
-                        String sql1= "SELECT EEG FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
-                        prep1.setString(2, "%"+date+"%"); 
-                        
-			ResultSet rs2 = prep1.executeQuery();
+                        ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) { 
+                            java.util.Date date = rs2.getDate("eeg_date");
                             String EEG=rs2.getString("EEG");  
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
+                            valuesString=EEG.split(", "); //LO SEPARA POR ESPACIOS SE SUPONE
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i])); 
                             }
                             LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                            eeg=new Signals(date1,dni,values); 
+                            //eeg=new Signals(date,dni,values); 
                       }	
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -301,20 +300,20 @@ public class PatientManager implements PatientManagerInterface  {
          Connection c1 = null; 
             try {
 			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
+			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%"+dni+"%");
                         ResultSet rs = prep.executeQuery();
                         int id = rs.getInt("patient_id");
                         
                         String sql1= "SELECT EEG_LUX FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
+                        PreparedStatement prep1 = c.prepareStatement(sql1);
 			prep1.setString(1, "%"+id+"%");
                         prep1.setString(2, "%"+date+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
                         
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) { 
                             String EEG=rs2.getString("EEG");  
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
+                            valuesString=EEG.split(", "); //LO SEPARA POR ESPACIOS SE SUPONE
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i])); 
                             }
@@ -334,20 +333,20 @@ public class PatientManager implements PatientManagerInterface  {
          Connection c1 = null;
             try {
 			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c1.prepareStatement(sql);
+			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%"+dni+"%");
                         ResultSet rs = prep.executeQuery();
                         int id = rs.getInt("patient_id");
                         
                         String sql1= "SELECT * FROM EEGs WHERE patient_id =?";
-                        PreparedStatement prep1 = c1.prepareStatement(sql1);
+                        PreparedStatement prep1 = c.prepareStatement(sql1);
 			prep1.setString(1, "%"+id+"%");
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) {
                             String dni1=rs2.getString("patient_dni");
                             java.util.Date date = rs2.getDate("EEG_date");
                             String EEG=rs2.getString("EEG");
-                            valuesString=EEG.split("\\s+"); //LO SEPARA POR ESPACIOS SE SUPONE
+                            valuesString=EEG.split(", "); //LO SEPARA POR ESPACIOS SE SUPONE
                             for (int i=0; i<valuesString.length;i++){
                                values.add(Integer.parseInt(valuesString[i]));
                             }

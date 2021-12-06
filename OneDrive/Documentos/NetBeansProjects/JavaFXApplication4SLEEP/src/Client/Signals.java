@@ -72,8 +72,12 @@ public class Signals implements Serializable {
 
     @Override
     public String toString() {
-        return "Signals{" + "eegValues=" + eegValues + ", eegLUX=" + eegLUX + ", dni=" + dni + ", eegDate=" + eegDate + '}';
+        return "Signals{" + "dni=" + dni + ", eegDate=" + eegDate + ", eegValues=" + eegValues + ", eegLUX=" + eegLUX + '}';
     }
+
+
+
+
 
    
 

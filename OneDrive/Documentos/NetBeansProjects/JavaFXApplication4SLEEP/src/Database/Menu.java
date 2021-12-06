@@ -265,10 +265,10 @@ public class Menu {
        
        
        
-    public static void viewEEG(String dni) {
-        LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
-        java.util.Date eegDate = java.sql.Date.valueOf(data);
-        Signals eeg = pmi.viewEEG(dni,eegDate);
+    public static void viewEEG(String dni) throws IOException {
+        System.out.println("Type the dni of the patient without letters \n");
+        String dni2 = br.readLine();
+        Signals eeg = pmi.viewEEG(dni2);
         System.out.println("The EEG is: "+eeg.toString());
     }
     public static void viewEEGLUX(String dni) {

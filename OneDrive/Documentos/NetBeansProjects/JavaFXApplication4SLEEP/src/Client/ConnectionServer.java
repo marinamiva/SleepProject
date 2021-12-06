@@ -24,6 +24,7 @@ public class ConnectionServer {
         
         Socket socketSender = null;
         PrintWriter print = null;
+        SimpleDateFormat formato;
         
         try {
             socketSender = new Socket(ip, 9010);
@@ -32,7 +33,9 @@ public class ConnectionServer {
             print.println(patient.getLastname());
             print.println(patient.getTelephone());
             print.println(patient.getAddress());
-            print.println(patient.getDateOfBirth());
+            formato= new SimpleDateFormat("yyyy-MM-dd");
+            String date = formato.format(patient.getDateOfBirth());
+            print.println(date);
             print.println(patient.getDni());
             print.println(patient.getGender());
             print.println("Finish");
@@ -109,7 +112,7 @@ public class ConnectionServer {
         dbman.connect();
         pmi = dbman.getPatientManager();
         br = new BufferedReader(new InputStreamReader(System.in));
-        String ipString="10.61.80.26";
+        String ipString="192.168.1.142";
         InetAddress ip1=InetAddress.getByName(ipString);
         String dni=ui.takeDNI(br, "Write dni:");
         Patient patient=pmi.searchSpecificPatientByDNI(dni);
