@@ -88,7 +88,6 @@ public class Menu {
                         modifyInformation(); 
                         break;
                     case 6:
-                        //addEEG();
                         viewEEG(patientUsing.getDni()); 
                         //showReportsDB();
                         break;
@@ -101,7 +100,7 @@ public class Menu {
                     case 9:
                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
-                          sendPatient(patientUsing,ip);
+                          //sendPatient(patientUsing,ip);
                           //sendEEG(Signals,ip); 
                        }
                         break;
