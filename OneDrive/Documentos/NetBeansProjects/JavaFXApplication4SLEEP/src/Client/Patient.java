@@ -5,6 +5,9 @@
  */
 package Client;
 
+import Database.DBManager;
+import Database.PatientManagerInterface;
+import Database.UserManagerInterface;
 import java.util.Date;
 import java.util.Objects;
 import java.io.BufferedReader;
@@ -16,7 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patient implements Serializable {
@@ -67,24 +72,34 @@ public class Patient implements Serializable {
         this.gender = gender;
 
     }
+    public Patient(String name, String lastname, String telephone, String address, String dni, String gender) {
+
+        this.name = name;
+        this.lastname = lastname;
+        this.telephone = telephone;
+        this.address = address;
+        this.dni = dni;
+        this.gender = gender;
+
+    }
 
 
-    public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
-        Patient pat = new Patient();
+    public static void createFile(Patient pat,List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
         FileWriter flwriter = null;
         try {
             
-            flwriter = new FileWriter("./recordedSignal_"+pat.getName()+".txt");
+            flwriter = new FileWriter("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
            //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
            // bfwriter.write(name + System.lineSeparator());
            // bfwriter.write(date + System.lineSeparator());
 
            bfwriter.write(pat.getName());
+           bfwriter.write("\n");
            LocalDate localdate = LocalDate.now();
            String date = localdate.toString();
            bfwriter.write(date);
-           
+           bfwriter.write("\n");
             int size = EEG.size();
             for (int i = 0; i < size; i++) {
                 String str = EEG.get(i).toString();
@@ -97,7 +112,7 @@ public class Patient implements Serializable {
             }
             bfwriter.flush();
             bfwriter.close();
-            System.out.println("File was successfully created..");
+            System.out.println("File was successfully created.");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,12 +128,11 @@ public class Patient implements Serializable {
 
     }
 
-    public static void readFile() throws IOException {
+    public static void readFile(Patient pat) throws IOException {
         String strng;
-
         try {
-            File file = new File("./recordedSignal.txt");
-            BufferedReader obj = new BufferedReader(new FileReader(file));
+            File file = new File("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt");
+             BufferedReader obj = new BufferedReader(new FileReader(file));
 
             while ((strng = obj.readLine()) != null) {
 
@@ -242,6 +256,21 @@ public class Patient implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    
+    public static void main(String[] args) throws IOException, ParseException, Exception {
+         ArrayList<Integer> val2=new ArrayList();
+        val2.add(1);
+        val2.add(2);
+        val2.add(3);
+        val2.add(4);
+        val2.add(5);
+        val2.add(6);
+        
+        Patient pat = new Patient("marina","miguelez","610167672","madrid","1234","female");
+        createFile(pat,val2,val2);
+        //readFile(pat);
     }
 
 }

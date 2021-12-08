@@ -2,6 +2,7 @@ package BITalino;
 
 
 import Client.Patient;
+import static Client.Patient.createFile;
 import Client.Signals;
 import Database.DBManager;
 import Database.PatientManager;
@@ -79,9 +80,11 @@ public class BitalinoDemo {
                 }               
             }
             
-            Patient.createFile(values1, values2);
+            Patient pat = new Patient("marina","miguelez","610167672","madrid","1234","female");
+            
             ArrayList<Integer> val1=new ArrayList(values1);
             ArrayList<Integer> val2=new ArrayList(values2);
+            createFile(pat,val1, val2);
             String values=(val1).toString();
              String luxvalues=(val2).toString();
             //System.out.println(val1);

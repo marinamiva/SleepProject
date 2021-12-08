@@ -93,14 +93,14 @@ public class ConnectionServer {
      * @param file
      * @param ip
      */
-    public static void sendFile(File file, InetAddress ip) {
+    public static void sendFile(Patient pat, InetAddress ip) {
+        File file = new File("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt"); 
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
             BufferedReader br = new BufferedReader(new FileReader(file));
             int character;
             while ((character = br.read()) != -1) {
-                System.out.println(character);
                 outputStream.write(character);
                 outputStream.flush();
 
@@ -123,13 +123,14 @@ public class ConnectionServer {
         dbman.connect();
         pmi = dbman.getPatientManager();
         br = new BufferedReader(new InputStreamReader(System.in));
-        String ipString = "192.168.1.142";
+        String ipString = "192.168.1.97";
         InetAddress ip1 = InetAddress.getByName(ipString);
-        String dni = ui.takeDNI(br, "Write dni:");
-        Patient patient = pmi.searchSpecificPatientByDNI(dni);
+        //String dni = ui.takeDNI(br, "Write dni:");
+        //Patient patient = pmi.searchSpecificPatientByDNI(dni);
+        Patient pat = new Patient("marina","miguelez","610167672","madrid","1234","female");
         File file = Patient.getPatFile();
-        sendPatient(patient, ip1);
-        sendFile(file, ip1);
+        //sendPatient(patient, ip1);
+        sendFile(pat, ip1);
         //java.util.Date dat=new java.util.Date("2021-11-11");
         //Report report = pmi.getDailyReport(dat);
         //sendReport(report,ip1);
