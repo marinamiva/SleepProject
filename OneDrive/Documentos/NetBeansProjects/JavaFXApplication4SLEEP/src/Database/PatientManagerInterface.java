@@ -19,7 +19,6 @@ public interface PatientManagerInterface {
    public void addDailyreport(Report rep);
    public ArrayList<Report> reportHistory(String dni);
    public  Report getDailyReport(java.util.Date  dateReport);
-   public void viewEEGHistory2(String dni);
    public ArrayList<Signals> viewEEGHistory(String dni);
    public ObservableList<Report> showReports();
    public void addEEG(Signals eeg);

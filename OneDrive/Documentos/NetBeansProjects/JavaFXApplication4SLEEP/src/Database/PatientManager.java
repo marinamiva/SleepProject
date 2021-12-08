@@ -31,7 +31,11 @@ public class PatientManager implements PatientManagerInterface  {
 		this.c=connection;
 	}
 	
-		
+    /**
+     * Insert into table Reports a new report of the patient.
+     * @param rep object of type Report with all its atributes.
+     */
+    @Override
         public void addDailyreport(Report rep) {
             try {
                 String sql = "INSERT INTO Reports (patient_dni, report_date, quality,exhaustion,hours,movement,time,rest,awake,times,dreams,worries, mood,doubts)"
@@ -59,6 +63,12 @@ public class PatientManager implements PatientManagerInterface  {
                     }
     }
             
+    /**
+     *
+     * @param dni
+     * @return the ArrayList of Reports that the patient  with this DNI has.
+     */
+    @Override
     public ArrayList<Report> reportHistory(String dni){
         ArrayList<Report> repList = new ArrayList<Report>();
         try {
@@ -124,6 +134,12 @@ public class PatientManager implements PatientManagerInterface  {
         return repList;
     }
 
+    /**
+     * Getting an specific report of a patient knowing the date of the report.
+     * @param dateReport date of the report you are looking for.
+     * @return
+     */
+    @Override
     public  Report getDailyReport(java.util.Date  dateReport){
         Report newreport = new Report();
         String sql = "SELECT * FROM Reports WHERE Report_date LIKE ?";
@@ -154,6 +170,11 @@ public class PatientManager implements PatientManagerInterface  {
         return newreport;
     }
             
+    /**
+     * Shows all the patients of the table Patients of the database.
+     * @return an ArrayList of objects Patient.
+     */
+    @Override
     public  ArrayList<Patient> showPatients() {
         ArrayList<Patient> patList = new ArrayList<Patient>();
         try {
@@ -179,6 +200,11 @@ public class PatientManager implements PatientManagerInterface  {
         return patList;
     }
 
+    /**
+     * Adding a Patient's object to the table Patients of the database.
+     * @param pat object of Patient with all its atributes.
+     */
+    @Override
     public void addpatientbyRegister(Patient pat) {
         try {
 
@@ -200,6 +226,11 @@ public class PatientManager implements PatientManagerInterface  {
             }
     }
   
+    /**
+     * Returns an object Patient with all its atributes knowing its dni.
+     * @param dni of the patient you are looking for.
+     * @return the patient with this dni
+     */
     @Override
      public  Patient searchSpecificPatientByDNI(String dni){
          Patient patientfound=new Patient();
@@ -247,6 +278,11 @@ public class PatientManager implements PatientManagerInterface  {
 			}
 	}      
      
+    /**
+     * Adding an EEG to table EEGs in the database thanks to the ArrayList obtained by bitalino.
+     * @param eeg object of Signals with the lists.
+     */
+    @Override
      public void addEEG(Signals eeg) {
          try{
              String sql = "INSERT INTO EEGs (patient_dni, eeg_date, eeg, eeg_lux) VALUES (?,?,?,?)";
@@ -265,7 +301,11 @@ public class PatientManager implements PatientManagerInterface  {
          
      }
     
-      public void viewEEGString(String dni) {
+    /**
+     * Method that prints the values of the EEG of an specific patient.
+     * @param dni of the patient you want to look for.
+     */
+    public void viewEEGString(String dni) {
         
          try {
             String sql1= "SELECT eeg FROM EEGs WHERE patient_dni LIKE ?";
@@ -280,6 +320,12 @@ public class PatientManager implements PatientManagerInterface  {
             Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
+
+    /**
+     *Method that prints the values of the EEG with LUX of an specific patient.
+     * @param dni of the patient you want to look for.
+     */
+    @Override
       public void viewEEGStringLUX(String dni) {
         
          try {
@@ -296,6 +342,12 @@ public class PatientManager implements PatientManagerInterface  {
         } 
     }
       
+    /**
+     * Give an ArrayList of the Signals of the patient you are looking for.
+     * @param dni of the patient you are looking for.
+     * @return an ArrayList of Signals with the date of the different EEG values and dni of the patient.
+     */
+    @Override
     public ArrayList<Signals> viewEEGHistory(String dni) {
          ArrayList<Signals> eegs = new ArrayList<Signals>();
          ArrayList<Integer> values=new ArrayList<>();
@@ -322,28 +374,7 @@ public class PatientManager implements PatientManagerInterface  {
             return eegs;
     }
 	  
-    public void viewEEGHistory2(String dni) {
-         ArrayList<Signals> eegs = new ArrayList<Signals>();
-         Signals neweeg=new Signals();
-            try {
-                String sql1= "SELECT * FROM EEGs WHERE patient_dni =?";
-                PreparedStatement prep1 = c.prepareStatement(sql1);
-                prep1.setString(1, "%"+dni+"%");
-                ResultSet rs2 = prep1.executeQuery();
-                while (rs2.next()) {
-                    String dni1=rs2.getString("patient_dni");
-                    java.util.Date date = rs2.getDate("EEG_date");
-                    //LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    Signals eeg= new Signals(date,dni1);
-                    System.out.println(eeg.toStringWithoutValues());
-                    eegs.add(eeg);
-                    
-                }
-                
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-    }
+   
 	
 
     
@@ -402,7 +433,30 @@ public class PatientManager implements PatientManagerInterface  {
         
         }catch(NullPointerException e){
             e.printStackTrace(); 
-        }*/
+        }
+ public void viewEEGHistory2(String dni) {
+         ArrayList<Signals> eegs = new ArrayList<Signals>();
+         Signals neweeg=new Signals();
+            try {
+                String sql1= "SELECT * FROM EEGs WHERE patient_dni =?";
+                PreparedStatement prep1 = c.prepareStatement(sql1);
+                prep1.setString(1, "%"+dni+"%");
+                ResultSet rs2 = prep1.executeQuery();
+                while (rs2.next()) {
+                    String dni1=rs2.getString("patient_dni");
+                    java.util.Date date = rs2.getDate("EEG_date");
+                    //LocalDate date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    Signals eeg= new Signals(date,dni1);
+                    System.out.println(eeg.toStringWithoutValues());
+                    eegs.add(eeg);
+                    
+                }
+                
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+    }*/
+
     /* public ArrayList<Integer> viewEEG(String dni) {
         ArrayList<Integer> values=new ArrayList<>();
         String eegString="";

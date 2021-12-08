@@ -56,8 +56,11 @@ public class UserManager implements UserManagerInterface {
 
             }
                 
-            
-        @Override
+    /**
+     * Creates a User in the table Users of the database with its name and password.
+     * @param newuser user that you are going to add to the database
+     */
+    @Override
             public void createUserRegister(User newuser){
                 try{
                     String sql = "INSERT INTO Users (patient_dni, password) VALUES (?,?)";
@@ -71,7 +74,12 @@ public class UserManager implements UserManagerInterface {
                 }
             }
 
-        @Override
+    /**
+     * Gives you a User knowing its dni.
+     * @param dni the dni of the user is the username of the database
+     * @return the user with this dni with username and password.
+     */
+    @Override
 	public User getUserByDNI(String dni) {
             User user=new User();
             try {
@@ -92,6 +100,12 @@ public class UserManager implements UserManagerInterface {
             } return user;
 	}
 	
+    /**
+     * Gives the encripted password in hexadecimal of the user you are searching for.
+     * @param dni of the user.
+     * @return an String of the hexadecimal encripted value of the password.
+     */
+    @Override
         public String getPassword(String dni){
             String pas=null;
             try {
@@ -108,8 +122,12 @@ public class UserManager implements UserManagerInterface {
             } return pas;
         }
 	
-	
-        @Override
+    /**
+     * Checking the password of a user you are giving as atribute to know if it exists in the database and if its password is the same.
+     * @param user user with username and password you want to check its credentials
+     * @return the user you have check or null if it the password is not the same as the one in the database.
+     */
+    @Override
         public User checkPasswordGood(User user){
             User user2 = new User();
             String username,password;

@@ -53,12 +53,13 @@ public class DBManager implements DBManagerInterface {
 
     }
 
+    /**
+     * Creating tables of our database named SleepControlDB2.db
+     * There are 4 different tables: Patients, Reports, EEGs and Users.
+     */
+    @Override
     public void createTables() {
         try {
-            // Open database connection
-            //Class.forName("org.sqlite.JDBC");
-            //DriverManager.getConnection("jdbc:sqlite:./db/SleepControl_DB.db");
-            //c.createStatement().execute("PRAGMA foreign_keys=ON");
             System.out.println("Database connection opened.");
             connect();
 
@@ -111,7 +112,7 @@ public class DBManager implements DBManagerInterface {
             String sql4 = "CREATE TABLE Users "
                     + "(patient_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "PATIENT_DNI TEXT,"
-                    + "Password TEXT)";
+                    + "Password BLOB)";
 
             stmt4.executeUpdate(sql4);
             stmt4.close();
@@ -129,9 +130,6 @@ public class DBManager implements DBManagerInterface {
             stmtSeq.executeUpdate(sqlSeq);
             stmtSeq.close();
 
-            // Close database connection
-            // c.close();
-            // System.out.println("Database connection closed.");
         } catch (SQLException e) {
             if (e.getMessage().contains("already exists")) {
             } else {
@@ -149,21 +147,10 @@ public class DBManager implements DBManagerInterface {
         return user;
     }
 
+    /**
+     * Delating the 4 tables of our database.
+     */
     @Override
-    public int getLastId() {
-        int result = 0;
-        try {
-            String query = "SELECT last_insert_rowid() AS lastId";
-            PreparedStatement p = c.prepareStatement(query);
-            ResultSet rs = p.executeQuery();
-            result = rs.getInt("lastId");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     public void deleteTables() {
         try {
 

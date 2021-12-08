@@ -19,8 +19,12 @@ import java.util.logging.Logger;
 
 public class ConnectionServer {
 
+    /**
+     * Sendind an object patient through a socket to a server.
+     * @param patient
+     * @param ip
+     */
     public static void sendPatient(Patient patient, InetAddress ip) {
-
         Socket socketSender = null;
         PrintWriter print = null;
         SimpleDateFormat formato;
@@ -45,6 +49,11 @@ public class ConnectionServer {
         }
     }
 
+    /**
+     * Sending an object Report through a socket to a server.
+     * @param rep
+     * @param ip
+     */
     public static void sendReport(Report rep, InetAddress ip) {
 
         Socket socketSender = null;
@@ -78,8 +87,12 @@ public class ConnectionServer {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
         }
     }
-//thread is unlock when it accepts a connection
-//locked until it accepts a connection
+
+    /**
+     * Sending a File with the information about EEG of a patient, its name and the time of the EEG through a socket to a server.
+     * @param file
+     * @param ip
+     */
     public static void sendFile(File file, InetAddress ip) {
         try {
             Socket socket = new Socket(ip, 9010);
