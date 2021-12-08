@@ -21,6 +21,6 @@ public interface UserManagerInterface {
 
     public void createUserRegister(User newuser);
     
-    public byte[] getPassword(Integer id);
+    public String getPassword(String dni);
 
 }

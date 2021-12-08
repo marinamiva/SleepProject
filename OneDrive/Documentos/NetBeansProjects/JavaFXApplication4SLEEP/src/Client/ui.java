@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 
 public class ui {
@@ -178,21 +179,28 @@ public class ui {
             }
 	}
     
-    public static byte[] takePasswordAndHashIt(BufferedReader reader, String text) {
+    public static String takePasswordAndHashIt(BufferedReader reader, String text) {
 		System.out.println(text);
 		byte[] returnValue = null;
+                ArrayList<String> cadena=new ArrayList<String>();
+                String hexa=null;
 		try {
 			String password = reader.readLine();
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			returnValue = md.digest();
+                        for (byte b: returnValue){
+                            cadena.add(Integer.toHexString(0xFF&b));
+                        }
+                        hexa=String.join("",cadena);
+                        
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return returnValue;
+		return hexa;
     }
     
     

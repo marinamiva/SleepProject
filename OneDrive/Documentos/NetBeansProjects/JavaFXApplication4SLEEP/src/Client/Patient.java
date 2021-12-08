@@ -117,6 +117,7 @@ public class Patient implements Serializable {
 
         FileWriter flwriter = null;
         try {
+            
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
            //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente

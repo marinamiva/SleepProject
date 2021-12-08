@@ -63,7 +63,7 @@ public class UserManager implements UserManagerInterface {
                     String sql = "INSERT INTO Users (patient_dni, password) VALUES (?,?)";
                     PreparedStatement prep = c.prepareStatement(sql);
                     prep.setString(1, newuser.getUsername());
-                    prep.setString(2, new String(newuser.getPassword()));
+                    prep.setString(2, newuser.getPassword());
                     prep.executeUpdate();
                     prep.close();
                 }catch(SQLException e){
@@ -75,15 +75,15 @@ public class UserManager implements UserManagerInterface {
 	public User getUserByDNI(String dni) {
             User user=new User();
             try {
-                String sql ="SELECT * from Users WHERE patient_dni =?";
+                String sql ="SELECT * FROM Users WHERE PATIENT_DNI LIKE ?";
                 PreparedStatement prep = c.prepareStatement(sql);
                 prep.setString(1, "%"+dni+"%");
                 ResultSet rs = prep.executeQuery();
                 while (rs.next()){
-                   String dni1=rs.getString("PATIENT_DNI");
-                   byte[] pas=rs.getBytes("Password");
-                   user=new User(dni1,pas);
-                   //user.setUsername(dni1);
+                    int id = rs.getInt("patient_id");
+                   String pas=rs.getString("Password");
+                   user=new User(dni,pas);
+                   //user.setUsername(dni);
                    //user.setPassword(pas);
                 }
                 	
@@ -92,16 +92,16 @@ public class UserManager implements UserManagerInterface {
             } return user;
 	}
 	
-        public byte[] getPassword(Integer id){
-            byte[] pas=null;
+        public String getPassword(String dni){
+            String pas=null;
             try {
-                String sql ="SELECT * from Users WHERE patient_id =?";
+                String sql ="SELECT * from Users WHERE patient_dni =?";
                 PreparedStatement prep = c.prepareStatement(sql);
-                prep.setString(1, "%"+id+"%");
+                prep.setString(1, "%"+dni+"%");
                 ResultSet rs = prep.executeQuery();
                 while (rs.next()){
                    String dni1=rs.getString("PATIENT_DNI");
-                   pas=rs.getBytes("Password");
+                   pas=rs.getString("Password");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,23 +111,25 @@ public class UserManager implements UserManagerInterface {
 	
         @Override
         public User checkPasswordGood(User user){
-            User user2 = null;
-            String username;
+            User user2 = new User();
+            String username,password;
             try{
-                String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
+                String sql = "SELECT * FROM Users WHERE PATIENT_DNI = ?";
                 PreparedStatement prep = c.prepareStatement(sql);
                 prep.setString(1, "%"+user.getUsername()+"%");
-                prep.setString(2,  "%"+user.getPassword()+"%");
+                //prep.setString(2,  "%"+user.getPassword()+"%");
                 ResultSet rs = prep.executeQuery();
                 while(rs.next()){
-                    username=user.getUsername();
-                    byte[] password = rs.getBytes("password");
-                   if(password !=user.getPassword()){
-                       System.out.println("Password didnt match");
+                    username=rs.getString("patient_dni");
+                    password = rs.getString("password");
+                   if(password!=(user.getPassword())){
+                       System.out.println("Password didn't match");
+                       user2=null;
+                       
                    } else{
-                       System.out.println("logged in!!!");
+                       System.out.println("Logged in");
+                       user2 = new User(username, password);
                    }
-                   user2 = new User(username, password);
 
              }
              }catch(SQLException ex){
@@ -146,18 +148,18 @@ public class UserManager implements UserManagerInterface {
             dbman.connect();
             pmi = dbman.getPatientManager();
             umi=dbman.getUserManager();
-            //umi.connect();  
+            umi.connect();  
             br = new BufferedReader(new InputStreamReader(System.in));
-            String dni="8267372";
-            byte[] pas =umi.getPassword(1);
+            String dni="12";
+            //byte[] pas =umi.getPassword(1);
+            //System.out.println(pas);
+            String pas=ui.takePasswordAndHashIt(br, "insert password");
             System.out.println(pas);
-            //byte[] pas=ui.takePasswordAndHashIt(br, "insert password");
-            //User user=new User(dni,pas);
+            User user=new User(dni,pas);
             //umi.deleteUser(user);
-            //umi.createUserRegister(user);
-            //User user =umi.getUserByDNI(dni);
-            //System.out.println(user.getPassword());
-            //System.out.println(user.getUsername());
+            umi.createUserRegister(user);
+            User user2 =umi.getUserByDNI(dni);
+            System.out.println(user2.getPassword());
         }
   
 

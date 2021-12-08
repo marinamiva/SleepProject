@@ -13,6 +13,7 @@ public class User implements Serializable {
     
    private String username;
     private byte[] password;
+    private String pass;
     
     private static final long serialVersionUID = -1;
    
@@ -25,6 +26,11 @@ public class User implements Serializable {
         super();
         this.username = username;
         this.password = password;
+    }
+    public User(String username, String pass){
+       super();
+        this.username = username;
+        this.pass = pass; 
     }
     
     
@@ -49,12 +55,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public byte[] getPassword() {
-        return password;
+    public String getPassword() {
+        return pass;
     }
 
-    public void setPassword(byte[] password) {
-        this.password = password;
+    public void setPassword(String password) {
+        this.pass = pass;
     }
 
     @Override
