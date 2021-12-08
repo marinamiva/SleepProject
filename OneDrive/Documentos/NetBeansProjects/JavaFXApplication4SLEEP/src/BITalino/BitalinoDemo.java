@@ -100,7 +100,7 @@ public class BitalinoDemo {
             System.out.println(luxvalues);
             Signals signal=new Signals(now(),"111",val1,val2);
             System.out.println(signal.toString());
-            pmi.addEEG(signal);
+            pmi.addEEG(signal); //to add the eeg into the database 
 
             // values.add(frame);
              //Patient.createFile(frame);
