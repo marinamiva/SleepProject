@@ -11,10 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import BITalino.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,8 +18,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Patient implements Serializable {
 
@@ -61,17 +55,6 @@ public class Patient implements Serializable {
         this.address = addres;
     }
 
-    public Patient(String name, String lastname, String telephone, String address, String dni, String gender) {
-
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-        this.address = address;
-        this.dni = dni;
-        this.gender = gender;
-    }
-
-
 
     public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender) {
 
@@ -85,27 +68,13 @@ public class Patient implements Serializable {
 
     }
 
-    public Patient(Integer id, String name, String lastname, String telephone) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-    }
-
-    public Patient(String name, String lastname, String telephone) {
-        super();
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-    }
 
     public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
         Patient pat = new Patient();
         FileWriter flwriter = null;
         try {
             
-            flwriter = new FileWriter("./recordedSignal"+pat.getName()+".txt");
+            flwriter = new FileWriter("./recordedSignal_"+pat.getName()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
            //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
            // bfwriter.write(name + System.lineSeparator());
