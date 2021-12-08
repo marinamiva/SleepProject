@@ -37,8 +37,6 @@ public class Patient implements Serializable {
     private Date dateOfBirth;
     private String dni;
     private String gender;
-    private List<Integer> recordedEEG;
-    private List<Integer> recordedLUX;
     private static File patFile;
 
     public Patient() {
@@ -73,19 +71,7 @@ public class Patient implements Serializable {
         this.gender = gender;
     }
 
-    public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender, List<Integer> recordedEEG, List<Integer> recordedLUX) {
 
-        this.name = name;
-        this.lastname = lastname;
-        this.telephone = telephone;
-        this.address = address;
-        this.dateOfBirth = dateOfBirth;
-        this.dni = dni;
-        this.gender = gender;
-        this.recordedEEG = recordedEEG;
-        this.recordedLUX = recordedLUX;
-
-    }
 
     public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender) {
 
@@ -190,21 +176,6 @@ public class Patient implements Serializable {
         return patFile;
     }
 
-    public List<Integer> getRecordedEEG() {
-        return recordedEEG;
-    }
-
-    public void setRecordedEEG(List<Integer> recordedEEG) {
-        this.recordedEEG = recordedEEG;
-    }
-
-    public List<Integer> getRecordedLUX() {
-        return recordedLUX;
-    }
-
-    public void setRecordedLUX(List<Integer> recordedLUX) {
-        this.recordedLUX = recordedLUX;
-    }
 
     public Integer getId() {
         return id;
@@ -276,7 +247,7 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedEEG=" + recordedEEG + ", recordedLUX=" + recordedLUX + '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender +  '}';
     }
 
     @Override
