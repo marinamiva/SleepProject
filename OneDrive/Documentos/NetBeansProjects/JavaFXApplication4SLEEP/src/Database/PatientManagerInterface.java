@@ -21,7 +21,7 @@ public interface PatientManagerInterface {
    public  Report getDailyReport(java.util.Date  dateReport);
    public Signals viewEEG(String dni);
    public ArrayList<Signals> viewEEGHistory(String dni);
-   public Signals viewEEGLUX(String dni, java.util.Date date);
+   public Signals viewEEGLUX(String dni);
    public ObservableList<Report> showReports();
    public void addEEG(Signals eeg);
 

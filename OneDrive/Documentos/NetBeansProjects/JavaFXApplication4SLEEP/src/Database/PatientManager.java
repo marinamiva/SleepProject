@@ -33,8 +33,8 @@ public class PatientManager implements PatientManagerInterface  {
 		
         public void addDailyreport(Report rep) {
             try {
-                String sql = "INSERT INTO Reports (patient_dni, report_date, quality, exhaustion,hours,movement,time, rest,awake,times,worries, mood, doubts)"
-                                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                String sql = "INSERT INTO Reports (patient_dni, report_date, quality,exhaustion,hours,movement,time,rest,awake,times,dreams,worries, mood,doubts)"
+                                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 PreparedStatement prep = c.prepareStatement(sql);
                 prep.setString(1, rep.getPatdni());
                 prep.setDate(2, (java.sql.Date) rep.getTodaysDate());
@@ -46,9 +46,10 @@ public class PatientManager implements PatientManagerInterface  {
                 prep.setString(8, rep.getRest());
                 prep.setString(9, rep.getStayAwake());
                 prep.setString(10, rep.getTimesAwake());
-                prep.setString(11, rep.getWorries());
-                prep.setString(12, rep.getTodaysMood());
-                prep.setString(13, rep.getdoubtsForDoctor());
+                prep.setString(11, rep.getDreams());
+                prep.setString(12, rep.getWorries());
+                prep.setString(13, rep.getTodaysMood());
+                prep.setString(14, rep.getdoubtsForDoctor());
                 prep.executeUpdate();
                 prep.close();
                 }
@@ -270,8 +271,6 @@ public class PatientManager implements PatientManagerInterface  {
          String[] valuesString;
          Connection c1 = null; 
             try {
-		
-  
                         String sql1= "SELECT EEG FROM EEGs WHERE patient_dni =?";
                         PreparedStatement prep1 = c.prepareStatement(sql1);
 			prep1.setString(1, "%"+dni+"%");
@@ -293,25 +292,19 @@ public class PatientManager implements PatientManagerInterface  {
 		}
         return eeg;
     }
-     public Signals viewEEGLUX(String dni, java.util.Date date) {
+     public Signals viewEEGLUX(String dni) {
          Signals eeg = new Signals();
          ArrayList<Integer> values=new ArrayList<>();
          String[] valuesString;
          Connection c1 = null; 
             try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
-                        
-                        String sql1= "SELECT EEG_LUX FROM EEGs WHERE patient_id =? AND EEG_DATE= ?";
+                        String sql1= "SELECT EEG_LUX FROM EEGs WHERE patient_dni =?";
                         PreparedStatement prep1 = c.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
-                        prep1.setString(2, "%"+date+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
+			prep1.setString(1, "%"+dni+"%");  //NO SE SI ESTO ESTA BIEN PORQUE DEBERIA SER SetDate PEOR DA ERROR
                         
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) { 
+                            java.util.Date date = rs2.getDate("eeg_date");
                             String EEG=rs2.getString("EEG");  
                             valuesString=EEG.split(", "); //LO SEPARA POR ESPACIOS SE SUPONE
                             for (int i=0; i<valuesString.length;i++){
@@ -332,15 +325,9 @@ public class PatientManager implements PatientManagerInterface  {
          String[] valuesString;
          Connection c1 = null;
             try {
-			String sql = "SELECT patient_id FROM Patients WHERE DNI = ?";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, "%"+dni+"%");
-                        ResultSet rs = prep.executeQuery();
-                        int id = rs.getInt("patient_id");
-                        
-                        String sql1= "SELECT * FROM EEGs WHERE patient_id =?";
+                        String sql1= "SELECT * FROM EEGs WHERE patient_dni =?";
                         PreparedStatement prep1 = c.prepareStatement(sql1);
-			prep1.setString(1, "%"+id+"%");
+			prep1.setString(1, "%"+dni+"%");
 			ResultSet rs2 = prep1.executeQuery();
                         while (rs2.next()) {
                             String dni1=rs2.getString("patient_dni");
@@ -373,7 +360,7 @@ public class PatientManager implements PatientManagerInterface  {
             pmi = dbman.getPatientManager();
             br = new BufferedReader(new InputStreamReader(System.in));
             String dni="1234";
-            byte[] pas=ui.takePasswordAndHashIt(br, "insert password");
+            String pas=ui.takePasswordAndHashIt(br, "insert password");
             addPatientByRegister();
             //User user =umi.getUserByDNI(dni);
         }
@@ -392,8 +379,8 @@ public class PatientManager implements PatientManagerInterface  {
         String dni = ui.takeDNI(br,"Type your DNI (numeric only)");
         String gender = ui.takeGender(br, "Type your gender: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
-        byte[] password = ui.takePasswordAndHashIt(br, "Introduce a password:");
-            System.out.println(password);
+        String password = ui.takePasswordAndHashIt(br, "Introduce a password:");
+         System.out.println(password);
         //User user = new User(dni, password);
 	//umi.createUserRegister(user);
         

@@ -42,7 +42,6 @@ public class Menu {
         dbman = new DBManager();
         dbman.connect();
         //dbman.createTables();
-        //dbman.deleteTables();
         pmi = dbman.getPatientManager();
         umi=dbman.getUserManager();
         umi.connect();
@@ -53,20 +52,20 @@ public class Menu {
         inUse=false;
         logged=false;
         int max;
-        System.out.println("WELCOME TO SLEEP CONTROL\n");
-        System.out.println("Please, introduce the IP you are connected with: ");
+        System.out.println("\nWELCOME TO SLEEP CONTROL\n");
+        System.out.println("\nPlease, introduce the IP you are connected with:");
         ipString=sc.next();
         ip=InetAddress.getByName(ipString);
         while(true){
-            System.out.println("Do you want to register or login?\n"+"1.Register.\n"+"2.Login.");
-            max=2;
-            if(logged =true){
-                System.out.println("3.View your report history.\n"+"4.Do your daily report.\n"+"5. Modify your personal information.\n"+"6.View your actual EEG.\n"+"7.View your EEG with LUX.\n"+"8.View your EEG history.\n"+"9.Send EEG right now.");
-                System.out.println("0. Log out.\n");
-                //sendPatient(patientUsing,ip);
-                max=8;
+            
+               System.out.println("\nWhat do you want to do?\n"+"1. Register.\n"+"2. Login.\n");
+                max=2;
+            if(logged){
+                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG.\n"+"7. View your EEG with LUX.\n"+"8. View your EEG history.\n"+"9. Send EEG right now.\n");
+                System.out.println("9. Log out.\n");
+                max=9;
             }
-            System.out.println("0. Exit.\n");
+            System.out.println("0. Exit (First you need to log out).\n");
             num=requestNumber(max);
             inUse=true;
             numUsing=num;
@@ -97,22 +96,24 @@ public class Menu {
                     case 8:
                         viewEEGHistory(patientUsing.getDni());
                         break;
-                    case 9:
+                    /*case 9:
                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
                           //sendPatient(patientUsing,ip);
                           //sendEEG(Signals,ip); 
                        }
-                        break;
-                    case 0: 
+                        break;*/
+                    case 9:
                         dbman.disconnect();
+                        logged=false;
                         //umi.disconnect();
-                        System.exit(0);
+                        //System.exit(0);
                         break;
                      
-                    default:
+                    case 0:
                         inUse=false;
                         logged=false;
+                        System.exit(0);
                         break;
                 }
                 break;
@@ -139,7 +140,7 @@ public class Menu {
         String dni = ui.takeDNI(br,"Type your DNI (numeric only)");
         String gender = ui.takeGender(br, "Type your gender: ");
         newpat = new Patient(name, lastname, telephone, address,dob, dni, gender);
-        byte[] password = ui.takePasswordAndHashIt(br, "Introduce a password:");
+        String password = ui.takePasswordAndHashIt(br, "Introduce a password:");
         User user = new User(dni, password);
 	umi.createUserRegister(user);
         
@@ -200,7 +201,7 @@ public class Menu {
             User newuser=null;
             System.out.println("Introduce your DNI, as username (without letters)");
             String dniuser = br.readLine();
-            byte[] password = ui.takePasswordAndHashIt(br, "Add the password you want:");
+            String password = ui.takePasswordAndHashIt(br, "Add the password you want:");
             newuser = new User(dniuser, password);
             System.out.println("The user added is:" +newuser);
             umi.createUserRegister(newuser);
@@ -266,15 +267,12 @@ public class Menu {
        
        
     public static void viewEEG(String dni) throws IOException {
-        System.out.println("Type the dni of the patient without letters \n");
-        String dni2 = br.readLine();
-        Signals eeg = pmi.viewEEG(dni2);
+        Signals eeg = pmi.viewEEG(dni);
         System.out.println("The EEG is: "+eeg.toString());
     }
     public static void viewEEGLUX(String dni) {
-        LocalDate data= ui.takeDate(br,"Type the date (yyyy-MM-dd) of the EEG you want to see:");
-        java.util.Date eegDate = java.sql.Date.valueOf(data);
-        Signals eeg = pmi.viewEEGLUX(dni,eegDate);
+        
+        Signals eeg = pmi.viewEEGLUX(dni);
         System.out.println("The EEG is: "+eeg.toString());
     }
        
@@ -290,8 +288,7 @@ public class Menu {
           }
        }
        public static void viewEEGHistory(String dni){
-            ArrayList<Signals> eegs = new ArrayList<Signals>();
-
+          ArrayList<Signals> eegs = new ArrayList<Signals>();
           Signals neweeg;
           eegs = pmi.viewEEGHistory(dni);
           Iterator it = eegs.iterator();
@@ -347,7 +344,7 @@ public class Menu {
             boolean check = true;
         do{    
             String dni = ui.takeDNI(br, "Introduce your DNI:");
-            byte[] password = ui.takePasswordAndHashIt(br, "Introduce your password:");
+            String password = ui.takePasswordAndHashIt(br, "Introduce your password:");
             User user = new User(dni, password);
             User userCheck = umi.checkPasswordGood(user);
             if (userCheck == null) {
