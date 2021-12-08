@@ -5,7 +5,6 @@
  */
 package Client;
 
-
 import Database.DBManager;
 import Database.PatientManagerInterface;
 import java.io.*;
@@ -18,22 +17,22 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class ConnectionServer {
-    public static void sendPatient(Patient patient, InetAddress ip){
-        
+
+    public static void sendPatient(Patient patient, InetAddress ip) {
+
         Socket socketSender = null;
         PrintWriter print = null;
         SimpleDateFormat formato;
-        
+
         try {
             socketSender = new Socket(ip, 9010);
-            print=new PrintWriter(socketSender.getOutputStream(),true);
+            print = new PrintWriter(socketSender.getOutputStream(), true);
             print.println(patient.getName());
             print.println(patient.getLastname());
             print.println(patient.getTelephone());
             print.println(patient.getAddress());
-            formato= new SimpleDateFormat("yyyy-MM-dd");
+            formato = new SimpleDateFormat("yyyy-MM-dd");
             String date = formato.format(patient.getDateOfBirth());
             print.println(date);
             print.println(patient.getDni());
@@ -43,20 +42,21 @@ public class ConnectionServer {
         } catch (IOException io) {
             System.out.println("No possible to connect.");
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
-        } 
+        }
     }
-    public static void sendReport(Report rep,InetAddress ip){
-        
+
+    public static void sendReport(Report rep, InetAddress ip) {
+
         Socket socketSender = null;
         PrintWriter print = null;
-        
+
         try {
             socketSender = new Socket(ip, 9010);
-            print=new PrintWriter(socketSender.getOutputStream(),true);
+            print = new PrintWriter(socketSender.getOutputStream(), true);
             //String date,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
-            Date dat=rep.getTodaysDate();
-            SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
-            String date=formato.format(dat);
+            Date dat = rep.getTodaysDate();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            String date = formato.format(dat);
             print.println(rep.getPatdni());
             print.println(date);
             print.println(rep.getsleepQuality());
@@ -76,11 +76,11 @@ public class ConnectionServer {
         } catch (IOException io) {
             System.out.println("No possible to connect.");
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, io);
-        } 
+        }
     }
-     
-   
-    public static void sendFile(File file,InetAddress ip){
+//thread is unlock when it accepts a connection
+//locked until it accepts a connection
+    public static void sendFile(File file, InetAddress ip) {
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
@@ -90,18 +90,16 @@ public class ConnectionServer {
                 System.out.println(character);
                 outputStream.write(character);
                 outputStream.flush();
-                
+
             }
-            releaseResources(outputStream, br, socket);
-            System.exit(0);
+         outputStream.flush();
+        releaseResources(outputStream, br, socket);
         } catch (IOException ex) {
             System.out.println("No possible to connect.");
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
-        
-    
+
     private Connection c;
     private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
@@ -112,27 +110,29 @@ public class ConnectionServer {
         dbman.connect();
         pmi = dbman.getPatientManager();
         br = new BufferedReader(new InputStreamReader(System.in));
-        String ipString="192.168.1.142";
-        InetAddress ip1=InetAddress.getByName(ipString);
-        String dni=ui.takeDNI(br, "Write dni:");
-        Patient patient=pmi.searchSpecificPatientByDNI(dni);
-        sendPatient(patient,ip1);
+        String ipString = "192.168.1.142";
+        InetAddress ip1 = InetAddress.getByName(ipString);
+        String dni = ui.takeDNI(br, "Write dni:");
+        Patient patient = pmi.searchSpecificPatientByDNI(dni);
+        File file = Patient.getPatFile();
+        sendPatient(patient, ip1);
+        sendFile(file, ip1);
         //java.util.Date dat=new java.util.Date("2021-11-11");
         //Report report = pmi.getDailyReport(dat);
         //sendReport(report,ip1);
-        
+
     }
 
-    
     private static void releaseResources(PrintWriter p, Socket socket) {
-        try {    
+        try {
             p.close();
             socket.close();
         } catch (IOException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+
     private static void releaseResources(OutputStream outputStream,
             BufferedReader br, Socket socket) {
         try {
@@ -155,9 +155,4 @@ public class ConnectionServer {
         }
     }
 
-
-
-
-
-    
 }
