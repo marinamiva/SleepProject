@@ -16,10 +16,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import BITalino.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Patient implements Serializable {
 
@@ -33,16 +36,18 @@ public class Patient implements Serializable {
     private Date dateOfBirth;
     private String dni;
     private String gender;
-    private  List<Integer> recordedEEG;
-    private  List<Integer> recordedLUX;
+    private List<Integer> recordedEEG;
+    private List<Integer> recordedLUX;
+    private static File patFile;
 
     public Patient() {
-        super();
+         super();
     }
 
     public Patient(Integer id) {
         super();
         this.id = id;
+
     }
 
     public Patient(Integer id, String name, String lastname, String telephone, String addres, Date dob, String dni, String gender) {
@@ -78,7 +83,7 @@ public class Patient implements Serializable {
         this.gender = gender;
         this.recordedEEG = recordedEEG;
         this.recordedLUX = recordedLUX;
-        
+
     }
 
     public Patient(String name, String lastname, String telephone, String address, Date dateOfBirth, String dni, String gender) {
@@ -108,7 +113,6 @@ public class Patient implements Serializable {
         this.telephone = telephone;
     }
 
-
     public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
 
         FileWriter flwriter = null;
@@ -116,6 +120,10 @@ public class Patient implements Serializable {
             
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
+           //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
+           // bfwriter.write(name + System.lineSeparator());
+           // bfwriter.write(date + System.lineSeparator());
+
             int size = EEG.size();
             for (int i = 0; i < size; i++) {
                 String str = EEG.get(i).toString();
@@ -144,6 +152,38 @@ public class Patient implements Serializable {
 
     }
 
+    public static void readFile() throws IOException {
+        String strng;
+
+        try {
+            File file = new File("./recordedSignal.txt");
+            BufferedReader obj = new BufferedReader(new FileReader(file));
+
+            while ((strng = obj.readLine()) != null) {
+
+                System.out.println(strng);
+            }
+            patFile = file;
+
+            System.out.println("File was successfully read..");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+            }
+
+        }
+    }
+
+    public static File getPatFile() {
+        return patFile;
+    }
+
     public List<Integer> getRecordedEEG() {
         return recordedEEG;
     }
@@ -159,7 +199,6 @@ public class Patient implements Serializable {
     public void setRecordedLUX(List<Integer> recordedLUX) {
         this.recordedLUX = recordedLUX;
     }
-
 
     public Integer getId() {
         return id;
@@ -231,10 +270,8 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedEEG=" + recordedEEG +", recordedLUX=" +recordedLUX+ '}';
+        return "Patient{" + "id=" + id + ", name=" + name + ", lastname=" + lastname + ", telephone=" + telephone + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", dni=" + dni + ", gender=" + gender + ", recordedEEG=" + recordedEEG + ", recordedLUX=" + recordedLUX + '}';
     }
-
-   
 
     @Override
     public int hashCode() {
@@ -261,6 +298,4 @@ public class Patient implements Serializable {
         return true;
     }
 
-
-  
 }
