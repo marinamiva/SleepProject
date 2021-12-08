@@ -113,6 +113,7 @@ public class Patient implements Serializable {
 
         FileWriter flwriter = null;
         try {
+            
             flwriter = new FileWriter("./recordedSignal.txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
             int size = EEG.size();
