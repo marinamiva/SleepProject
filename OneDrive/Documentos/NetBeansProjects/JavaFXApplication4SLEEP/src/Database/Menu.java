@@ -65,16 +65,24 @@ public class Menu {
                 System.out.println("9. Log out.\n");
                 max=9;
             }
-            System.out.println("0. Exit (First you need to log out).\n");
+            System.out.println("0. Exit.\n");
             num=requestNumber(max);
             inUse=true;
             numUsing=num;
             while(inUse){
                 switch(numUsing){
                     case 1:
+                        if(logged) {
+                            System.out.println("You are already logged");
+                            break;
+                        }
                         addPatientByRegister();
                         break;
                     case 2:
+                        if(logged) {
+                            System.out.println("You are already logged");
+                            break;
+                        }
                         login(); 
                         break;
                     case 3:
@@ -106,6 +114,7 @@ public class Menu {
                     case 9:
                         dbman.disconnect();
                         logged=false;
+                        patientUsing=new Patient();
                         //umi.disconnect();
                         //System.exit(0);
                         break;

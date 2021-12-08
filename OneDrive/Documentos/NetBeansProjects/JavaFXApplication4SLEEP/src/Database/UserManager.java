@@ -92,16 +92,16 @@ public class UserManager implements UserManagerInterface {
             } return user;
 	}
 	
-        public byte[] getPassword(Integer id){
-            byte[] pas=null;
+        public String getPassword(String dni){
+            String pas=null;
             try {
-                String sql ="SELECT * from Users WHERE patient_id =?";
+                String sql ="SELECT * from Users WHERE patient_dni =?";
                 PreparedStatement prep = c.prepareStatement(sql);
-                prep.setString(1, "%"+id+"%");
+                prep.setString(1, "%"+dni+"%");
                 ResultSet rs = prep.executeQuery();
                 while (rs.next()){
                    String dni1=rs.getString("PATIENT_DNI");
-                   pas=rs.getBytes("Password");
+                   pas=rs.getString("Password");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,20 +114,21 @@ public class UserManager implements UserManagerInterface {
             User user2 = new User();
             String username,password;
             try{
-                String sql = "SELECT * FROM Users WHERE patient_dni = ? AND password = ?";
+                String sql = "SELECT * FROM Users WHERE PATIENT_DNI = ?";
                 PreparedStatement prep = c.prepareStatement(sql);
                 prep.setString(1, "%"+user.getUsername()+"%");
-                prep.setString(2,  "%"+user.getPassword()+"%");
+                //prep.setString(2,  "%"+user.getPassword()+"%");
                 ResultSet rs = prep.executeQuery();
                 while(rs.next()){
-                    username=user.getUsername();
+                    username=rs.getString("patient_dni");
                     password = rs.getString("password");
-                   if(password.equals(user.getPassword())){
+                   if(password!=(user.getPassword())){
+                       System.out.println("Password didn't match");
+                       user2=null;
+                       
+                   } else{
                        System.out.println("Logged in");
                        user2 = new User(username, password);
-                   } else{
-                       System.out.println("Password didn't match");
-                       return null;
                    }
 
              }
