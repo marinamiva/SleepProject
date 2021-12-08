@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,16 +115,21 @@ public class Patient implements Serializable {
     }
 
     public static void createFile(List<Integer> EEG, List<Integer> LUX) { //calls for the recorded frame everytime
-
+        Patient pat = new Patient();
         FileWriter flwriter = null;
         try {
             
-            flwriter = new FileWriter("./recordedSignal.txt");
+            flwriter = new FileWriter("./recordedSignal"+pat.getName()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
            //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
            // bfwriter.write(name + System.lineSeparator());
            // bfwriter.write(date + System.lineSeparator());
 
+           bfwriter.write(pat.getName());
+           LocalDate localdate = LocalDate.now();
+           String date = localdate.toString();
+           bfwriter.write(date);
+           
             int size = EEG.size();
             for (int i = 0; i < size; i++) {
                 String str = EEG.get(i).toString();
