@@ -61,7 +61,7 @@ public class Menu {
                System.out.println("\nWhat do you want to do?\n"+"1. Register.\n"+"2. Login.\n");
                 max=2;
             if(logged){
-                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG.\n"+"7. View your EEG with LUX.\n"+"8. View your EEG history.\n"+"9. Send EEG right now.\n");
+                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG values.\n"+"7. View your actual EEG values with LUX.\n"+"8. View your EEG history.\n"); //+"9. Send EEG right now.\n");
                 System.out.println("9. Log out.\n");
                 max=9;
             }
@@ -115,7 +115,7 @@ public class Menu {
                         dbman.disconnect();
                         logged=false;
                         patientUsing=new Patient();
-                        //umi.disconnect();
+                        umi.disconnect();
                         //System.exit(0);
                         break;
                      
@@ -276,13 +276,11 @@ public class Menu {
        
        
     public static void viewEEG(String dni) throws IOException {
-        Signals eeg = pmi.viewEEG(dni);
-        System.out.println("The EEG is: "+eeg.toString());
+       pmi.viewEEGString(dni); 
+
     }
     public static void viewEEGLUX(String dni) {
-        
-        Signals eeg = pmi.viewEEGLUX(dni);
-        System.out.println("The EEG is: "+eeg.toString());
+        pmi.viewEEGStringLUX(dni); 
     }
        
        public static void reportHistory(String dni){
@@ -298,16 +296,20 @@ public class Menu {
        }
        public static void viewEEGHistory(String dni){
           ArrayList<Signals> eegs = new ArrayList<Signals>();
-          Signals neweeg;
+          Signals eeg;
           eegs = pmi.viewEEGHistory(dni);
           Iterator it = eegs.iterator();
-
           while(it.hasNext()){
-              neweeg = (Signals) it.next();
-              System.out.println(neweeg.toString());
+              eeg = (Signals) it.next();
+              System.out.println(eeg.toStringWithoutValues());
               System.out.println("");
           }
        }
+       /*public static void viewEEGHistory(String dni){
+        System.out.println("YOUR EEG HISTORY IS:\n");   
+        pmi.viewEEGHistory(dni);
+          
+       }*/
        
        public static void modifyInformation() throws IOException{
            System.out.println(patientUsing.toString());
@@ -341,7 +343,6 @@ public class Menu {
            
        }
        public static int requestNumber(int max) {
-		// int max is the maximum option that is acceptable
 		int num;
 		do {
                     num = ui.takeInteger(br, "Introduce the number: ");
@@ -349,7 +350,7 @@ public class Menu {
 
 		return num;
 	}
-       public static void login(){ // hacer option para go back
+       public static void login(){ 
             boolean check = true;
         do{    
             String dni = ui.takeDNI(br, "Introduce your DNI:");
