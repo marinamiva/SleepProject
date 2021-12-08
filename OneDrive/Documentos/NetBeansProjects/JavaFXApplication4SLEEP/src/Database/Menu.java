@@ -227,7 +227,7 @@ public class Menu {
         java.util.Date todaysdate = java.sql.Date.valueOf(data);
         System.out.println("Have you slept well during the night?");
         String quality = br.readLine();
-        System.out.println("Do you feel exhausted like you didnâ€™t sleep through the night?");
+        System.out.println("Do you feel exhausted like you didnt sleep through the night?");
         String exhausted = br.readLine();
         System.out.println("What is the average of hours you sleep daily?");
         String avgHours = br.readLine();

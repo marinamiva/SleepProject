@@ -193,7 +193,6 @@ public class ui {
                             cadena.add(Integer.toHexString(0xFF&b));
                         }
                         hexa=String.join("",cadena);
-                        System.out.println(cadena);
                         
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

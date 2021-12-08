@@ -182,7 +182,7 @@ public class PatientManager implements PatientManagerInterface  {
         try {
 
             String sql = "INSERT INTO Patients (name, lastname, telephone, address,DOB,dni,gender)"
-                            + " VALUES (?,?,?,?,?,?,?);";
+                            + " VALUES (?,?,?,?,?,?,?)";
             PreparedStatement prep = c.prepareStatement(sql);
             prep.setString(1, pat.getName());
             prep.setString(2, pat.getLastname());
