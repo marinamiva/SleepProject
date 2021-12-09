@@ -13,6 +13,7 @@ import java.net.*;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,24 +34,15 @@ public class ConnectionServer {
         try {
             socketSender = new Socket(ip, 9010);
             print = new PrintWriter(socketSender.getOutputStream(), true);
-            
             name=patient.getName();
-            //print.println(patient.getName());
             lastName=patient.getLastname();
-            //print.println(patient.getLastname());
             telephone=patient.getTelephone();
-            //print.println(patient.getTelephone());
             address=patient.getAddress();
-            //print.println(patient.getAddress());
             formato = new SimpleDateFormat("yyyy-MM-dd");
             date = formato.format(patient.getDateOfBirth());
-            //print.println(date);
             dni=patient.getDni();
-            //print.println(patient.getDni());
             gender= patient.getGender();
-            //print.println(patient.getGender());
-            //print.println("X");
-            total=name+"\n"+lastName+"\n"+telephone+"\n"+address+"\n"+formato+"\n"+date+"\n"+dni+"\n"+gender+"\n"+"finish";
+            total="\n PATIENT'S INFORMATION \n Name: "+name+"\n Lastname: "+lastName+"\n Telephone: "+telephone+"\n Address: "+address+"\n Date of birth: "+date+"\n DNI: "+dni+"\n Gender: "+gender+"\n"+"\n finish";
             print.println(total);
             releaseResources(print, socketSender);
         } catch (IOException io) {
@@ -74,38 +66,22 @@ public class ConnectionServer {
             print = new PrintWriter(socketSender.getOutputStream(), true);
             String dni,date,sleepqual,exhaus,average,movement,timeToFall,rest,stayAwake,timesAwake,dreams,worries,todaysMood,doubtsForDoctor;
             String total;
-            Date dat = rep.getTodaysDate();
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            date = formato.format(dat);
-            //print.println(rep.getPatdni());
+            date = formato.format(rep.getTodaysDate());
             dni=rep.getPatdni();
-            //print.println(date);
             sleepqual=rep.getsleepQuality();
-            //print.println(rep.getsleepQuality());
             exhaus=rep.getExhaustion();
-            //print.println(rep.getExhaustion());
             average=rep.getAverageHours();
-            //print.println(rep.getAverageHours());
             movement=rep.getMovement();
-            //print.println(rep.getMovement());
             timeToFall= rep.gettimeToFallAsleep();
-            //print.println(rep.gettimeToFallAsleep());
             rest=rep.getRest();
-            //print.println(rep.getRest());
             stayAwake=rep.getStayAwake();
-            //print.println(rep.getStayAwake());
             timesAwake= rep.getTimesAwake();
-            //print.println(rep.getTimesAwake());
             dreams=rep.getDreams();
-            //print.println(rep.getDreams());
             worries=rep.getWorries();
-            //print.println(rep.getWorries());
             todaysMood= rep.getTodaysMood();
-            //print.println(rep.getTodaysMood());
             doubtsForDoctor=rep.getdoubtsForDoctor();
-            //print.println(rep.getdoubtsForDoctor());
-            //print.println("finish");
-            total=date+"\n"+dni+"\n"+sleepqual+"\n"+exhaus+"\n"+average+"\n"+movement+"\n"+timeToFall+"\n"+rest+"\n"+stayAwake+"\n"+timesAwake+"\n"+dreams+"\n"+worries+"\n"+todaysMood+"\n"+doubtsForDoctor+"\n"+"finish";
+            total="\n Report's date: " +date+"\n DNI: "+dni+"\n Sleep quality: "+sleepqual+"\n Exhaustion: "+exhaus+"\n Average hours: "+average+"\n Movement: "+movement+"\n Time to fall asleep: "+timeToFall+"\n Have you rest? "+rest+"\n Do you stay awake all day? "+stayAwake+"\n How many times did you wake up in the night? "+timesAwake+"\n Have you dreamt? "+dreams+"\n Worries: "+worries+"\n Todays mood: "+todaysMood+"\n Doubts: "+doubtsForDoctor+"\n"+"finish";
             print.println(total);
             releaseResources(print, socketSender);
         } catch (IOException io) {
@@ -120,7 +96,7 @@ public class ConnectionServer {
      * @param ip
      */
     public static void sendFile(Patient pat, InetAddress ip) {
-        File file = new File("C:\\Users\\mmsan\\OneDrive - Fundación Universitaria San Pablo CEU\\Documentos\\temporal\\nuevo\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt"); 
+        File file = new File("./recordedSignal_"+pat.getDni()+".txt"); 
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
@@ -144,21 +120,24 @@ public class ConnectionServer {
     private static PatientManagerInterface pmi;
     private static BufferedReader br;
 
-    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException {
+    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException, IOException {
         dbman = new DBManager();
         dbman.connect();
         pmi = dbman.getPatientManager();
         br = new BufferedReader(new InputStreamReader(System.in));
-        String ipString = "192.168.100.130";
+        //System.out.println("Write your IP: ");
+        //String ipString=br.readLine();
+        String ipString = "192.168.1.97";
         InetAddress ip1 = InetAddress.getByName(ipString);
-        //String dni = ui.takeDNI(br, "Write dni:");
-        //Patient patient = pmi.searchSpecificPatientByDNI(dni);
-        Patient pat = new Patient("marina","miguelez","610167672","madrid","1234","female");
-        File file = Patient.getPatFile();
-        //sendPatient(patient, ip1);
-        sendFile(pat, ip1);
-        //java.util.Date dat=new java.util.Date("2021-11-11");
-        //Report report = pmi.getDailyReport(dat);
+        
+        String dni = ui.takeDNI(br, "Write the dni of the data you want to send:");
+        Patient pat = pmi.searchSpecificPatientByDNI(dni);
+        //sendPatient(pat, ip1);
+        //sendFile(pat, ip1);
+        LocalDate data= ui.takeDate(br,"Type the Date of the report followed by yyyy-MM-dd");
+        java.util.Date dat = java.sql.Date.valueOf(data);
+        Report report = pmi.getDailyReport(dat);
+        System.out.println(report.toString());
         //sendReport(report,ip1);
 
     }
