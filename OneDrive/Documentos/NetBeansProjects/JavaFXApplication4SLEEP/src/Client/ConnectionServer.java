@@ -41,7 +41,7 @@ public class ConnectionServer {
             print.println(date);
             print.println(patient.getDni());
             print.println(patient.getGender());
-            print.println("Finish");
+            print.println("X");
             releaseResources(print, socketSender);
         } catch (IOException io) {
             System.out.println("No possible to connect.");
@@ -80,7 +80,7 @@ public class ConnectionServer {
             print.println(rep.getWorries());
             print.println(rep.getTodaysMood());
             print.println(rep.getdoubtsForDoctor());
-            print.println("Finish");
+            print.println("finish");
             releaseResources(print, socketSender);
         } catch (IOException io) {
             System.out.println("No possible to connect.");
@@ -94,7 +94,7 @@ public class ConnectionServer {
      * @param ip
      */
     public static void sendFile(Patient pat, InetAddress ip) {
-        File file = new File("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt"); 
+        File file = new File("C:\\Users\\mmsan\\OneDrive - Fundación Universitaria San Pablo CEU\\Documentos\\temporal\\nuevo\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt"); 
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
@@ -123,7 +123,7 @@ public class ConnectionServer {
         dbman.connect();
         pmi = dbman.getPatientManager();
         br = new BufferedReader(new InputStreamReader(System.in));
-        String ipString = "192.168.1.97";
+        String ipString = "192.168.100.130";
         InetAddress ip1 = InetAddress.getByName(ipString);
         //String dni = ui.takeDNI(br, "Write dni:");
         //Patient patient = pmi.searchSpecificPatientByDNI(dni);
