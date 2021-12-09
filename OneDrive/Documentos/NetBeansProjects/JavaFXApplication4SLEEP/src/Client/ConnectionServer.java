@@ -120,7 +120,7 @@ public class ConnectionServer {
      * @param ip
      */
     public static void sendFile(Patient pat, InetAddress ip) {
-        File file = new File("C:\\Users\\mmsan\\OneDrive - Fundación Universitaria San Pablo CEU\\Documentos\\temporal\\nuevo\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt"); 
+        File file = new File("./recordedSignals_"+pat.getDni()+".txt"); 
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
@@ -148,7 +148,8 @@ public class ConnectionServer {
         dbman = new DBManager();
         dbman.connect();
         pmi = dbman.getPatientManager();
-        br = new BufferedReader(new InputStreamReader(System.in));
+        //br = new BufferedReader(new InputStreamReader(System.in));
+        /*
         String ipString = "192.168.100.130";
         InetAddress ip1 = InetAddress.getByName(ipString);
         //String dni = ui.takeDNI(br, "Write dni:");
@@ -160,9 +161,10 @@ public class ConnectionServer {
         //java.util.Date dat=new java.util.Date("2021-11-11");
         //Report report = pmi.getDailyReport(dat);
         //sendReport(report,ip1);
-
+*/
     }
 
+    
     private static void releaseResources(PrintWriter p, Socket socket) {
         try {
             p.close();
