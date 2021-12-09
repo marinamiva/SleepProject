@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,17 +89,21 @@ public class Patient implements Serializable {
         FileWriter flwriter = null;
         try {
             
-            flwriter = new FileWriter("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt");
+            flwriter = new FileWriter("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
-           //falta añadir al file el nombre del paciente y la fecha y hora pero hay que pasarle el paciente
-           // bfwriter.write(name + System.lineSeparator());
-           // bfwriter.write(date + System.lineSeparator());
-
-           bfwriter.write(pat.getName());
+           
+           bfwriter.write("Name of the patient: "+pat.getName() + " "+ pat.getLastname());
            bfwriter.write("\n");
            LocalDate localdate = LocalDate.now();
+           LocalTime localtime=LocalTime.now();
            String date = localdate.toString();
+           String time=localtime.toString();
+           bfwriter.write("Today's date: ");
            bfwriter.write(date);
+           bfwriter.write("  ");
+           bfwriter.write(time);
+           bfwriter.write("\n");
+           bfwriter.write("EEG" + "\t" + "EEG with LUX");
            bfwriter.write("\n");
             int size = EEG.size();
             for (int i = 0; i < size; i++) {
@@ -131,7 +136,7 @@ public class Patient implements Serializable {
     public static void readFile(Patient pat) throws IOException {
         String strng;
         try {
-            File file = new File("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getName()+".txt");
+            File file = new File("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt");
              BufferedReader obj = new BufferedReader(new FileReader(file));
 
             while ((strng = obj.readLine()) != null) {
