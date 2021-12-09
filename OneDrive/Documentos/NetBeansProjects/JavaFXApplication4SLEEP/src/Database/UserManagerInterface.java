@@ -16,7 +16,7 @@ public interface UserManagerInterface {
 
     public User checkPasswordGood(User user);
     
-    public User checkUserGood(User user);
+    public User checkUserGood(String username);
 
     public User getUserByDNI(String dni);
 

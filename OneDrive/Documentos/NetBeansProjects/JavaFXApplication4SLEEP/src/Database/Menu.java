@@ -380,7 +380,7 @@ public class Menu {
             String password = ui.takePasswordAndHashIt(br, "Introduce your password:");
             User user = new User(dni, password);
             User userCheck1= new User();
-            userCheck1 = umi.checkUserGood(user);
+            userCheck1 = umi.checkUserGood(dni);
             //User userCheck = umi.checkPasswordGood(user);
             if (userCheck1 == null) {
                 System.out.println("Wrong credentials, please select an option: ");
