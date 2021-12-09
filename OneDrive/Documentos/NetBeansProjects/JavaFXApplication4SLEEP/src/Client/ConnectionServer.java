@@ -13,13 +13,54 @@ import java.net.*;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionServer {
+    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException, IOException {
+        dbman = new DBManager();
+        dbman.connect();
+        pmi = dbman.getPatientManager();
+        br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+        int max;
+        int num,numUsing;
+        br = new BufferedReader(new InputStreamReader(System.in));
 
+        System.out.println("MENU CLIENT TO SELECT CONNECTION");
+        System.out.println("First, write your IP: ");
+        String ipString=sc.next();
+        InetAddress ip = InetAddress.getByName(ipString);
+        String dni = ui.takeDNI(br, "Write the dni of the data you want to send:");
+        System.out.println("\nWhat do you want to do?\n"+"1.Send patient.\n"+"2.Send Report.\n"+"3.Send File with EEG values.\n");
+        max=3;
+        Patient pat = pmi.searchSpecificPatientByDNI(dni);
+        Report rep = pmi.getReportByDni(dni);
+        System.out.println("0. Exit.\n");
+        num=requestNumber(max);
+        numUsing=num;
+        switch(num){
+            case 1:
+                sendPatient(pat,ip);
+                break;
+            case 2:
+                sendReport(rep,ip);
+                break;
+            case 3:
+                sendFile(pat,ip);
+                break;
+            case 0:
+                System.exit(0);
+                break;
+            }
+            
+            
+
+    }
+
+    
+    
     /**
      * Sendind an object patient through a socket to a server.
      * @param patient
@@ -121,29 +162,7 @@ public class ConnectionServer {
     private static PatientManagerInterface pmi;
     private static BufferedReader br;
 
-    public static void main(String[] args) throws ClassNotFoundException, ParseException, UnknownHostException, IOException {
-        dbman = new DBManager();
-        dbman.connect();
-        pmi = dbman.getPatientManager();
-        br = new BufferedReader(new InputStreamReader(System.in));
-        //System.out.println("Write your IP: ");
-        //String ipString=br.readLine();
-        String ipString = "192.168.1.97";
-
-        InetAddress ip1 = InetAddress.getByName(ipString);
-        
-        String dni = ui.takeDNI(br, "Write the dni of the data you want to send:");
-        Patient pat = pmi.searchSpecificPatientByDNI(dni);
-        //sendPatient(pat, ip1);
-        //sendFile(pat, ip1);
-        LocalDate data= ui.takeDate(br,"Type the Date of the report followed by yyyy-MM-dd");
-        java.util.Date dat = java.sql.Date.valueOf(data);
-        Report report = pmi.getDailyReport(dat);
-        System.out.println(report.toString());
-        //sendReport(report,ip1);
-
-    }
-
+      
     
     private static void releaseResources(PrintWriter p, Socket socket) {
         try {
@@ -154,6 +173,17 @@ public class ConnectionServer {
         }
 
     }
+    public static int requestNumber(int max) {
+		 br = new BufferedReader(new InputStreamReader(System.in));
+                int num;
+		do {
+
+			num = ui.takeInteger(br, "Introduce the number: ");
+
+		} while (ui.CheckOption(num, max));
+
+		return num;
+	}
 
     private static void releaseResources(OutputStream outputStream,
             BufferedReader br, Socket socket) {

@@ -165,6 +165,35 @@ public class PatientManager implements PatientManagerInterface  {
         }
         return newreport;
     }
+    public  Report getReportByDni(String dni){
+                Report newreport = new Report();
+                String sql = "SELECT * FROM Reports WHERE patient_dni LIKE ?";
+        try {
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%"+dni+"%");
+            ResultSet rs = prep.executeQuery();
+            while(rs.next()){
+                String dni1=rs.getString("patient_dni");
+                java.util.Date repdate=rs.getDate("report_date");
+                String quality=rs.getString("quality");
+                String exhaust=rs.getString("exhaustion");
+                String averageHours=rs.getString("hours");
+                String movem=rs.getString("movement");
+                String timeToFall=rs.getString("time");
+                String res=rs.getString("rest");
+                String awake=rs.getString("awake");
+                String timAwake=rs.getString("times");
+                String dreams=rs.getString("dreams");
+                String worr=rs.getString("worries");
+                String mood=rs.getString("mood");
+                String doubts=rs.getString("doubts");
+                newreport = new Report(dni1,repdate, quality, exhaust, averageHours, movem, timeToFall, res, awake, timAwake, dreams, worr, mood, doubts);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PatientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                return newreport;
+            }
             
     /**
      * Shows all the patients of the table Patients of the database.

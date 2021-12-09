@@ -100,7 +100,6 @@ public class Menu {
                         break;
                     case 6:
                         viewEEG(patientUsing.getDni()); 
-                        //showReportsDB();
                         break;
                     case 7:
                         viewEEGLUX(patientUsing.getDni()); 
