@@ -112,9 +112,12 @@ public class Patient implements Serializable {
                 //recordedEEG.add(EEG.get(i));
                 //recordedLUX.add(LUX.get(i));
                 bfwriter.write(str + "\t" + str2 + System.lineSeparator());
+                
                 //System.out.println(recordedEEG);
                 //System.out.println(recordedLUX);
             }
+            bfwriter.write("X");
+            
             bfwriter.flush();
             bfwriter.close();
             System.out.println("File was successfully created.");
