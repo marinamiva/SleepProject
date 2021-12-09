@@ -181,26 +181,28 @@ public class UserManager implements UserManagerInterface {
   */
 
     @Override
-    public User checkUserGood(User user) {
+    public User checkUserGood(String username) {
       User user2 = new User();
             try{
-                String sql = "SELECT * FROM Users WHERE PATIENT_DNI = ?";
+                String sql = "SELECT * FROM Users WHERE PATIENT_DNI LIKE ?";
                 PreparedStatement prep = c.prepareStatement(sql);
-                prep.setString(1, "%"+user.getUsername()+"%");
+                prep.setString(1, "%"+username+"%");
                 //prep.setString(2,  "%"+user.getPassword()+"%");
                 ResultSet rs = prep.executeQuery();
-                while(rs.next()){
-                    System.out.println("hola");
-                    String username=rs.getString("patient_dni");
-                    String password = rs.getString("password");
-                   if(username.equals(user.getUsername())){
-                       System.out.println("Logged in");
-                       user2 = new User(username, password);
-                   } else{
+                if(rs.next()==false){
                        System.out.println("Username does not exist");
                        user2=null;
-                       
-                   }
+                }
+                else{
+                     while(rs.next()){
+                    System.out.println("hola");
+                    String username1=rs.getString("patient_dni");
+                    String password= rs.getString("password");
+                    System.out.println("Logged in");
+                    user2 = new User(username1, password);
+                }
+               
+
 
              }
              }catch(SQLException ex){
