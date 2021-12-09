@@ -6,11 +6,12 @@ import java.net.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class Signals implements Serializable {
-     ArrayList<Integer> eegValues = new ArrayList<Integer>();
-     ArrayList<Integer> eegLUX = new ArrayList<Integer>();
+     List<Integer> eegValues = new ArrayList<Integer>();
+     List<Integer> eegLUX = new ArrayList<Integer>();
      private String dni;
      private LocalDate eegDate;
      private Date eegDatenormal;
@@ -20,7 +21,7 @@ public class Signals implements Serializable {
         super();
     }
     
-    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals, ArrayList<Integer> eegLUX){
+    public Signals(LocalDate eegdate,String dni,List<Integer> eegVals, List<Integer> eegLUX){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
@@ -33,13 +34,13 @@ public class Signals implements Serializable {
         this.eegDatenormal=eegdate;
     }
     
-    public Signals(LocalDate eegdate,String dni,ArrayList<Integer> eegVals){
+    public Signals(LocalDate eegdate,String dni,List<Integer> eegVals){
         super();
         this.dni=dni;
         this.eegDate=eegdate;
         this.eegValues=eegVals;
     }
-    public Signals(LocalDate eegdate,ArrayList<Integer> eegVals,ArrayList<Integer> eegLUX){
+    public Signals(LocalDate eegdate,List<Integer> eegVals,List<Integer> eegLUX){
         super();
         this.eegDate=eegdate;
         this.eegValues=eegVals;
@@ -47,15 +48,15 @@ public class Signals implements Serializable {
     }
     
     
-    public ArrayList<Integer> getEegLUX() {
+    public List<Integer> getEegLUX() {
         return eegLUX;
     }
 
-    public void setEegLUX(ArrayList<Integer> eegLUX) {
+    public void setEegLUX(List<Integer> eegLUX) {
         this.eegLUX = eegLUX;
     }
 
-    public void setEegValues(ArrayList<Integer> eegValues) {
+    public void setEegValues(List<Integer> eegValues) {
         this.eegValues = eegValues;
     }
 
@@ -72,7 +73,7 @@ public class Signals implements Serializable {
     }
 
 
-    public ArrayList<Integer> getEegValues() {
+    public List<Integer> getEegValues() {
         return eegValues;
     }
     

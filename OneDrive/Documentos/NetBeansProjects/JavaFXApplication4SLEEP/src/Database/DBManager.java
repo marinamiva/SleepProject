@@ -104,7 +104,7 @@ public class DBManager implements DBManagerInterface {
                     + "PATIENT_DNI TEXT,"
                     + "EEG_DATE DATE,"
                     + "EEG TEXT,"
-                    + "EEG_LUX)";
+                    + "EEG_LUX TEXT)";
 
             stmt3.executeUpdate(sql3);
             stmt3.close();

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Database;
+import BITalino.BitalinoDemo;
 import Client.*;
 import static Client.ConnectionServer.*;
 import static Client.ui.areYouSure;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import static java.time.LocalDate.now;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -31,6 +33,7 @@ public class Menu {
     private static UserManagerInterface umi;
     private static BufferedReader br;
     private  PatientManager pm;
+    private static BitalinoDemo bit;
     private static Patient patientUsing = new Patient();
     private static int num,numUsing;
     private static boolean inUse;
@@ -61,9 +64,9 @@ public class Menu {
                System.out.println("\nWhat do you want to do?\n"+"1. Register.\n"+"2. Login.\n");
                 max=2;
             if(logged){
-                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG values.\n"+"7. View your actual EEG values with LUX.\n"+"8. View your EEG history.\n"); //+"9. Send EEG right now.\n");
-                System.out.println("9. Log out.\n");
-                max=9;
+                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG values.\n"+"7. View your actual EEG values with LUX.\n"+"8. View your EEG history.\n 9. Record your EEG \n"); //+"9. Send EEG right now.\n");
+                System.out.println("10. Log out.\n");
+                max=10;
             }
             System.out.println("0. Exit.\n");
             num=requestNumber(max);
@@ -107,11 +110,14 @@ public class Menu {
                     /*case 9:
                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
-                          //sendPatient(patientUsing,ip);
+                          //sendPatient(patientUsing,ip); sin esto 
                           //sendEEG(Signals,ip); 
                        }
                         break;*/
                     case 9:
+                        recordEEG(patientUsing.getDni());
+                        break;
+                    case 10:
                         dbman.disconnect();
                         logged=false;
                         patientUsing=new Patient();
@@ -342,6 +348,22 @@ public class Menu {
            } 
            
        }
+       
+       public static void recordEEG(String dni){
+           bit.startEEGrecording();
+           List<Integer> eeg =bit.getEEGvalues();
+           List<Integer> eeglux = bit.getEEGLUXvalues();
+           
+            Signals signal=new Signals(now(),dni,eeg,eeglux);
+            pmi.addEEG(signal);
+            System.out.println("The recording was introduced in the database correctly");
+          
+          Patient.createFile(patientUsing, eeg, eeglux);
+           System.out.println("File was created correectly!!");
+      
+       //añadir send file 
+       }
+       
        public static int requestNumber(int max) {
 		int num;
 		do {

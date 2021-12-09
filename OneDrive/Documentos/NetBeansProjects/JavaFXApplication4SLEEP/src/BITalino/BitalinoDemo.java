@@ -34,11 +34,33 @@ public class BitalinoDemo {
     private  PatientManager pm;
     private static BufferedReader br;
     
-    public static void main(String[] args) {
+    
+    public static void setEEGvalues(List<Integer> val1){
+        BitalinoDemo.values1 = val1;
+    }
+    
+     public static void setEEGLUXvalues(List<Integer> val2){
+        BitalinoDemo.values2 = val2;
+    }
+
+    public static List<Integer> getEEGvalues() {
+        return values1;
+    }
+
+    public static List<Integer> getEEGLUXvalues() {
+        return values2;
+    }
+    
+     
+     
+     
+    public static void startEEGrecording() {
         dbman = new DBManager();
         dbman.connect();
         pmi = dbman.getPatientManager();
         
+        values1 = new ArrayList<Integer>();
+        values2 = new ArrayList<Integer>();
         
         BITalino bitalino = null;
         try {
@@ -82,17 +104,17 @@ public class BitalinoDemo {
                 }               
             }
             
-            String dni = ui.takeDNI(br, "Write your dni:\n");
-            Patient pat = pmi.searchSpecificPatientByDNI(dni);
+            setEEGvalues(values1);
+            setEEGLUXvalues(values2);
             
-            ArrayList<Integer> val1=new ArrayList(values1);
-            ArrayList<Integer> val2=new ArrayList(values2);
-            createFile(pat,val1, val2);
-            String values=(val1).toString();
-            String luxvalues=(val2).toString();
-            Signals signal=new Signals(now(),dni,val1,val2);
+            //ArrayList<Integer> val1=new ArrayList(values1);
+            //ArrayList<Integer> val2=new ArrayList(values2);
+            //createFile(pat,val1, val2);
+            //String values=(val1).toString();
+            //String luxvalues=(val2).toString();
+            //Signals signal=new Signals(now(),dni,val1,val2);
             //System.out.println(signal.toString());
-            pmi.addEEG(signal); //to add the eeg into the database 
+            //pmi.addEEG(signal); //to add the eeg into the database 
 
             // values.add(frame);
              //Patient.createFile(frame);
@@ -112,7 +134,7 @@ public class BitalinoDemo {
                 Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
     }
 
 }
