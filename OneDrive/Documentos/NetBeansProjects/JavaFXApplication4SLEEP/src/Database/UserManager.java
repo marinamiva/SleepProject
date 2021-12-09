@@ -155,9 +155,8 @@ public class UserManager implements UserManagerInterface {
                       }
              return user2;
          }
-
-    
-    private static Database.DBManagerInterface dbman;
+         
+  /*  private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private static UserManagerInterface umi;
     private static BufferedReader br;
@@ -179,7 +178,36 @@ public class UserManager implements UserManagerInterface {
             User user2 =umi.getUserByDNI(dni);
             System.out.println(user2.getPassword());
         }
-  
+  */
+
+    @Override
+    public User checkUserGood(User user) {
+      User user2 = new User();
+            try{
+                String sql = "SELECT * FROM Users WHERE PATIENT_DNI = ?";
+                PreparedStatement prep = c.prepareStatement(sql);
+                prep.setString(1, "%"+user.getUsername()+"%");
+                //prep.setString(2,  "%"+user.getPassword()+"%");
+                ResultSet rs = prep.executeQuery();
+                while(rs.next()){
+                    System.out.println("hola");
+                    String username=rs.getString("patient_dni");
+                    String password = rs.getString("password");
+                   if(username.equals(user.getUsername())){
+                       System.out.println("Logged in");
+                       user2 = new User(username, password);
+                   } else{
+                       System.out.println("Username does not exist");
+                       user2=null;
+                       
+                   }
+
+             }
+             }catch(SQLException ex){
+                      ex.printStackTrace();
+                      }
+             return user2;
+    }
 
     
 

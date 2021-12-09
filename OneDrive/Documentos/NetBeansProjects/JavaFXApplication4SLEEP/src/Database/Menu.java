@@ -64,7 +64,7 @@ public class Menu {
                System.out.println("\nWhat do you want to do?\n"+"1. Register.\n"+"2. Login.\n");
                 max=2;
             if(logged){
-                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG values.\n"+"7. View your actual EEG values with LUX.\n"+"8. View your EEG history.\n 9. Record your EEG \n"); //+"9. Send EEG right now.\n");
+                System.out.println("3. View your report history.\n"+"4. Do your daily report.\n"+"5. Modify your personal information.\n"+"6. View your actual EEG values.\n"+"7. View your actual EEG values with LUX.\n"+"8. View your EEG history.\n"+"9. Record your EEG \n"); //+"9. Send EEG right now.\n");
                 System.out.println("10. Log out.\n");
                 max=10;
             }
@@ -376,10 +376,13 @@ public class Menu {
             boolean check = true;
         do{    
             String dni = ui.takeDNI(br, "Introduce your DNI:");
+           
             String password = ui.takePasswordAndHashIt(br, "Introduce your password:");
             User user = new User(dni, password);
-            User userCheck = umi.checkPasswordGood(user);
-            if (userCheck == null) {
+            User userCheck1= new User();
+            userCheck1 = umi.checkUserGood(user);
+            //User userCheck = umi.checkPasswordGood(user);
+            if (userCheck1 == null) {
                 System.out.println("Wrong credentials, please select an option: ");
 		System.out.println("1. Introduce them again. ");
 		System.out.println("0. Go back to the menu. ");
