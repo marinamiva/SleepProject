@@ -110,7 +110,7 @@ public class Menu {
                     /*case 9:
                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
-                          //sendPatient(patientUsing,ip); sin esto 
+                          //sendPatient(patientUsing,ip);
                           //sendEEG(Signals,ip); 
                        }
                         break;*/
@@ -361,7 +361,7 @@ public class Menu {
           Patient.createFile(patientUsing, eeg, eeglux);
            System.out.println("File was created correectly!!");
       
-       //añadir send file 
+       
        }
        
        public static int requestNumber(int max) {
