@@ -33,6 +33,7 @@ public class Menu {
     private static UserManagerInterface umi;
     private static BufferedReader br;
     private  PatientManager pm;
+    private static ConnectionServer cs;
     private static BitalinoDemo bit;
     private static Patient patientUsing = new Patient();
     private static int num,numUsing;
@@ -107,16 +108,14 @@ public class Menu {
                     case 8:
                         viewEEGHistory(patientUsing.getDni());
                         break;
-                    /*case 9:
+                    case 9:
                        boolean sure =areYouSure(br,"Are you sure the hospital is connected?");
                        if(sure){
-                          //sendPatient(patientUsing,ip);
-                          //sendEEG(Signals,ip); 
+                          recordEEG(patientUsing.getDni());
+                         cs.sendFile(patientUsing, ip); 
                        }
-                        break;*/
-                    case 9:
-                        recordEEG(patientUsing.getDni());
                         break;
+                 
                     case 10:
                         dbman.disconnect();
                         logged=false;
@@ -359,8 +358,9 @@ public class Menu {
             System.out.println("The recording was introduced in the database correctly");
           
           Patient.createFile(patientUsing, eeg, eeglux);
-           System.out.println("File was created correectly!!");
+          System.out.println("File was created correectly!!");
       
+           
        
        }
        

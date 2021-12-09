@@ -89,10 +89,13 @@ public class ui {
                                     check = true;
                                     break;
                             }
+                            if (num.length() != 9){
+                                check =true;
+                            }
                         }
                         if (check == true) {
-                                System.out.println("You don't introduce a telephone number.");
-                                System.out.println("Please introduce numbers.");
+                                System.out.println("Invalid telephone number.");
+                                System.out.println("Please introduce a 9 digit number.");
                         }
                     } while (check);
                     if (num.substring(0, 1).contains("+")) {
@@ -128,6 +131,9 @@ public class ui {
                                     } else {
                                             check = true;
                                             break;
+                                    }
+                                    if(num.length() != 8 ){
+                                        check =true;
                                     }
                             }
                             if (check == true) {

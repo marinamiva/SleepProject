@@ -97,6 +97,7 @@ public class ConnectionServer {
      */
     public static void sendFile(Patient pat, InetAddress ip) {
         File file = new File("./recordedSignal_"+pat.getDni()+".txt"); 
+
         try {
             Socket socket = new Socket(ip, 9010);
             OutputStream outputStream = socket.getOutputStream();
@@ -128,6 +129,7 @@ public class ConnectionServer {
         //System.out.println("Write your IP: ");
         //String ipString=br.readLine();
         String ipString = "192.168.1.97";
+
         InetAddress ip1 = InetAddress.getByName(ipString);
         
         String dni = ui.takeDNI(br, "Write the dni of the data you want to send:");
@@ -142,6 +144,7 @@ public class ConnectionServer {
 
     }
 
+    
     private static void releaseResources(PrintWriter p, Socket socket) {
         try {
             p.close();
