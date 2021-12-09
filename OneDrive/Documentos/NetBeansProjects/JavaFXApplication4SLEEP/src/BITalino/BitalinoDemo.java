@@ -4,6 +4,7 @@ package BITalino;
 import Client.Patient;
 import static Client.Patient.createFile;
 import Client.Signals;
+import Client.ui;
 import Database.DBManager;
 import Database.PatientManager;
 import Database.PatientManagerInterface;
@@ -31,6 +32,7 @@ public class BitalinoDemo {
     private static Database.DBManagerInterface dbman;
     private static PatientManagerInterface pmi;
     private  PatientManager pm;
+    private static BufferedReader br;
     
     public static void main(String[] args) {
         dbman = new DBManager();
@@ -80,29 +82,16 @@ public class BitalinoDemo {
                 }               
             }
             
-            Patient pat = new Patient("marina","miguelez","610167672","madrid","1234","female");
+            String dni = ui.takeDNI(br, "Write your dni:\n");
+            Patient pat = pmi.searchSpecificPatientByDNI(dni);
             
             ArrayList<Integer> val1=new ArrayList(values1);
             ArrayList<Integer> val2=new ArrayList(values2);
             createFile(pat,val1, val2);
             String values=(val1).toString();
-             String luxvalues=(val2).toString();
-            //System.out.println(val1);
-            //System.out.println(val2);
-            
-            System.out.println(values);
-            values.replace("[", "");
-            values.replace("]", "");
-            System.out.println(values);
-            res = values.split(", ");
-            System.out.println(res);
-          //  for (int i=0; i<res.length;i++){
-              //                 val1.add(Integer.parseInt(res[i])); 
-                  //          }
-            System.out.println(values);
-            System.out.println(luxvalues);
-            Signals signal=new Signals(now(),"111",val1,val2);
-            System.out.println(signal.toString());
+            String luxvalues=(val2).toString();
+            Signals signal=new Signals(now(),dni,val1,val2);
+            //System.out.println(signal.toString());
             pmi.addEEG(signal); //to add the eeg into the database 
 
             // values.add(frame);
