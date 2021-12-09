@@ -89,7 +89,7 @@ public class Patient implements Serializable {
         FileWriter flwriter = null;
         try {
             
-            flwriter = new FileWriter("C:\\Users\\marin\\OneDrive\\Documentos\\.DG TELECO-BIOMED\\5 CURSO\\TELEMEDICINA\\Project\\SleepControlProject\\SleepProject\\SleepProject\\OneDrive\\Documentos\\NetBeansProjects\\JavaFXApplication4SLEEP/recordedSignal_"+pat.getDni()+".txt");
+            flwriter = new FileWriter("./recordedSignals_"+pat.getDni()+".txt");
             BufferedWriter bfwriter = new BufferedWriter(flwriter);
            
            bfwriter.write("Name of the patient: "+pat.getName() + " "+ pat.getLastname());
@@ -266,7 +266,7 @@ public class Patient implements Serializable {
         return true;
     }
     
-    
+    /*
     public static void main(String[] args) throws IOException, ParseException, Exception {
          ArrayList<Integer> val2=new ArrayList();
         val2.add(1);
@@ -280,5 +280,5 @@ public class Patient implements Serializable {
         createFile(pat,val2,val2);
         //readFile(pat);
     }
-
+*/
 }

@@ -15,6 +15,8 @@ public interface UserManagerInterface {
     public void disconnect();
 
     public User checkPasswordGood(User user);
+    
+    public User checkUserGood(User user);
 
     public User getUserByDNI(String dni);
 
